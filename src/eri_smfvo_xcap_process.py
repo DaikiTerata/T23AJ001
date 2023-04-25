@@ -485,7 +485,8 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
         # NFに設定されているxCAP ipaddrのリストを生成
         included_ipaddr_set: Set[str] = {x["ipaddr"] for x in parsed_list}
         # ツール設定で保持しているxCAP ipaddrリストに含まれていないipaddrを付け替えipaddrとして選定
-        self.add_ipaddr = (set(self.ipaddr_list) ^ included_ipaddr_set).pop()
+        exclude_ipaddr_set: Set[str] = set(self.ipaddr_list) ^ included_ipaddr_set
+        self.add_ipaddr = exclude_ipaddr_set.pop() if exclude_ipaddr_set else None
         # NFから取得した結果から、削除ipaddrに紐づくpriorityを取得
         for element in parsed_list:
             if element["ipaddr"] == self.edns_ipaddr:
