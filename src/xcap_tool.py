@@ -152,7 +152,7 @@ class XcapTool(object):
 
         # ツール本体設定存在チェック&解析チェック
         with open(TOOL_CONF, "r", encoding="utf-8") as f:
-            self.tool_conf = json.load(f)
+            self.tool_conf: Dict[str, Dict[str, Any]] = json.load(f)
 
         # nf-module設定、nf-type設定
         for key in REQUIRED_KEYS:
