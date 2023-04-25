@@ -5,7 +5,7 @@ from json import JSONDecodeError
 import json
 from pathlib import Path
 import sys
-from typing import Dict, List, Tuple
+from typing import Any, Dict, List, Set, Tuple
 
 from xgnlog.Log import Level, Log
 
@@ -365,7 +365,16 @@ class XcapTool(object):
         failed_nf_list: List[str] = []
         blocked_nf_list: List[str] = []
 
+        # 障害NFリストに含まれるeDNSホスト名を取得
+        failed_edns_set: Set[str] = set(self.tool_conf[EDNS_INFOS].keys()) & set(self.args.blocked_nflist)
+
         for nf_name, config in self.smfvoice_configs.items():
+
+            # SMFv設定内に障害NFリストに含まれるeDNSホスト名のIPアドレスがある場合、対象を削除する
+            for failed_edns in failed_edns_set:
+                failed_edns_ipaddr = self.tool_conf[EDNS_INFOS][failed_edns]["ipaddr"]
+                if failed_edns_ipaddr in config["xCAP"]:
+                    config["xCAP"].remove(failed_edns_ipaddr)
 
             process = EriSmfvoXCAPProcess(self.args.edns_name,
                                           nf_name,

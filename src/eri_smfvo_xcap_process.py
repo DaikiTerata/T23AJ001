@@ -207,10 +207,18 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
         # NF取得情報を解析
         self.parse_result(self.get_status_result)
 
-        # 現在の設定を削除 & 予備IPアドレスへ付け替え
-        res: ProcessStatus
+        # 追加(予備)IPアドレスが存在しない場合
+        if not self.add_ipaddr:
+            # 追加(予備)IPアドレスがない旨を表示
+            self.sout_message(SoutSeverity.error,
+                              f"xcap ipaddr change was failed due to no reserved ipaddr. current status is"
+                              f" {self.get_status_word(self.before_status)}. [ {self.before_status} ]")
+            self.logger.output_1st_log("E00321", [self.nf_name, self.mode])
+
+            return ProcessStatus.change_ng
+
+        # 現在の設定を削除 & 追加(予備)IPアドレスへ付け替え
         if not self.to_down() or not self.to_up():
-            res = ProcessStatus.change_ng
             # 何らかの異常が発生した場合、事前状態に戻す
             self.do_abort()
             # 設定を戻した旨、事前のステータスとともに表示
