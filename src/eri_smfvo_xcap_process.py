@@ -226,6 +226,8 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
                               f"status change was failed. abort has done. current status is"
                               f" {self.get_status_word(self.before_status)}. [ {self.before_status} ]")
             self.logger.output_1st_log("E00321", [self.nf_name, self.mode])
+
+            return ProcessStatus.change_ng
         elif not self.commit():
             res = ProcessStatus.commit_ng
             # commitで異常が発生した場合、事前状態に戻す
@@ -233,10 +235,12 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
             # 設定を戻した旨を表示
             self.sout_message(SoutSeverity.error, "commit was failed. abort has done.")
             self.logger.output_1st_log("E00322", [self.nf_name, self.mode])
+
+            return ProcessStatus.commit_ng
         else:
-            res = ProcessStatus.commit_ok
             self.logger.output_1st_log("I00324", self.nf_name)
-        return res
+
+            return ProcessStatus.commit_ok
 
     def to_down(self) -> bool:
         """指定されたxCAP IPアドレスを無効(down)にするコマンドを投入。commit実行までは反映されない。
