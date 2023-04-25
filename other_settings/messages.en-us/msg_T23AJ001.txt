@@ -1,0 +1,28 @@
+INFO,I00101,start xCAP tool
+INFO,I00102,complete xCAP tool
+INFO,I00103,start analysis of arguments
+INFO,I00104,complete analysis of arguments:
+INFO,I00105,start to load configurations
+INFO,I00106,complete loading comfigurations
+INFO,I00107,start to print an information:
+INFO,I00108,complete printing an information:
+INFO,I00109,start to get an eDNS setting
+INFO,I00110,complete getting an eDNS setting:
+INFO,I00111,start to get an SMFv setting
+INFO,I00112,complete getting an SMFv settings:
+INFO,I00113,start to execute a main process
+INFO,I00114,complete executing a main process
+INFO,I00115,start to output eDNS List
+INFO,I00116,complete outputting eDNS list:
+INFO,I00117,start to operate an each NF
+INFO,I00118,complete operating an each NF
+INFO,I00119,node list of success NFs:
+INFO,I00120,node list of failed NFs:
+INFO,I00121,node list of blocked NFs:
+INFO,I00122,result of xCAP tool:
+INFO,I00123,abort an xCAP tool due to interruption:
+CRITICAL,E00101,abnormal termination in processes
+CRITICAL,E00102,abnormal arguments:
+CRITICAL,E00103,abnormal configuration files:
+CRITICAL,E00104,fail to get an eDNS settings:
+CRITICAL,E00105,fail to get an SMFv settings:
