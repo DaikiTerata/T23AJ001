@@ -279,11 +279,12 @@ class XcapTool(object):
         """
         LOGGER.output_1st_log("I00111")
 
-        filtered_list: Dict[str, Dict[str, List[str]]]
+        filtered_dict: Dict[str, Dict[str, List[str]]]
+
         try:
-            filtered_list = dict(filter(lambda item: self.edns_ip_address in item[1]["xCAP"], self.tool_conf[NF_INFOS].items()))
+            filtered_dict = dict(filter(lambda item: self.edns_ip_address in item[1]["xCAP"], self.tool_conf[NF_INFOS].items()))
             # 設定が空の場合
-            if not any(filtered_list):
+            if not any(filtered_dict):
                 raise ValueError("filtered_list is empty.")
 
         except Exception as e:
@@ -297,8 +298,8 @@ class XcapTool(object):
                                   f" Trace: {e.__class__.__name__} {e}")
             raise e
 
-        LOGGER.output_1st_log("I00112", filtered_list)
-        return filtered_list
+        LOGGER.output_1st_log("I00112", filtered_dict)
+        return filtered_dict
 
     def main(self) -> bool:
         """main メイン処理
