@@ -229,7 +229,6 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
 
             return ProcessStatus.change_ng
         elif not self.commit():
-            res = ProcessStatus.commit_ng
             # commitで異常が発生した場合、事前状態に戻す
             self.do_abort()
             # 設定を戻した旨を表示
