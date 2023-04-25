@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.xcap_tool &mdash; xCAP Tool 0.9 ドキュメント</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/translations.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            xCAP Tool
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../src.xcap_tool.html">src.xcap_tool module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../src.eri_connection.html">src.eri_connection module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../src.abc_process.html">src.abc_process module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../src.abc_eri_process.html">src.abc_eri_process module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../src.eri_smfvo_xcap_process.html">src.eri_smfvo_xcap_process module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">xCAP Tool</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">モジュールコード</a></li>
+      <li class="breadcrumb-item active">src.xcap_tool</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>src.xcap_tool のソースコード</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">import</span> <span class="nn">ipaddress</span>
+<span class="kn">from</span> <span class="nn">json</span> <span class="kn">import</span> <span class="n">JSONDecodeError</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">from</span> <span class="nn">xgnlog.Log</span> <span class="kn">import</span> <span class="n">Level</span><span class="p">,</span> <span class="n">Log</span>
+
+<span class="kn">from</span> <span class="nn">src.abc_process</span> <span class="kn">import</span> <span class="n">Mode</span><span class="p">,</span> <span class="n">ProcessStatus</span><span class="p">,</span> <span class="n">SoutSeverity</span><span class="p">,</span> <span class="n">logtime</span>
+<span class="kn">from</span> <span class="nn">src.eri_smfvo_xcap_process</span> <span class="kn">import</span> <span class="n">EriSmfvoXCAPProcess</span>
+
+
+<span class="c1"># 定数宣言</span>
+<span class="c1"># xGNロガー</span>
+<span class="n">JOB_ID</span> <span class="o">=</span> <span class="s2">&quot;T23AJ001&quot;</span>
+<span class="n">LOGGER</span> <span class="o">=</span> <span class="n">Log</span><span class="p">(</span><span class="n">JOB_ID</span><span class="p">,</span> <span class="n">Level</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+
+<span class="c1"># 設定: 対象ノード情報</span>
+<span class="c1"># ツールローカル設定ディレクトリ</span>
+<span class="n">LOCAL_CONFIG_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+<span class="n">TOOL_CONF</span> <span class="o">=</span> <span class="n">LOCAL_CONFIG_DIR</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;xcap-tool.json&quot;</span><span class="p">)</span>
+<span class="n">REQUIRED_KEYS</span> <span class="o">=</span> <span class="p">(</span><span class="n">NF_INFOS</span><span class="p">,</span> <span class="n">EDNS_INFOS</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;nf_infos&quot;</span><span class="p">,</span> <span class="s2">&quot;edns_infos&quot;</span><span class="p">)</span>
+
+<span class="c1"># 実行モード不明</span>
+<span class="n">MODE_UNKNOWN</span> <span class="o">=</span> <span class="s2">&quot;UNKNOWN&quot;</span>
+<span class="c1"># NF名不明</span>
+<span class="n">NF_NONE</span> <span class="o">=</span> <span class="s2">&quot;NF_NONE&quot;</span>
+
+<span class="n">DispMode</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">Mode</span><span class="o">.</span><span class="n">up</span><span class="p">:</span> <span class="s2">&quot;NOT USED&quot;</span><span class="p">,</span>
+    <span class="n">Mode</span><span class="o">.</span><span class="n">down</span><span class="p">:</span> <span class="s2">&quot;remove an xCAP ipaddr and add a reserved ipaddr&quot;</span><span class="p">,</span>
+    <span class="n">Mode</span><span class="o">.</span><span class="n">show</span><span class="p">:</span> <span class="s2">&quot;show an xCAP ipaddr status&quot;</span><span class="p">,</span>
+    <span class="n">Mode</span><span class="o">.</span><span class="n">info</span><span class="p">:</span> <span class="s2">&quot;show tool configuration&quot;</span><span class="p">,</span>
+    <span class="n">Mode</span><span class="o">.</span><span class="n">list</span><span class="p">:</span> <span class="s2">&quot;show xCAP names&quot;</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="ToolResult"><a class="viewcode-back" href="../../src.xcap_tool.html#src.xcap_tool.ToolResult">[ドキュメント]</a><span class="k">class</span> <span class="nc">ToolResult</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;NF Registrationツール実行時の結果種別</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">init</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;実行中または、判定不能&quot;&quot;&quot;</span>
+    <span class="n">ng</span> <span class="o">=</span> <span class="s2">&quot;NG&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;ツール実行結果失敗&quot;&quot;&quot;</span>
+    <span class="n">ok</span> <span class="o">=</span> <span class="s2">&quot;OK&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;ツール実行結果成功&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div>
+
+
+<div class="viewcode-block" id="XcapTool"><a class="viewcode-back" href="../../src.xcap_tool.html#src.xcap_tool.XcapTool">[ドキュメント]</a><span class="k">class</span> <span class="nc">XcapTool</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;xCAP IPアドレス参照・更新ツール</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="XcapTool.sout_message"><a class="viewcode-back" href="../../src.xcap_tool.html#src.xcap_tool.XcapTool.sout_message">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">sout_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">severity</span><span class="p">:</span> <span class="n">SoutSeverity</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="n">Mode</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">alias</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">nf_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;標準出力に指定した重大度のメッセージを既定のフォーマットで出力する</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            severity (SoutSeverity): 重大度</span>
+<span class="sd">            body (str): ログメッセージ</span>
+<span class="sd">            mode (Mode, optional): 実行モード. Defaults to &quot;&quot;.</span>
+<span class="sd">            alias (str, optional): エイリアス. Defaults to &quot;&quot;.</span>
+<span class="sd">            nf_name (str, optional): NF名. Defaults to None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">severity</span><span class="si">}</span><span class="s2">:&quot;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">MODE_UNKNOWN</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">mode</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="kc">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">mode</span><span class="si">}</span><span class="s2">:&quot;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">logtime</span><span class="p">()</span><span class="si">}</span><span class="s2">:&quot;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">NF_NONE</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">alias</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="kc">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">edns_name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">NF_NONE</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">nf_name</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="kc">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">nf_name</span><span class="si">}</span><span class="s2">):&quot;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="n">body</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XcapTool.check_args"><a class="viewcode-back" href="../../src.xcap_tool.html#src.xcap_tool.XcapTool.check_args">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">check_args</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;スクリプト実行時に取得する引数内容をチェック</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ArgumentParserError: 引数異常があった場合</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: 正常終了の場合True、異常終了の場合False</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">class</span> <span class="nc">ArgumentParserError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+            <span class="k">pass</span>
+
+        <span class="k">class</span> <span class="nc">ThrowingArgumentParser</span><span class="p">(</span><span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">):</span>
+            <span class="k">def</span> <span class="nf">error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">ArgumentParserError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">not_null_str</span><span class="p">(</span><span class="n">val</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">val</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="n">ArgumentParserError</span><span class="p">(</span><span class="s2">&quot;Argument is None, null string or blank only.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">val</span>
+
+        <span class="k">def</span> <span class="nf">csv</span><span class="p">(</span><span class="n">val</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">ret</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;&quot;</span> <span class="ow">in</span> <span class="n">ret</span><span class="p">:</span>
+                <span class="n">ret</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">ret</span>
+
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00103&quot;</span><span class="p">)</span>
+        <span class="c1"># Parserを準備</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># 有効なモードを指定(Mode.upを使用しない)</span>
+            <span class="n">valid_mode_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">Mode</span><span class="p">)</span>
+            <span class="n">valid_mode_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">Mode</span><span class="o">.</span><span class="n">up</span><span class="p">)</span>
+
+            <span class="c1"># 第1引数にLISTモードが指定された場合、第1引数にNF NONEを仮設定する</span>
+            <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">Mode</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">NF_NONE</span><span class="p">)</span>
+            <span class="n">parser</span> <span class="o">=</span> <span class="n">ThrowingArgumentParser</span><span class="p">()</span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;edns_name&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;target eDNS hostname&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">not_null_str</span><span class="p">)</span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;exec MODE&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">valid_mode_list</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Mode</span><span class="p">)</span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;blocked_nflist&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;blocked nf name list&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">csv</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-b&quot;</span><span class="p">,</span> <span class="s2">&quot;--batch&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;enable bach mode&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">)</span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-s&quot;</span><span class="p">,</span> <span class="s2">&quot;--stub&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;stab mode&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">)</span>
+
+            <span class="c1"># 引数を判定し、取得した引数を格納する</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="n">ArgumentParserError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">argv</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;failed to analyse arguments </span><span class="si">{</span><span class="n">argv</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;[ </span><span class="si">{</span><span class="n">ToolResult</span><span class="o">.</span><span class="n">ng</span><span class="si">}</span><span class="s2"> ]&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00102&quot;</span><span class="p">,</span> <span class="n">argv</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                  <span class="sa">f</span><span class="s2">&quot;引数解析異常発生:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                  <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                  <span class="sa">f</span><span class="s2">&quot; 引数: </span><span class="si">{</span><span class="n">argv</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                  <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00104&quot;</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="XcapTool.load_config"><a class="viewcode-back" href="../../src.xcap_tool.html#src.xcap_tool.XcapTool.load_config">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">load_config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;JSON設定ファイルを読み込む</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: 正常終了の場合True、異常終了の場合False</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00105&quot;</span><span class="p">)</span>
+
+        <span class="c1"># ツール本体設定存在チェック&amp;解析チェック</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">TOOL_CONF</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tool_conf</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="c1"># nf-module設定、nf-type設定</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">REQUIRED_KEYS</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># 設定存在チェック&amp;解析チェック</span>
+                <span class="n">file_path</span> <span class="o">=</span> <span class="n">LOCAL_CONFIG_DIR</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tool_conf</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+                <span class="c1"># JSON読込</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">tool_conf</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;[ </span><span class="si">{</span><span class="n">ToolResult</span><span class="o">.</span><span class="n">ng</span><span class="si">}</span><span class="s2"> ]&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00103&quot;</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="ne">FileNotFoundError</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;configuration files not found. file=</span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                          <span class="sa">f</span><span class="s2">&quot;設定ファイルなし発生:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                          <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                          <span class="sa">f</span><span class="s2">&quot; ファイルパス: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                          <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">JSONDecodeError</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;failed to analyse configuration files. file=</span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                          <span class="sa">f</span><span class="s2">&quot;設定ファイルJSON異常発生:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                          <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                          <span class="sa">f</span><span class="s2">&quot; ファイルパス: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                          <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;required json key not found. file=</span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">, key=</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                          <span class="sa">f</span><span class="s2">&quot;設定ファイル必須キーなし発生:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                          <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                          <span class="sa">f</span><span class="s2">&quot; ファイルパス: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                          <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;unexpected error occurred. file=</span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">, key=</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                          <span class="sa">f</span><span class="s2">&quot;想定外エラー発生:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                          <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                          <span class="sa">f</span><span class="s2">&quot; ファイルパス: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                          <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00106&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="XcapTool.info"><a class="viewcode-back" href="../../src.xcap_tool.html#src.xcap_tool.XcapTool.info">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;info INFO出力</span>
+
+<span class="sd">        引数情報、対象ノード情報、対向ノード情報を出力する</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00107&quot;</span><span class="p">)</span>
+        <span class="c1"># 網閉塞管理DBに登録中のNFリストを取得</span>
+        <span class="n">blocked</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">blocked_nflist</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">blocked_nflist</span> <span class="k">else</span> <span class="p">[</span><span class="s2">&quot;None&quot;</span><span class="p">])</span>
+        <span class="n">target_info</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># 画面表示をSMFv NF名の最大長に合わせるため、最大値を取得</span>
+        <span class="n">max_length_nfname</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">smfvoice_configs</span><span class="o">.</span><span class="n">keys</span><span class="p">()])</span>
+        <span class="c1"># 対象NF上の情報を表示するためのヘッダ情報</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;smfvo(roout) nf name&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">max_length_nfname</span><span class="p">)</span><span class="si">}</span><span class="s2">: [ipaddrs]&quot;</span>
+        <span class="n">target_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">nf_name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">smfvoice_configs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">nf_name</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">max_length_nfname</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="p">[</span><span class="s1">&#39;xCAP&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">target_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="c1"># 上記で収集した情報を出力データに追加</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">target_info</span><span class="p">)</span>
+
+        <span class="n">messages</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">messages</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;eDNS Name&#39;</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">edns_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">messages</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;IP ADDR&#39;</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">edns_ip_address</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">messages</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;MODE&#39;</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">mode</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">messages</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;COMMENT&#39;</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">DispMode</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">mode</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">messages</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;BLOCKED NF&#39;</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">blocked</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">messages</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;BATCH&#39;</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">batch</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">messages</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;TARGET&#39;</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">targets</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="c1"># 画面に情報を出力</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00108&quot;</span><span class="p">,</span> <span class="n">messages</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XcapTool.get_edns_ipaddr"><a class="viewcode-back" href="../../src.xcap_tool.html#src.xcap_tool.XcapTool.get_edns_ipaddr">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">get_edns_ipaddr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;対象のeDNSホスト名に紐づくIPアドレスを取得する</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            Exception: eDNSホスト名からIPアドレスの取得に失敗した場合</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: eDNS IPアドレス</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00109&quot;</span><span class="p">)</span>
+        <span class="n">ipaddr</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># P-CSCF情報取得</span>
+            <span class="n">ipaddr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tool_conf</span><span class="p">[</span><span class="n">EDNS_INFOS</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">edns_name</span><span class="p">][</span><span class="s2">&quot;ipaddr&quot;</span><span class="p">]</span>
+            <span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_address</span><span class="p">(</span><span class="n">ipaddr</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="s2">&quot;eDNS configuration not found.&quot;</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00104&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">edns_name</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span> <span class="s2">&quot;eDNS情報取得失敗:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                  <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                  <span class="sa">f</span><span class="s2">&quot; eDNS: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">edns_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                  <span class="sa">f</span><span class="s2">&quot; INFO: </span><span class="si">{</span><span class="n">ipaddr</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                  <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00110&quot;</span><span class="p">,</span> <span class="n">ipaddr</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ipaddr</span></div>
+
+<div class="viewcode-block" id="XcapTool.get_smfvoice_configs"><a class="viewcode-back" href="../../src.xcap_tool.html#src.xcap_tool.XcapTool.get_smfvoice_configs">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">get_smfvoice_configs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;eDNS IPアドレスを元に対象となるSMFvのツール設定情報を取得する</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: 指定されたeDNS IPアドレスを含むSMFv NFの設定がない場合</span>
+<span class="sd">            Exception: 何らかの異常が発生した場合</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, Dict[str, List[str]]]: eDNS IPアドレスを含むSMFvツール設定</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00111&quot;</span><span class="p">)</span>
+
+        <span class="n">filtered_list</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">filtered_list</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">edns_ip_address</span> <span class="ow">in</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;xCAP&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">tool_conf</span><span class="p">[</span><span class="n">NF_INFOS</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+            <span class="c1"># 設定が空の場合</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">filtered_list</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;filtered_list is empty.&quot;</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="s2">&quot;smfvoice configuration not found.&quot;</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00105&quot;</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                  <span class="s2">&quot;対向SMFv設定取得失敗:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                  <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                  <span class="sa">f</span><span class="s2">&quot; eDNS: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">edns_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                  <span class="sa">f</span><span class="s2">&quot; 全SMFv: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">tool_conf</span><span class="p">[</span><span class="n">NF_INFOS</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                  <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00112&quot;</span><span class="p">,</span> <span class="n">filtered_list</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">filtered_list</span></div>
+
+<div class="viewcode-block" id="XcapTool.main"><a class="viewcode-back" href="../../src.xcap_tool.html#src.xcap_tool.XcapTool.main">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;main メイン処理</span>
+
+<span class="sd">        xCAPツールメイン処理</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: 成功の場合True、異常発生の場合Falseとなる</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00113&quot;</span><span class="p">)</span>
+        <span class="c1"># Stubモード表示</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">stub</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;===== STUB MODE [ ON ] =====&quot;</span><span class="p">)</span>
+
+        <span class="c1"># eDNS名リスト</span>
+        <span class="n">edns_name_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tool_conf</span><span class="p">[</span><span class="n">EDNS_INFOS</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="c1"># LIST MODE</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="n">Mode</span><span class="o">.</span><span class="n">list</span><span class="p">:</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00115&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;==eDNS LIST==&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">edns_name_list</span><span class="p">]))</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00116&quot;</span><span class="p">,</span> <span class="n">edns_name_list</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00114&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># 対象eDNSホスト名からip addrを取得する</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">edns_ip_address</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_edns_ipaddr</span><span class="p">()</span>
+            <span class="c1"># 対象eDNSホストのip addrが設定可能なSMFv設定を取得</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">smfvoice_configs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_smfvoice_configs</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;[ </span><span class="si">{</span><span class="n">ToolResult</span><span class="o">.</span><span class="n">ng</span><span class="si">}</span><span class="s2"> ]&quot;</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00122&quot;</span><span class="p">,</span> <span class="n">ToolResult</span><span class="o">.</span><span class="n">ng</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00114&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="c1"># 対象内容を表示</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+
+        <span class="c1"># MODE_INFOの場合はここで終了</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="n">Mode</span><span class="o">.</span><span class="n">info</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;[ </span><span class="si">{</span><span class="n">ToolResult</span><span class="o">.</span><span class="n">ok</span><span class="si">}</span><span class="s2"> ]&quot;</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00122&quot;</span><span class="p">,</span> <span class="n">ToolResult</span><span class="o">.</span><span class="n">ok</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00114&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="c1"># batch処理フラグがない場合</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">batch</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">is_continue</span><span class="p">,</span> <span class="n">choice</span><span class="p">)</span> <span class="o">=</span> <span class="n">interactive_check</span><span class="p">(</span><span class="s2">&quot;Please input [Y] for next action, or [N] for abort.: &quot;</span><span class="p">,</span>
+                                                      <span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;ye&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">],</span>
+                                                      <span class="p">[</span><span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="s2">&quot;no&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_continue</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">info</span><span class="p">,</span> <span class="s2">&quot;script was aborted due to an interractive action.&quot;</span><span class="p">)</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00123&quot;</span><span class="p">,</span> <span class="n">choice</span><span class="p">)</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00114&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Start Time: </span><span class="si">{</span><span class="n">logtime</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00117&quot;</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">:</span> <span class="n">ToolResult</span> <span class="o">=</span> <span class="n">ToolResult</span><span class="o">.</span><span class="n">init</span>
+        <span class="n">success_nf_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">failed_nf_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">blocked_nf_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">nf_name</span><span class="p">,</span> <span class="n">config</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">smfvoice_configs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+            <span class="n">process</span> <span class="o">=</span> <span class="n">EriSmfvoXCAPProcess</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">edns_name</span><span class="p">,</span>
+                                          <span class="n">nf_name</span><span class="p">,</span>
+                                          <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+                                          <span class="bp">self</span><span class="o">.</span><span class="n">edns_ip_address</span><span class="p">,</span>
+                                          <span class="n">config</span><span class="p">[</span><span class="s2">&quot;xCAP&quot;</span><span class="p">],</span>
+                                          <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">stub</span><span class="p">,</span>
+                                          <span class="s2">&quot;T23AJ003&quot;</span><span class="p">)</span>
+
+            <span class="c1"># プロセス実行</span>
+            <span class="n">process_result</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+            <span class="c1"># 何らかのNGとなった場合</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">process_result</span> <span class="o">&amp;</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">ng</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">nf_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">blocked_nflist</span><span class="p">:</span>
+                    <span class="n">blocked_nf_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nf_name</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">failed_nf_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nf_name</span><span class="p">)</span>
+            <span class="c1"># OKとなった場合</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># 正常完了したノードをsuccess_listに追加</span>
+                <span class="n">success_nf_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nf_name</span><span class="p">)</span>
+
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00118&quot;</span><span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">ToolResult</span><span class="o">.</span><span class="n">ng</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">failed_nf_list</span><span class="p">)</span> <span class="k">else</span> <span class="n">ToolResult</span><span class="o">.</span><span class="n">ok</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;[ </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2"> ]&quot;</span><span class="p">)</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;SUCCESS=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">success_nf_list</span><span class="p">)</span><span class="si">}</span><span class="s2">, FAILED=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">failed_nf_list</span><span class="p">)</span><span class="si">}</span><span class="s2">, BLOCKED=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">blocked_nf_list</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">detail</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">detail</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;SUCCESSED NF </span><span class="si">{</span><span class="n">success_nf_list</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">detail</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;FAILED NF </span><span class="si">{</span><span class="n">failed_nf_list</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">detail</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;BLOCKED NF </span><span class="si">{</span><span class="n">blocked_nf_list</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00119&quot;</span><span class="p">,</span> <span class="n">success_nf_list</span><span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00120&quot;</span><span class="p">,</span> <span class="n">failed_nf_list</span><span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00121&quot;</span><span class="p">,</span> <span class="n">blocked_nf_list</span><span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00122&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;End Time: </span><span class="si">{</span><span class="n">logtime</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00114&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="n">ToolResult</span><span class="o">.</span><span class="n">ng</span> <span class="k">else</span> <span class="kc">True</span></div></div>
+
+
+<div class="viewcode-block" id="interactive_check"><a class="viewcode-back" href="../../src.xcap_tool.html#src.xcap_tool.interactive_check">[ドキュメント]</a><span class="k">def</span> <span class="nf">interactive_check</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">continue_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">abort_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">case_sensitive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;interactive_check 実行継続チェック</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        message (str): 表示文字列</span>
+<span class="sd">        continue_list (List[str]): 処理継続文字列リスト</span>
+<span class="sd">        abort_list (List[str]): 処理中止文字列リスト</span>
+<span class="sd">        case_sensitive (bool, optional): 大文字と小文字を区別する場合はTrue、区別しない場合はFalse. Defaults to False.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple[bool, str]: 入力文字列および、継続を示す場合はTrue、中止を示す場合はFalse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># 大文字と小文字を区別しない場合はそれぞれを小文字に変換する</span>
+    <span class="n">continue_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">continue_list</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">case_sensitive</span> <span class="k">else</span> <span class="n">continue_list</span>
+    <span class="n">abort_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">abort_list</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">case_sensitive</span> <span class="k">else</span> <span class="n">abort_list</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">choice</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="n">choice</span> <span class="o">=</span> <span class="n">choice</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">case_sensitive</span> <span class="k">else</span> <span class="n">choice</span>
+        <span class="k">if</span> <span class="n">choice</span> <span class="ow">in</span> <span class="n">continue_list</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">choice</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">choice</span> <span class="ow">in</span> <span class="n">abort_list</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">choice</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00101&quot;</span><span class="p">)</span>
+    <span class="n">tool</span> <span class="o">=</span> <span class="n">XcapTool</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">tool</span><span class="o">.</span><span class="n">check_args</span><span class="p">()</span> <span class="ow">and</span> <span class="n">tool</span><span class="o">.</span><span class="n">load_config</span><span class="p">()</span> <span class="ow">and</span> <span class="n">tool</span><span class="o">.</span><span class="n">main</span><span class="p">():</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00102&quot;</span><span class="p">)</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00101&quot;</span><span class="p">)</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, KDDI xGN Networks Co.,Ltd. 7Unit..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

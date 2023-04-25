@@ -1,0 +1,108 @@
+{
+    "regions": {
+        "all": [
+            "tam4sbg02m0sgc0709",
+            "tam4sbg03m0sgc0709",
+            "oym1sbg22m0sgc0709",
+            "oym1sbg23m0sgc0709",
+            "oym1sbg32m0sgc0709",
+            "oym1sbg33m0sgc0709",
+            "osc1sbg02m0sgc0709",
+            "osc1sbg03m0sgc0709",
+            "osc1sbg04m0sgc0709",
+            "imi1sbg02m0sgc0709",
+            "imi1sbg03m0sgc0709",
+            "imi1sbg04m0sgc0709",
+            "hrs2sbg02m0sgc0709",
+            "hrs2sbg03m0sgc0709",
+            "hrs2sbg04m0sgc0709"
+        ]
+    },
+    "targets": {
+        "tam5-er-s01-smfvo-001": "all",
+        "tam5-er-s02-smfvo-001": "all",
+        "oym3-er-s01-smfvo-001": "all",
+        "oym3-er-s02-smfvo-001": "all",
+        "osc2-er-s01-smfvo-001": "all",
+        "osc2-er-s02-smfvo-001": "all",
+        "chy1-er-s01-smfvo-001": "all",
+        "chy1-er-s02-smfvo-001": "all"
+    },
+    "nodes": {
+        "tam4sbg02m0sgc0709": {
+            "ipaddr": "2001:268:e601:8010::4",
+            "weight": 1,
+            "priority": 999999
+        },
+        "tam4sbg03m0sgc0709": {
+            "ipaddr": "2001:268:e601:8012::4",
+            "weight": 1,
+            "priority": 999999
+        },
+        "oym1sbg22m0sgc0709": {
+            "ipaddr": "2001:268:e606:8010::4",
+            "weight": 1,
+            "priority": 999999
+        },
+        "oym1sbg23m0sgc0709": {
+            "ipaddr": "2001:268:e606:8012::4",
+            "weight": 1,
+            "priority": 999999
+        },
+        "oym1sbg32m0sgc0709": {
+            "ipaddr": "2001:268:e607:8010::4",
+            "weight": 1,
+            "priority": 999999
+        },
+        "oym1sbg33m0sgc0709": {
+            "ipaddr": "2001:268:e607:8012::4",
+            "weight": 1,
+            "priority": 999999
+        },
+        "osc1sbg02m0sgc0709": {
+            "ipaddr": "2001:268:e611:8010::4",
+            "weight": 1,
+            "priority": 999999
+        },
+        "osc1sbg03m0sgc0709": {
+            "ipaddr": "2001:268:e611:8012::4",
+            "weight": 1,
+            "priority": 999999
+        },
+        "osc1sbg04m0sgc0709": {
+            "ipaddr": "2001:268:e611:8014::4",
+            "weight": 1,
+            "priority": 999999
+        },
+        "imi1sbg02m0sgc0709": {
+            "ipaddr": "2001:268:e616:8010::4",
+            "weight": 1,
+            "priority": 999999
+        },
+        "imi1sbg03m0sgc0709": {
+            "ipaddr": "2001:268:e616:8012::4",
+            "weight": 1,
+            "priority": 999999
+        },
+        "imi1sbg04m0sgc0709": {
+            "ipaddr": "2001:268:e616:8014::4",
+            "weight": 1,
+            "priority": 999999
+        },
+        "hrs2sbg02m0sgc0709": {
+            "ipaddr": "2001:268:e617:8010::4",
+            "weight": 1,
+            "priority": 999999
+        },
+        "hrs2sbg03m0sgc0709": {
+            "ipaddr": "2001:268:e617:8012::4",
+            "weight": 1,
+            "priority": 999999
+        },
+        "hrs2sbg04m0sgc0709": {
+            "ipaddr": "2001:268:e617:8014::4",
+            "weight": 1,
+            "priority": 999999
+        }
+    }
+}

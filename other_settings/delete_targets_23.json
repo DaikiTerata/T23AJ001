@@ -1,0 +1,28 @@
+{
+    "delete_file": [
+        {
+            "path": "/home/xgntools/logs/1st-log/T23AJ001/*.log",
+            "days_to_save": 90
+        },
+        {
+            "path": "/home/xgntools/logs/1st-log/T23AJ002/*.log",
+            "days_to_save": 90
+        },
+        {
+            "path": "/home/xgntools/logs/1st-log/T23AJ003/*.log",
+            "days_to_save": 90
+        },
+        {
+            "path": "/home/xgntools/logs/2nd-log/T23AJ001/*.log",
+            "days_to_save": 90
+        },
+        {
+            "path": "/home/xgntools/logs/2nd-log/T23AJ002/*.log",
+            "days_to_save": 90
+        },
+        {
+            "path": "/home/xgntools/logs/2nd-log/T23AJ003/*.log",
+            "days_to_save": 90
+        }
+    ]
+}

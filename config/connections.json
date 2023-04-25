@@ -1,0 +1,195 @@
+{
+    "common": {
+        "port": 22
+    },
+    "connections": {
+        "TEMPLATE": {
+            "ipaddr": "NODE IPADDR",
+            "port": "ノードの接続ポート、なければnodes_commonから取得、nodes_commonになければ22",
+            "username": "個別IDがある場合は指定、なければnodes_commonから取得、nodes_commonになければnull",
+            "password": "個別PWがある場合は指定、なければnodes_commonから取得、nodes_commonになければnull",
+            "key_filename": "個別に共通鍵がある場合は指定、なければnodes_commonから取得、nodes_commonになければnull",
+            "passphrase": "共通鍵にパスフレーズがある場合は指定、なければnodes_commonから取得、nodes_commonになければnull",
+            "bastion": "踏み台サーバ(bastionsにあるキーを指定)"
+        },
+        "a1-er-s01-smf-001": {
+            "ipaddr": "10.2.102.229",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-a1-er-s01-vm-001"
+        },
+        "a1-er-s01-smfvo-001": {
+            "ipaddr": "10.2.100.197",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-a1-er-s01-vm-002"
+        },
+        "a2-er-s01-smf-001": {
+            "ipaddr": "10.2.84.229",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-a2-er-s01-vm-001"
+        },
+        "a2-er-s01-smfvo-001": {
+            "ipaddr": "10.2.100.6",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-a2-er-s01-vm-002"
+        },
+        "a2-er-s01-smfsl-001": {
+            "ipaddr": "10.2.100.133",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-a2-er-s01-vm-007"
+        },
+        "a2-er-s01-smfent-001": {
+            "ipaddr": "10.2.100.69",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-a2-er-s01-vm-008"
+        },
+        "a2-er-s01-smfvoroout-001": {
+            "ipaddr": "10.2.100.229",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-a2-er-s01-vm-009"
+        },
+        "a2-er-s02-smf-001": {
+            "ipaddr": "10.2.85.229",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-a2-er-s02-vm-001"
+        },
+        "a2-er-s02-smfvo-001": {
+            "ipaddr": "10.2.100.37",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-a2-er-s02-vm-002"
+        },
+        "a2-er-s02-smfsl-001": {
+            "ipaddr": "10.2.100.165",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-a2-er-s02-vm-007"
+        },
+        "a2-er-s02-smfent-001": {
+            "ipaddr": "10.2.100.101",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-a2-er-s02-vm-008"
+        },
+        "b1-er-s01-smf-001": {
+            "ipaddr": "10.2.132.229",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-b1-er-s01-vm-001"
+        },
+        "b1-er-s01-smfvo-001": {
+            "ipaddr": "10.2.144.6",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-b1-er-s01-vm-002"
+        },
+        "b1-er-s01-smfsl-001": {
+            "ipaddr": "10.2.144.133",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-b1-er-s01-vm-007"
+        },
+        "b1-er-s01-smfent-001": {
+            "ipaddr": "10.2.144.69",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-b1-er-s01-vm-008"
+        },
+        "b1-er-s01-smfvoroout-001": {
+            "ipaddr": "10.2.144.197",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-b1-er-s01-vm-009"
+        },
+        "b1-er-s02-smf-001": {
+            "ipaddr": "10.2.133.229",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-b1-er-s02-vm-001"
+        },
+        "b1-er-s02-smfvo-001": {
+            "ipaddr": "10.2.144.37",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-b1-er-s02-vm-002"
+        },
+        "b1-er-s02-smfsl-001": {
+            "ipaddr": "10.2.144.165",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-b1-er-s02-vm-007"
+        },
+        "b1-er-s02-smfent-001": {
+            "ipaddr": "10.2.144.101",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-b1-er-s02-vm-008"
+        }
+    },
+    "bastions": {
+        "director-0-a1-er-s01-vm-001": {
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.83.225"
+        },
+        "director-0-a1-er-s01-vm-002": {
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.101.51"
+        },
+        "director-0-a2-er-s01-vm-001": {
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.83.233"
+        },
+        "director-0-a2-er-s01-vm-002": {
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.101.1"
+        },
+        "director-0-a2-er-s01-vm-007": {
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.101.33"
+        },
+        "director-0-a2-er-s01-vm-008": {
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.101.17"
+        },
+        "director-0-a2-er-s01-vm-009": {
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.101.57"
+        },
+        "director-0-a2-er-s02-vm-001": {
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.83.241"
+        },
+        "director-0-a2-er-s02-vm-007": {
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.101.41"
+        },
+        "director-0-a2-er-s02-vm-008": {
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.101.25"
+        },
+        "director-0-b1-er-s01-vm-001": {
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.131.225"
+        },
+        "director-0-b1-er-s01-vm-002": {
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.143.1"
+        },
+        "director-0-b1-er-s01-vm-007": {
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.143.33"
+        },
+        "director-0-b1-er-s01-vm-008": {
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.143.17"
+        },
+        "director-0-b1-er-s01-vm-009": {
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.143.49"
+        },
+        "director-0-b1-er-s02-vm-001": {
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.131.233"
+        },
+        "director-0-b1-er-s02-vm-002": {
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.143.9"
+        },
+        "director-0-b1-er-s02-vm-007": {
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.143.41"
+        },
+        "director-0-b1-er-s02-vm-008": {
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.143.25"
+        }
+    }
+}

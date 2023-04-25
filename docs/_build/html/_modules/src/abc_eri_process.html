@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.abc_eri_process &mdash; xCAP Tool 0.9 ドキュメント</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/translations.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            xCAP Tool
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../src.xcap_tool.html">src.xcap_tool module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../src.eri_connection.html">src.eri_connection module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../src.abc_process.html">src.abc_process module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../src.abc_eri_process.html">src.abc_eri_process module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../src.eri_smfvo_xcap_process.html">src.eri_smfvo_xcap_process module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">xCAP Tool</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">モジュールコード</a></li>
+      <li class="breadcrumb-item active">src.abc_eri_process</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>src.abc_eri_process のソースコード</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
+
+<span class="kn">from</span> <span class="nn">xgnlog.Log</span> <span class="kn">import</span> <span class="n">Level</span>
+
+<span class="kn">from</span> <span class="nn">src.abc_process</span> <span class="kn">import</span> <span class="n">AbcProcess</span><span class="p">,</span> <span class="n">Mode</span><span class="p">,</span> <span class="n">SoutSeverity</span>
+<span class="kn">from</span> <span class="nn">src.eri_connection</span> <span class="kn">import</span> <span class="n">NFShellClient</span><span class="p">,</span> <span class="n">ProxyCommandException</span><span class="p">,</span> <span class="n">SocketTimeoutException</span><span class="p">,</span> <span class="n">SSHConnectException</span>
+<span class="kn">from</span> <span class="nn">src.eri_connection_stub</span> <span class="kn">import</span> <span class="n">NFStubShellClient</span> <span class="k">as</span> <span class="n">StubClient</span>
+
+
+<div class="viewcode-block" id="AbcEricssonProcess"><a class="viewcode-back" href="../../src.abc_eri_process.html#src.abc_eri_process.AbcEricssonProcess">[ドキュメント]</a><span class="k">class</span> <span class="nc">AbcEricssonProcess</span><span class="p">(</span><span class="n">AbcProcess</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;エリクソンNF抽象プロセスクラス</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">alias</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                 <span class="n">nf_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                 <span class="n">mode</span><span class="p">:</span> <span class="n">Mode</span><span class="p">,</span>
+                 <span class="n">stub</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">job_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;コンストラクタ</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            alias (str): エイリアス</span>
+<span class="sd">            nf_name (str): NF名</span>
+<span class="sd">            mode (Mode): 実行モード</span>
+<span class="sd">            stub (bool): スタブ実行設定</span>
+<span class="sd">            job_id (str, optional): JOBID. Defaults to None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">alias</span><span class="p">,</span> <span class="n">nf_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">job_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__client</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">stub</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__client</span> <span class="o">=</span> <span class="n">StubClient</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="n">nf_name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__client</span> <span class="o">=</span> <span class="n">NFShellClient</span><span class="p">(</span><span class="n">nf_name</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NFShellClient</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;接続クライアントプロパティを取得</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            NFShellClient: 接続クライアント</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__client</span>
+
+<div class="viewcode-block" id="AbcEricssonProcess.get_commit_comment"><a class="viewcode-back" href="../../src.abc_eri_process.html#src.abc_eri_process.AbcEricssonProcess.get_commit_comment">[ドキュメント]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_commit_comment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;コミット時に適用するコミットコメントを取得する</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: コミットコメント</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="AbcEricssonProcess.open_client"><a class="viewcode-back" href="../../src.abc_eri_process.html#src.abc_eri_process.AbcEricssonProcess.open_client">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">open_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;対向ノードとのSSHクライアント接続を開始</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: 接続成功ならTrue、失敗ならFalse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00301&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+
+            <span class="c1"># 事前コマンド実行</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="s2">&quot;screen-length 0&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00309&quot;</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00310&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="s2">&quot;nf configuration not found.&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00301&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                       <span class="sa">f</span><span class="s2">&quot;NF設定取得エラー:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; NF名: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00302&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">except</span> <span class="n">ProxyCommandException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;ssh bastion </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2"> setting something wrong. [ UNKNOWN ]&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00303&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                       <span class="sa">f</span><span class="s2">&quot;ProxyCommand生成エラー:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; NF名: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00302&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">except</span> <span class="n">SSHConnectException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="s2">&quot;ssh process coundn&#39;t connect to nf or bastion. [ UNKNOWN ]&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00304&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                       <span class="sa">f</span><span class="s2">&quot;SSH接続エラー:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; NF名: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">except</span> <span class="n">SocketTimeoutException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="s2">&quot;ssh connection timeout was happened. [ UNKNOWN ]&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00304&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                       <span class="sa">f</span><span class="s2">&quot;SSHタイムアウト発生:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; NF名: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00302&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="AbcEricssonProcess.close_client"><a class="viewcode-back" href="../../src.abc_eri_process.html#src.abc_eri_process.AbcEricssonProcess.close_client">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">close_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;対向ノードとのSSHクライアントを切断</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None: なし</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00303&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00304&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AbcEricssonProcess.commit"><a class="viewcode-back" href="../../src.abc_eri_process.html#src.abc_eri_process.AbcEricssonProcess.commit">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">commit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;対象NFに対して変更内容を保存する</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: 正常性検証が正常に終了しなかった場合</span>
+<span class="sd">            ValueError: 設定コミットが正常に終了しなかった場合</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: 正常終了完了ならTrue、例外発生ならFalse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00305&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># 設定変更モード開始</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00309&quot;</span><span class="p">,</span> <span class="s2">&quot;config&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">enter_config_mode</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00310&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+            <span class="c1"># 差分確認</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="s2">&quot;show configuration diff&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00309&quot;</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00310&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+
+            <span class="c1"># 正常性検証</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="s2">&quot;validate&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00309&quot;</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00310&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+            <span class="n">pattern</span> <span class="o">=</span> <span class="s2">&quot;Validation complete&quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">pattern</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Validate for status change was failed.&quot;</span><span class="p">)</span>
+
+            <span class="c1"># 設定投入</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;commit comment </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_commit_comment</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00309&quot;</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00310&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+            <span class="n">pattern</span> <span class="o">=</span> <span class="s2">&quot;Commit complete&quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">pattern</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Commit for status change was failed.&quot;</span><span class="p">)</span>
+
+            <span class="c1"># 設定変更モード終了</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00309&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">exit_config_mode</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00310&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="n">SocketTimeoutException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="c1"># タイムアウト発生の旨を表示</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="s2">&quot;ssh connection timeout was happened. [ UNKNOWN ]&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00303&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                       <span class="sa">f</span><span class="s2">&quot;変更反映異常:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; NF名: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; コマンド: </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="s2">&quot;unexpected error occurred. [ UNKNOWN ]&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00303&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                       <span class="sa">f</span><span class="s2">&quot;変更反映異常:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; NF名: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; コマンド: </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00306&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="AbcEricssonProcess.do_abort"><a class="viewcode-back" href="../../src.abc_eri_process.html#src.abc_eri_process.AbcEricssonProcess.do_abort">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">do_abort</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;コマンドエラー発生時に設定を元に戻す</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: 元に戻すが正常に完了したらTrue、何らかの異常が発生したらFalse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00307&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00309&quot;</span><span class="p">,</span> <span class="s2">&quot;abort&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">abort</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00310&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="s2">&quot;unexpected error occurred. [ UNKNOWN ]&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00305&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                       <span class="sa">f</span><span class="s2">&quot;ABORTコマンド実行異常:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; NF名: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00308&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, KDDI xGN Networks Co.,Ltd. 7Unit..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+/home/xgntools/logs/1st-log/T23AJ001/1st_T23AJ001.log
+/home/xgntools/logs/1st-log/T23AJ002/1st_T23AJ002.log
+/home/xgntools/logs/1st-log/T23AJ003/1st_T23AJ003.log
+/home/xgntools/logs/2nd-log/T23AJ001/2nd_T23AJ001.log
+/home/xgntools/logs/2nd-log/T23AJ002/2nd_T23AJ002.log
+/home/xgntools/logs/2nd-log/T23AJ003/2nd_T23AJ003.log
+{
+    missingok
+    notifempty
+    daily
+    dateext
+    dateyesterday
+    dateformat _%Y%m%d
+    rotate 90
+    compress
+    su xgntools xgntools
+}

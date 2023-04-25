@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.xcap_tool module &mdash; xCAP Tool 0.9 ドキュメント</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="src.eri_connection module" href="src.eri_connection.html" />
+    <link rel="prev" title="Welcome to xCAP Tool&#39;s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            xCAP Tool
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">src.xcap_tool module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#src.xcap_tool.ToolResult"><code class="docutils literal notranslate"><span class="pre">ToolResult</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#src.xcap_tool.ToolResult.init"><code class="docutils literal notranslate"><span class="pre">ToolResult.init</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.xcap_tool.ToolResult.ng"><code class="docutils literal notranslate"><span class="pre">ToolResult.ng</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.xcap_tool.ToolResult.ok"><code class="docutils literal notranslate"><span class="pre">ToolResult.ok</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#src.xcap_tool.XcapTool"><code class="docutils literal notranslate"><span class="pre">XcapTool</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#src.xcap_tool.XcapTool.check_args"><code class="docutils literal notranslate"><span class="pre">XcapTool.check_args()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.xcap_tool.XcapTool.get_edns_ipaddr"><code class="docutils literal notranslate"><span class="pre">XcapTool.get_edns_ipaddr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.xcap_tool.XcapTool.get_smfvoice_configs"><code class="docutils literal notranslate"><span class="pre">XcapTool.get_smfvoice_configs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.xcap_tool.XcapTool.info"><code class="docutils literal notranslate"><span class="pre">XcapTool.info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.xcap_tool.XcapTool.load_config"><code class="docutils literal notranslate"><span class="pre">XcapTool.load_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.xcap_tool.XcapTool.main"><code class="docutils literal notranslate"><span class="pre">XcapTool.main()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.xcap_tool.XcapTool.sout_message"><code class="docutils literal notranslate"><span class="pre">XcapTool.sout_message()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#src.xcap_tool.interactive_check"><code class="docutils literal notranslate"><span class="pre">interactive_check()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.eri_connection.html">src.eri_connection module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.abc_process.html">src.abc_process module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.abc_eri_process.html">src.abc_eri_process module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.eri_smfvo_xcap_process.html">src.eri_smfvo_xcap_process module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">xCAP Tool</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">src.xcap_tool module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/src.xcap_tool.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-src.xcap_tool">
+<span id="src-xcap-tool-module"></span><h1>src.xcap_tool module<a class="headerlink" href="#module-src.xcap_tool" title="この見出しへのパーマリンク"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.xcap_tool.ToolResult">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.xcap_tool.</span></span><span class="sig-name descname"><span class="pre">ToolResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/xcap_tool.html#ToolResult"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.xcap_tool.ToolResult" title="この定義へのパーマリンク"></a></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>NF Registrationツール実行時の結果種別</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.xcap_tool.ToolResult.init">
+<span class="sig-name descname"><span class="pre">init</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#src.xcap_tool.ToolResult.init" title="この定義へのパーマリンク"></a></dt>
+<dd><p>実行中または、判定不能</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.xcap_tool.ToolResult.ng">
+<span class="sig-name descname"><span class="pre">ng</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NG'</span></em><a class="headerlink" href="#src.xcap_tool.ToolResult.ng" title="この定義へのパーマリンク"></a></dt>
+<dd><p>ツール実行結果失敗</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.xcap_tool.ToolResult.ok">
+<span class="sig-name descname"><span class="pre">ok</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'OK'</span></em><a class="headerlink" href="#src.xcap_tool.ToolResult.ok" title="この定義へのパーマリンク"></a></dt>
+<dd><p>ツール実行結果成功</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.xcap_tool.XcapTool">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.xcap_tool.</span></span><span class="sig-name descname"><span class="pre">XcapTool</span></span><a class="reference internal" href="_modules/src/xcap_tool.html#XcapTool"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.xcap_tool.XcapTool" title="この定義へのパーマリンク"></a></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>xCAP IPアドレス参照・更新ツール</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.xcap_tool.XcapTool.check_args">
+<span class="sig-name descname"><span class="pre">check_args</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/xcap_tool.html#XcapTool.check_args"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.xcap_tool.XcapTool.check_args" title="この定義へのパーマリンク"></a></dt>
+<dd><p>スクリプト実行時に取得する引数内容をチェック</p>
+<dl class="field-list simple">
+<dt class="field-odd">例外<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ArgumentParserError</strong> -- 引数異常があった場合</p>
+</dd>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
+<dd class="field-even"><p>正常終了の場合True、異常終了の場合False</p>
+</dd>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.xcap_tool.XcapTool.get_edns_ipaddr">
+<span class="sig-name descname"><span class="pre">get_edns_ipaddr</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/src/xcap_tool.html#XcapTool.get_edns_ipaddr"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.xcap_tool.XcapTool.get_edns_ipaddr" title="この定義へのパーマリンク"></a></dt>
+<dd><p>対象のeDNSホスト名に紐づくIPアドレスを取得する</p>
+<dl class="field-list simple">
+<dt class="field-odd">例外<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Exception</strong> -- eDNSホスト名からIPアドレスの取得に失敗した場合</p>
+</dd>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
+<dd class="field-even"><p>eDNS IPアドレス</p>
+</dd>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.xcap_tool.XcapTool.get_smfvoice_configs">
+<span class="sig-name descname"><span class="pre">get_smfvoice_configs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/src/xcap_tool.html#XcapTool.get_smfvoice_configs"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.xcap_tool.XcapTool.get_smfvoice_configs" title="この定義へのパーマリンク"></a></dt>
+<dd><p>eDNS IPアドレスを元に対象となるSMFvのツール設定情報を取得する</p>
+<dl class="field-list simple">
+<dt class="field-odd">例外<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ValueError</strong> -- 指定されたeDNS IPアドレスを含むSMFv NFの設定がない場合</p></li>
+<li><p><strong>Exception</strong> -- 何らかの異常が発生した場合</p></li>
+</ul>
+</dd>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
+<dd class="field-even"><p>eDNS IPアドレスを含むSMFvツール設定</p>
+</dd>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, Dict[str, List[str]]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.xcap_tool.XcapTool.info">
+<span class="sig-name descname"><span class="pre">info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/xcap_tool.html#XcapTool.info"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.xcap_tool.XcapTool.info" title="この定義へのパーマリンク"></a></dt>
+<dd><p>info INFO出力</p>
+<p>引数情報、対象ノード情報、対向ノード情報を出力する</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.xcap_tool.XcapTool.load_config">
+<span class="sig-name descname"><span class="pre">load_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/xcap_tool.html#XcapTool.load_config"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.xcap_tool.XcapTool.load_config" title="この定義へのパーマリンク"></a></dt>
+<dd><p>JSON設定ファイルを読み込む</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値<span class="colon">:</span></dt>
+<dd class="field-odd"><p>正常終了の場合True、異常終了の場合False</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.xcap_tool.XcapTool.main">
+<span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/xcap_tool.html#XcapTool.main"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.xcap_tool.XcapTool.main" title="この定義へのパーマリンク"></a></dt>
+<dd><p>main メイン処理</p>
+<p>xCAPツールメイン処理</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値<span class="colon">:</span></dt>
+<dd class="field-odd"><p>成功の場合True、異常発生の場合Falseとなる</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.xcap_tool.XcapTool.sout_message">
+<span class="sig-name descname"><span class="pre">sout_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">severity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.abc_process.html#src.abc_process.SoutSeverity" title="src.abc_process.SoutSeverity"><span class="pre">SoutSeverity</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.abc_process.html#src.abc_process.Mode" title="src.abc_process.Mode"><span class="pre">Mode</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nf_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/xcap_tool.html#XcapTool.sout_message"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.xcap_tool.XcapTool.sout_message" title="この定義へのパーマリンク"></a></dt>
+<dd><p>標準出力に指定した重大度のメッセージを既定のフォーマットで出力する</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>severity</strong> (<a class="reference internal" href="src.abc_process.html#src.abc_process.SoutSeverity" title="src.abc_process.SoutSeverity"><em>SoutSeverity</em></a>) -- 重大度</p></li>
+<li><p><strong>body</strong> (<em>str</em>) -- ログメッセージ</p></li>
+<li><p><strong>mode</strong> (<a class="reference internal" href="src.abc_process.html#src.abc_process.Mode" title="src.abc_process.Mode"><em>Mode</em></a><em>, </em><em>optional</em>) -- 実行モード. Defaults to &quot;&quot;.</p></li>
+<li><p><strong>alias</strong> (<em>str</em><em>, </em><em>optional</em>) -- エイリアス. Defaults to &quot;&quot;.</p></li>
+<li><p><strong>nf_name</strong> (<em>str</em><em>, </em><em>optional</em>) -- NF名. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.xcap_tool.interactive_check">
+<span class="sig-prename descclassname"><span class="pre">src.xcap_tool.</span></span><span class="sig-name descname"><span class="pre">interactive_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">continue_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">abort_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">case_sensitive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/src/xcap_tool.html#interactive_check"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.xcap_tool.interactive_check" title="この定義へのパーマリンク"></a></dt>
+<dd><p>interactive_check 実行継続チェック</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<em>str</em>) -- 表示文字列</p></li>
+<li><p><strong>continue_list</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) -- 処理継続文字列リスト</p></li>
+<li><p><strong>abort_list</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) -- 処理中止文字列リスト</p></li>
+<li><p><strong>case_sensitive</strong> (<em>bool</em><em>, </em><em>optional</em>) -- 大文字と小文字を区別する場合はTrue、区別しない場合はFalse. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
+<dd class="field-even"><p>入力文字列および、継続を示す場合はTrue、中止を示す場合はFalse</p>
+</dd>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[bool, str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to xCAP Tool&#39;s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="src.eri_connection.html" class="btn btn-neutral float-right" title="src.eri_connection module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, KDDI xGN Networks Co.,Ltd. 7Unit..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

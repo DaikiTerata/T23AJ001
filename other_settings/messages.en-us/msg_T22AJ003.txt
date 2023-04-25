@@ -1,0 +1,44 @@
+,,,抽象クラス予約(I00300～I00319/E00300～E00319),,,
+INFO,I00301,start to connect an SSH:
+INFO,I00302,complete connecting an SSH:
+INFO,I00303,start to close SSH connection:
+INFO,I00304,complete closing SSH connection:
+INFO,I00305,start to execute a commit:
+INFO,I00306,complete executing a commit:
+INFO,I00307,start to execute an abort:
+INFO,I00308,complete executing an abort:
+INFO,I00309,execute command:
+INFO,I00310,received message:
+CRITICAL,E00301,fail to get an xCAP tool settings:
+CRITICAL,E00302,fail to create an SSH connection:
+CRITICAL,E00303,abnormally occurs in an xCAP IP change:
+CRITICAL,E00304,abnormal SSH connection:
+CRITICAL,E00305,fail executing a abort command:
+,,,具象クラス予約(I00321～I00399/E00341～E00399),,,
+INFO,I00321,start to get an xCAP IP:
+INFO,I00322,complete getting an xCAP IP:
+INFO,I00323,start to change an xCAP IP:
+INFO,I00324,complete changing an xCAP IP:
+INFO,I00325,start to execute a process for removal:
+INFO,I00326,complete to executing a process for removal:
+INFO,I00327,start to execute a process for addition:
+INFO,I00328,complete to executing a process for addition:
+INFO,I00329,start to check pre-status:
+INFO,I00330,complete to checking pre-status:
+INFO,I00331,start to check post-status:
+INFO,I00332,complete checking post-status:
+INFO,I00333,start to check necessity of changes:
+INFO,I00334,complete checking necessity of changes:
+INFO,I00335,start to check application of changes:
+INFO,I00336,complete checking application of changes:
+INFO,I00337,start to parse an xCAP setting:
+INFO,I00338,complete parsing an xCAP setting:
+INFO,I00339,start processes:
+INFO,I00340,complete processes:
+INFO,I00341,need not to change an xCAP IP(nf/mode/status):
+INFO,I00342,need to change an xCAP IP(nf/mode/status):
+INFO,I00343,complete changing an xCAP IP(nf/mode/status):
+CRITICAL,E00321,fail to change an xCAP IP:
+CRITICAL,E00322,fail executing a commit command:
+CRITICAL,E00323,fail to get an xCAP IP:
+CRITICAL,E00324,fail to change an xCAP IP:

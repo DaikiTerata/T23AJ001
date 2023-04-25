@@ -1,0 +1,31 @@
+INFO,I00201,start to create an SSH client:
+INFO,I00202,complete creating an SSH client:
+INFO,I00203,start to get a ProxyCommand
+INFO,I00204,there is no ProxyCommand
+INFO,I00205,complete getting a ProxyCommand
+INFO,I00206,start to connect an SSH connection:
+INFO,I00207,complete connecting an SSH connection:
+INFO,I00208,start to execute a command:
+INFO,I00209,executing a commnand:
+INFO,I00210,complete executing a command:
+INFO,I00211,start to close an SSH connection:
+INFO,I00212,complete closing an SSH connection:
+INFO,I00213,start to receive datas
+INFO,I00214,None
+INFO,I00215,complete receiving datas
+INFO,I00216,commands not execute because an SSH connection was closed:
+INFO,I00217,start to enter config mode:
+INFO,I00218,complete entering config mode:
+INFO,I00219,start to exit config mode:
+INFO,I00220,complete exiting config mode:
+INFO,I00221,start to abort config mode:
+INFO,I00222,complete aborting config mode:
+INFO,I00223,start to receive first datas
+INFO,I00224,prompt data:
+INFO,I00225,complete receiving first datas:
+INFO,I00226,commands not execute because it is in config mode:
+INFO,I00227,commands not execute because it is not in config mode:
+CRITICAL,E00201,fail to create instanse
+CRITICAL,E00202,fail to get a ProxyCommand
+CRITICAL,E00203,fail to connect an SSH connection:
+CRITICAL,E00204,socket timeout occurred:

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.eri_connection module &mdash; xCAP Tool 0.9 ドキュメント</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="src.abc_process module" href="src.abc_process.html" />
+    <link rel="prev" title="src.xcap_tool module" href="src.xcap_tool.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            xCAP Tool
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="src.xcap_tool.html">src.xcap_tool module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">src.eri_connection module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#src.eri_connection.NFShellClient"><code class="docutils literal notranslate"><span class="pre">NFShellClient</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_connection.NFShellClient.abort"><code class="docutils literal notranslate"><span class="pre">NFShellClient.abort()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_connection.NFShellClient.close"><code class="docutils literal notranslate"><span class="pre">NFShellClient.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_connection.NFShellClient.command"><code class="docutils literal notranslate"><span class="pre">NFShellClient.command()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_connection.NFShellClient.connect"><code class="docutils literal notranslate"><span class="pre">NFShellClient.connect()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_connection.NFShellClient.enter_config_mode"><code class="docutils literal notranslate"><span class="pre">NFShellClient.enter_config_mode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_connection.NFShellClient.exit_config_mode"><code class="docutils literal notranslate"><span class="pre">NFShellClient.exit_config_mode()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#src.eri_connection.ProxyCommandException"><code class="docutils literal notranslate"><span class="pre">ProxyCommandException</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.eri_connection.SSHConnectException"><code class="docutils literal notranslate"><span class="pre">SSHConnectException</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.eri_connection.SocketTimeoutException"><code class="docutils literal notranslate"><span class="pre">SocketTimeoutException</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.eri_connection.get_sock"><code class="docutils literal notranslate"><span class="pre">get_sock()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.abc_process.html">src.abc_process module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.abc_eri_process.html">src.abc_eri_process module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.eri_smfvo_xcap_process.html">src.eri_smfvo_xcap_process module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">xCAP Tool</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">src.eri_connection module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/src.eri_connection.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-src.eri_connection">
+<span id="src-eri-connection-module"></span><h1>src.eri_connection module<a class="headerlink" href="#module-src.eri_connection" title="この見出しへのパーマリンク"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.eri_connection.NFShellClient">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.eri_connection.</span></span><span class="sig-name descname"><span class="pre">NFShellClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nf_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/eri_connection.html#NFShellClient"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_connection.NFShellClient" title="この定義へのパーマリンク"></a></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">SSHClient</span></code></p>
+<p>NFShellClient E/// NFShell接続用クラス</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.eri_connection.NFShellClient.abort">
+<span class="sig-name descname"><span class="pre">abort</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/eri_connection.html#NFShellClient.abort"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_connection.NFShellClient.abort" title="この定義へのパーマリンク"></a></dt>
+<dd><p>config_mode 設定モード強制終了(元に戻す)</p>
+<p>設定モードを強制終了する
+強制終了すると、設定中の情報を反映せずに元に戻すことができる</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.eri_connection.NFShellClient.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/eri_connection.html#NFShellClient.close"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_connection.NFShellClient.close" title="この定義へのパーマリンク"></a></dt>
+<dd><p>close SSH切断処理</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.eri_connection.NFShellClient.command">
+<span class="sig-name descname"><span class="pre">command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="reference internal" href="_modules/src/eri_connection.html#NFShellClient.command"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_connection.NFShellClient.command" title="この定義へのパーマリンク"></a></dt>
+<dd><p>command コマンド投入</p>
+<p>E///装置に対してコマンドを投入します
+configコマンドでconfigモードに入る必要などありますが、exec_commandでは実現できないため、
+invoke_shellを利用します。</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>command</strong> (<em>str</em>) -- 投入コマンド</p></li>
+<li><p><strong>timeout</strong> (<em>float</em><em>, </em><em>optional</em>) -- タイムアウト. Defaults to 15.0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">例外<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#src.eri_connection.SocketTimeoutException" title="src.eri_connection.SocketTimeoutException"><strong>SocketTimeoutException</strong></a> -- タイムアウトが発生した場合</p>
+</dd>
+<dt class="field-odd">戻り値<span class="colon">:</span></dt>
+<dd class="field-odd"><p>受信データ</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p>bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.eri_connection.NFShellClient.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/eri_connection.html#NFShellClient.connect"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_connection.NFShellClient.connect" title="この定義へのパーマリンク"></a></dt>
+<dd><p>connect SSH接続開始</p>
+<p>SSH接続を開始します</p>
+<dl class="field-list simple">
+<dt class="field-odd">例外<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>KeyError</strong> -- _CONN_CONFから値の取得に失敗した場合</p></li>
+<li><p><a class="reference internal" href="#src.eri_connection.SSHConnectException" title="src.eri_connection.SSHConnectException"><strong>SSHConnectException</strong></a> -- SSH接続に失敗した場合</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.eri_connection.NFShellClient.enter_config_mode">
+<span class="sig-name descname"><span class="pre">enter_config_mode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/eri_connection.html#NFShellClient.enter_config_mode"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_connection.NFShellClient.enter_config_mode" title="この定義へのパーマリンク"></a></dt>
+<dd><p>config_mode 設定モード移行</p>
+<p>設定モードに移行する
+設定モードではプロンプトが変わるため、プロンプト情報を更新する</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.eri_connection.NFShellClient.exit_config_mode">
+<span class="sig-name descname"><span class="pre">exit_config_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forced</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/eri_connection.html#NFShellClient.exit_config_mode"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_connection.NFShellClient.exit_config_mode" title="この定義へのパーマリンク"></a></dt>
+<dd><p>config_mode 設定モード解除</p>
+<p>設定モードを解除する
+解除後はプロンプトが変わるため、プロンプト情報を更新する</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>forced</strong> (<em>bool</em><em>, </em><em>optional</em>) -- 設定モードの強制終了</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="src.eri_connection.ProxyCommandException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.eri_connection.</span></span><span class="sig-name descname"><span class="pre">ProxyCommandException</span></span><a class="reference internal" href="_modules/src/eri_connection.html#ProxyCommandException"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_connection.ProxyCommandException" title="この定義へのパーマリンク"></a></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>ProxyCommandException Proxy Commandエラー</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="src.eri_connection.SSHConnectException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.eri_connection.</span></span><span class="sig-name descname"><span class="pre">SSHConnectException</span></span><a class="reference internal" href="_modules/src/eri_connection.html#SSHConnectException"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_connection.SSHConnectException" title="この定義へのパーマリンク"></a></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>SSHConnectException SSH接続エラー</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="src.eri_connection.SocketTimeoutException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.eri_connection.</span></span><span class="sig-name descname"><span class="pre">SocketTimeoutException</span></span><a class="reference internal" href="_modules/src/eri_connection.html#SocketTimeoutException"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_connection.SocketTimeoutException" title="この定義へのパーマリンク"></a></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>SocketTimeoutException SocketTimeoutエラー</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.eri_connection.get_sock">
+<span class="sig-prename descclassname"><span class="pre">src.eri_connection.</span></span><span class="sig-name descname"><span class="pre">get_sock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bastion_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hostname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">22</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ProxyCommand</span></span></span><a class="reference internal" href="_modules/src/eri_connection.html#get_sock"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_connection.get_sock" title="この定義へのパーマリンク"></a></dt>
+<dd><p>get_sock ProxyCommand取得</p>
+<p>SSH接続時に踏み台が必要な場合、ProxyCommandを生成します
+sshコマンドで利用する&quot;-W&quot;オプションで%hや%pといったパラメータは自動展開されません
+hostname、portを指定することで内部で置換を行います</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bastion_name</strong> (<em>str</em>) -- 踏み台名</p></li>
+<li><p><strong>hostname</strong> (<em>str</em>) -- 対向ホスト名。%hを置換するために利用</p></li>
+<li><p><strong>port</strong> (<em>int</em><em>, </em><em>optional</em>) -- 対向接続ポート番号 %pを置換するために利用. Defaults to 22.</p></li>
+</ul>
+</dd>
+<dt class="field-even">例外<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#src.eri_connection.ProxyCommandException" title="src.eri_connection.ProxyCommandException"><strong>ProxyCommandException</strong></a> -- ProxyCommand生成で異常があった場合</p>
+</dd>
+<dt class="field-odd">戻り値<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ProxyCommandオブジェクト。commandがない場合はNone</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p>paramiko.ProxyCommand</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="src.xcap_tool.html" class="btn btn-neutral float-left" title="src.xcap_tool module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="src.abc_process.html" class="btn btn-neutral float-right" title="src.abc_process module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, KDDI xGN Networks Co.,Ltd. 7Unit..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

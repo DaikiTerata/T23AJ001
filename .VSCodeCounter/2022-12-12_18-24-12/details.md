@@ -1,0 +1,147 @@
+# Details
+
+Date : 2022-12-12 18:24:12
+
+Directory c:\\Repository\\pcscf_service_tool
+
+Total : 132 files,  47133 codes, 8278 comments, 8948 blanks, all 64359 lines
+
+[Summary](results.md) / Details / [Diff Summary](diff.md) / [Diff Details](diff-details.md)
+
+## Files
+| filename | language | code | comment | blank | total |
+| :--- | :--- | ---: | ---: | ---: | ---: |
+| [config/PROD/connections.json](/config/PROD/connections.json) | JSON | 126 | 0 | 1 | 127 |
+| [config/PROD/connections.xgntools.json](/config/PROD/connections.xgntools.json) | JSON | 126 | 0 | 1 | 127 |
+| [config/PROD/pcscf-messages.json](/config/PROD/pcscf-messages.json) | JSON | 28 | 0 | 1 | 29 |
+| [config/PROD/pcscf-node.ft.json](/config/PROD/pcscf-node.ft.json) | JSON | 12 | 0 | 1 | 13 |
+| [config/PROD/pcscf-node.json](/config/PROD/pcscf-node.json) | JSON | 47 | 0 | 1 | 48 |
+| [config/PROD/pcscf-service-tool.json](/config/PROD/pcscf-service-tool.json) | JSON | 4 | 0 | 1 | 5 |
+| [config/PROD/pcscf-smfvoice.ft.json](/config/PROD/pcscf-smfvoice.ft.json) | JSON | 34 | 0 | 1 | 35 |
+| [config/PROD/smfvoice-ippools.json](/config/PROD/smfvoice-ippools.json) | JSON | 1,326 | 0 | 1 | 1,327 |
+| [config/PROD/stub.json](/config/PROD/stub.json) | JSON | 294 | 0 | 1 | 295 |
+| [config/connections.json](/config/connections.json) | JSON | 81 | 0 | 1 | 82 |
+| [config/connections.test.json](/config/connections.test.json) | JSON | 81 | 0 | 1 | 82 |
+| [config/connections.xgntools.json](/config/connections.xgntools.json) | JSON | 81 | 0 | 1 | 82 |
+| [config/pcscf-messages.json](/config/pcscf-messages.json) | JSON | 28 | 0 | 1 | 29 |
+| [config/pcscf-node.json](/config/pcscf-node.json) | JSON | 8 | 0 | 1 | 9 |
+| [config/pcscf-service-tool.json](/config/pcscf-service-tool.json) | JSON | 4 | 0 | 1 | 5 |
+| [config/smfvoice-ippools.json](/config/smfvoice-ippools.json) | JSON | 145 | 0 | 1 | 146 |
+| [config/stub.json](/config/stub.json) | JSON | 294 | 0 | 1 | 295 |
+| [coverage.xml](/coverage.xml) | XML | 722 | 2 | 1 | 725 |
+| [docs_en/Makefile](/docs_en/Makefile) | Makefile | 9 | 7 | 5 | 21 |
+| [docs_en/_build/html/_modules/index.html](/docs_en/_build/html/_modules/index.html) | HTML | 92 | 3 | 16 | 111 |
+| [docs_en/_build/html/_modules/src/eri_connection.html](/docs_en/_build/html/_modules/src/eri_connection.html) | HTML | 282 | 3 | 69 | 354 |
+| [docs_en/_build/html/_modules/src/eri_connection_stub.html](/docs_en/_build/html/_modules/src/eri_connection_stub.html) | HTML | 214 | 3 | 32 | 249 |
+| [docs_en/_build/html/_modules/src/pcscf_service_common.html](/docs_en/_build/html/_modules/src/pcscf_service_common.html) | HTML | 161 | 3 | 34 | 198 |
+| [docs_en/_build/html/_modules/src/pcscf_service_tool.html](/docs_en/_build/html/_modules/src/pcscf_service_tool.html) | HTML | 769 | 3 | 161 | 933 |
+| [docs_en/_build/html/_static/_sphinx_javascript_frameworks_compat.js](/docs_en/_build/html/_static/_sphinx_javascript_frameworks_compat.js) | JavaScript | 91 | 34 | 10 | 135 |
+| [docs_en/_build/html/_static/basic.css](/docs_en/_build/html/_static/basic.css) | CSS | 680 | 32 | 187 | 899 |
+| [docs_en/_build/html/_static/css/badge_only.css](/docs_en/_build/html/_static/css/badge_only.css) | CSS | 1 | 0 | 0 | 1 |
+| [docs_en/_build/html/_static/css/fonts/fontawesome-webfont.svg](/docs_en/_build/html/_static/css/fonts/fontawesome-webfont.svg) | XML | 2,671 | 0 | 1 | 2,672 |
+| [docs_en/_build/html/_static/css/theme.css](/docs_en/_build/html/_static/css/theme.css) | CSS | 2 | 2 | 0 | 4 |
+| [docs_en/_build/html/_static/doctools.js](/docs_en/_build/html/_static/doctools.js) | JavaScript | 201 | 38 | 26 | 265 |
+| [docs_en/_build/html/_static/documentation_options.js](/docs_en/_build/html/_static/documentation_options.js) | JavaScript | 14 | 0 | 0 | 14 |
+| [docs_en/_build/html/_static/jquery-3.6.0.js](/docs_en/_build/html/_static/jquery-3.6.0.js) | JavaScript | 6,895 | 1,911 | 2,076 | 10,882 |
+| [docs_en/_build/html/_static/jquery.js](/docs_en/_build/html/_static/jquery.js) | JavaScript | 1 | 1 | 1 | 3 |
+| [docs_en/_build/html/_static/js/badge_only.js](/docs_en/_build/html/_static/js/badge_only.js) | JavaScript | 1 | 0 | 0 | 1 |
+| [docs_en/_build/html/_static/js/html5shiv-printshiv.min.js](/docs_en/_build/html/_static/js/html5shiv-printshiv.min.js) | JavaScript | 1 | 3 | 0 | 4 |
+| [docs_en/_build/html/_static/js/html5shiv.min.js](/docs_en/_build/html/_static/js/html5shiv.min.js) | JavaScript | 1 | 3 | 0 | 4 |
+| [docs_en/_build/html/_static/js/theme.js](/docs_en/_build/html/_static/js/theme.js) | JavaScript | 1 | 0 | 0 | 1 |
+| [docs_en/_build/html/_static/language_data.js](/docs_en/_build/html/_static/language_data.js) | JavaScript | 154 | 23 | 23 | 200 |
+| [docs_en/_build/html/_static/pygments.css](/docs_en/_build/html/_static/pygments.css) | CSS | 74 | 0 | 0 | 74 |
+| [docs_en/_build/html/_static/searchtools.js](/docs_en/_build/html/_static/searchtools.js) | JavaScript | 355 | 109 | 67 | 531 |
+| [docs_en/_build/html/_static/underscore-1.13.1.js](/docs_en/_build/html/_static/underscore-1.13.1.js) | JavaScript | 1,445 | 370 | 228 | 2,043 |
+| [docs_en/_build/html/_static/underscore.js](/docs_en/_build/html/_static/underscore.js) | JavaScript | 2 | 4 | 0 | 6 |
+| [docs_en/_build/html/genindex.html](/docs_en/_build/html/genindex.html) | HTML | 390 | 3 | 41 | 434 |
+| [docs_en/_build/html/index.html](/docs_en/_build/html/index.html) | HTML | 125 | 3 | 18 | 146 |
+| [docs_en/_build/html/modules.html](/docs_en/_build/html/modules.html) | HTML | 112 | 3 | 18 | 133 |
+| [docs_en/_build/html/py-modindex.html](/docs_en/_build/html/py-modindex.html) | HTML | 152 | 3 | 23 | 178 |
+| [docs_en/_build/html/search.html](/docs_en/_build/html/search.html) | HTML | 100 | 3 | 23 | 126 |
+| [docs_en/_build/html/searchindex.js](/docs_en/_build/html/searchindex.js) | JavaScript | 1 | 0 | 1 | 2 |
+| [docs_en/_build/html/src.eri_connection.html](/docs_en/_build/html/src.eri_connection.html) | HTML | 329 | 3 | 26 | 358 |
+| [docs_en/_build/html/src.eri_connection_stub.html](/docs_en/_build/html/src.eri_connection_stub.html) | HTML | 190 | 3 | 23 | 216 |
+| [docs_en/_build/html/src.html](/docs_en/_build/html/src.html) | HTML | 110 | 3 | 18 | 131 |
+| [docs_en/_build/html/src.pcscf_service_common.html](/docs_en/_build/html/src.pcscf_service_common.html) | HTML | 223 | 3 | 20 | 246 |
+| [docs_en/_build/html/src.pcscf_service_tool.html](/docs_en/_build/html/src.pcscf_service_tool.html) | HTML | 784 | 3 | 32 | 819 |
+| [docs_en/conf.py](/docs_en/conf.py) | Python | 13 | 10 | 9 | 32 |
+| [docs_en/index.rst](/docs_en/index.rst) | reStructuredText | 15 | 2 | 7 | 24 |
+| [docs_en/make.bat](/docs_en/make.bat) | Batch | 27 | 0 | 9 | 36 |
+| [docs_en/modules.rst](/docs_en/modules.rst) | reStructuredText | 4 | 1 | 3 | 8 |
+| [docs_en/src.eri_connection.rst](/docs_en/src.eri_connection.rst) | reStructuredText | 5 | 1 | 2 | 8 |
+| [docs_en/src.eri_connection_stub.rst](/docs_en/src.eri_connection_stub.rst) | reStructuredText | 5 | 1 | 2 | 8 |
+| [docs_en/src.pcscf_service_common.rst](/docs_en/src.pcscf_service_common.rst) | reStructuredText | 5 | 1 | 2 | 8 |
+| [docs_en/src.pcscf_service_tool.rst](/docs_en/src.pcscf_service_tool.rst) | reStructuredText | 5 | 1 | 2 | 8 |
+| [docs_en/src.rst](/docs_en/src.rst) | reStructuredText | 14 | 2 | 6 | 22 |
+| [docs_ja/Makefile](/docs_ja/Makefile) | Makefile | 9 | 7 | 5 | 21 |
+| [docs_ja/_build/html/_modules/index.html](/docs_ja/_build/html/_modules/index.html) | HTML | 93 | 3 | 16 | 112 |
+| [docs_ja/_build/html/_modules/src/eri_connection.html](/docs_ja/_build/html/_modules/src/eri_connection.html) | HTML | 283 | 3 | 69 | 355 |
+| [docs_ja/_build/html/_modules/src/eri_connection_stub.html](/docs_ja/_build/html/_modules/src/eri_connection_stub.html) | HTML | 215 | 3 | 32 | 250 |
+| [docs_ja/_build/html/_modules/src/pcscf_service_common.html](/docs_ja/_build/html/_modules/src/pcscf_service_common.html) | HTML | 162 | 3 | 34 | 199 |
+| [docs_ja/_build/html/_modules/src/pcscf_service_tool.html](/docs_ja/_build/html/_modules/src/pcscf_service_tool.html) | HTML | 770 | 3 | 161 | 934 |
+| [docs_ja/_build/html/_static/_sphinx_javascript_frameworks_compat.js](/docs_ja/_build/html/_static/_sphinx_javascript_frameworks_compat.js) | JavaScript | 91 | 34 | 10 | 135 |
+| [docs_ja/_build/html/_static/basic.css](/docs_ja/_build/html/_static/basic.css) | CSS | 680 | 32 | 187 | 899 |
+| [docs_ja/_build/html/_static/css/badge_only.css](/docs_ja/_build/html/_static/css/badge_only.css) | CSS | 1 | 0 | 0 | 1 |
+| [docs_ja/_build/html/_static/css/fonts/fontawesome-webfont.svg](/docs_ja/_build/html/_static/css/fonts/fontawesome-webfont.svg) | XML | 2,671 | 0 | 1 | 2,672 |
+| [docs_ja/_build/html/_static/css/theme.css](/docs_ja/_build/html/_static/css/theme.css) | CSS | 2 | 2 | 0 | 4 |
+| [docs_ja/_build/html/_static/doctools.js](/docs_ja/_build/html/_static/doctools.js) | JavaScript | 201 | 38 | 26 | 265 |
+| [docs_ja/_build/html/_static/documentation_options.js](/docs_ja/_build/html/_static/documentation_options.js) | JavaScript | 14 | 0 | 0 | 14 |
+| [docs_ja/_build/html/_static/jquery-3.6.0.js](/docs_ja/_build/html/_static/jquery-3.6.0.js) | JavaScript | 6,895 | 1,911 | 2,076 | 10,882 |
+| [docs_ja/_build/html/_static/jquery.js](/docs_ja/_build/html/_static/jquery.js) | JavaScript | 1 | 1 | 1 | 3 |
+| [docs_ja/_build/html/_static/js/badge_only.js](/docs_ja/_build/html/_static/js/badge_only.js) | JavaScript | 1 | 0 | 0 | 1 |
+| [docs_ja/_build/html/_static/js/html5shiv-printshiv.min.js](/docs_ja/_build/html/_static/js/html5shiv-printshiv.min.js) | JavaScript | 1 | 3 | 0 | 4 |
+| [docs_ja/_build/html/_static/js/html5shiv.min.js](/docs_ja/_build/html/_static/js/html5shiv.min.js) | JavaScript | 1 | 3 | 0 | 4 |
+| [docs_ja/_build/html/_static/js/theme.js](/docs_ja/_build/html/_static/js/theme.js) | JavaScript | 1 | 0 | 0 | 1 |
+| [docs_ja/_build/html/_static/language_data.js](/docs_ja/_build/html/_static/language_data.js) | JavaScript | 6 | 15 | 6 | 27 |
+| [docs_ja/_build/html/_static/pygments.css](/docs_ja/_build/html/_static/pygments.css) | CSS | 74 | 0 | 0 | 74 |
+| [docs_ja/_build/html/_static/searchtools.js](/docs_ja/_build/html/_static/searchtools.js) | JavaScript | 355 | 109 | 67 | 531 |
+| [docs_ja/_build/html/_static/translations.js](/docs_ja/_build/html/_static/translations.js) | JavaScript | 61 | 0 | 0 | 61 |
+| [docs_ja/_build/html/_static/underscore-1.13.1.js](/docs_ja/_build/html/_static/underscore-1.13.1.js) | JavaScript | 1,445 | 370 | 228 | 2,043 |
+| [docs_ja/_build/html/_static/underscore.js](/docs_ja/_build/html/_static/underscore.js) | JavaScript | 2 | 4 | 0 | 6 |
+| [docs_ja/_build/html/genindex.html](/docs_ja/_build/html/genindex.html) | HTML | 402 | 3 | 42 | 447 |
+| [docs_ja/_build/html/index.html](/docs_ja/_build/html/index.html) | HTML | 124 | 3 | 18 | 145 |
+| [docs_ja/_build/html/modules.html](/docs_ja/_build/html/modules.html) | HTML | 113 | 3 | 18 | 134 |
+| [docs_ja/_build/html/py-modindex.html](/docs_ja/_build/html/py-modindex.html) | HTML | 153 | 3 | 23 | 179 |
+| [docs_ja/_build/html/search.html](/docs_ja/_build/html/search.html) | HTML | 101 | 3 | 23 | 127 |
+| [docs_ja/_build/html/searchindex.js](/docs_ja/_build/html/searchindex.js) | JavaScript | 1 | 0 | 1 | 2 |
+| [docs_ja/_build/html/src.eri_connection.html](/docs_ja/_build/html/src.eri_connection.html) | HTML | 330 | 3 | 26 | 359 |
+| [docs_ja/_build/html/src.eri_connection_stub.html](/docs_ja/_build/html/src.eri_connection_stub.html) | HTML | 189 | 3 | 23 | 215 |
+| [docs_ja/_build/html/src.html](/docs_ja/_build/html/src.html) | HTML | 110 | 3 | 18 | 131 |
+| [docs_ja/_build/html/src.pcscf_service_common.html](/docs_ja/_build/html/src.pcscf_service_common.html) | HTML | 224 | 3 | 20 | 247 |
+| [docs_ja/_build/html/src.pcscf_service_tool.html](/docs_ja/_build/html/src.pcscf_service_tool.html) | HTML | 772 | 3 | 32 | 807 |
+| [docs_ja/conf.py](/docs_ja/conf.py) | Python | 14 | 10 | 9 | 33 |
+| [docs_ja/index.rst](/docs_ja/index.rst) | reStructuredText | 15 | 2 | 7 | 24 |
+| [docs_ja/make.bat](/docs_ja/make.bat) | Batch | 27 | 0 | 9 | 36 |
+| [docs_ja/modules.rst](/docs_ja/modules.rst) | reStructuredText | 4 | 1 | 3 | 8 |
+| [docs_ja/src.eri_connection.rst](/docs_ja/src.eri_connection.rst) | reStructuredText | 5 | 1 | 2 | 8 |
+| [docs_ja/src.eri_connection_stub.rst](/docs_ja/src.eri_connection_stub.rst) | reStructuredText | 5 | 1 | 2 | 8 |
+| [docs_ja/src.pcscf_service_common.rst](/docs_ja/src.pcscf_service_common.rst) | reStructuredText | 5 | 1 | 2 | 8 |
+| [docs_ja/src.pcscf_service_tool.rst](/docs_ja/src.pcscf_service_tool.rst) | reStructuredText | 5 | 1 | 2 | 8 |
+| [docs_ja/src.rst](/docs_ja/src.rst) | reStructuredText | 14 | 2 | 6 | 22 |
+| [pcscf-service-tool.bat](/pcscf-service-tool.bat) | Batch | 2 | 0 | 2 | 4 |
+| [pcscf-service-tool.sh](/pcscf-service-tool.sh) | Shell Script | 3 | 30 | 7 | 40 |
+| [src/__init__.py](/src/__init__.py) | Python | 0 | 0 | 1 | 1 |
+| [src/eri_connection.py](/src/eri_connection.py) | Python | 177 | 136 | 47 | 360 |
+| [src/eri_connection_stub.py](/src/eri_connection_stub.py) | Python | 88 | 20 | 21 | 129 |
+| [src/pcscf_service_common.py](/src/pcscf_service_common.py) | Python | 33 | 43 | 13 | 89 |
+| [src/pcscf_service_tool.py](/src/pcscf_service_tool.py) | Python | 606 | 297 | 115 | 1,018 |
+| [tests/__init__.py](/tests/__init__.py) | Python | 0 | 0 | 1 | 1 |
+| [tests/config/pcscf-service-tool.json](/tests/config/pcscf-service-tool.json) | JSON | 4 | 0 | 1 | 5 |
+| [tests/config/required_key_less.json](/tests/config/required_key_less.json) | JSON | 108 | 0 | 1 | 109 |
+| [tests/test_common.py](/tests/test_common.py) | Python | 217 | 102 | 75 | 394 |
+| [tests/test_eri_connection.py](/tests/test_eri_connection.py) | Python | 1,233 | 504 | 416 | 2,153 |
+| [tests/test_tool_01_check_args.py](/tests/test_tool_01_check_args.py) | Python | 914 | 338 | 247 | 1,499 |
+| [tests/test_tool_02_load_config.py](/tests/test_tool_02_load_config.py) | Python | 252 | 58 | 79 | 389 |
+| [tests/test_tool_03_out_info.py](/tests/test_tool_03_out_info.py) | Python | 142 | 42 | 38 | 222 |
+| [tests/test_tool_04_open_close_client.py](/tests/test_tool_04_open_close_client.py) | Python | 371 | 90 | 92 | 553 |
+| [tests/test_tool_05_is_stop_ng.py](/tests/test_tool_05_is_stop_ng.py) | Python | 663 | 190 | 152 | 1,005 |
+| [tests/test_tool_06_get_status.py](/tests/test_tool_06_get_status.py) | Python | 514 | 132 | 139 | 785 |
+| [tests/test_tool_07_down_change_status.py](/tests/test_tool_07_down_change_status.py) | Python | 798 | 186 | 172 | 1,156 |
+| [tests/test_tool_08_up_change_status.py](/tests/test_tool_08_up_change_status.py) | Python | 798 | 186 | 172 | 1,156 |
+| [tests/test_tool_09_do_abort.py](/tests/test_tool_09_do_abort.py) | Python | 137 | 28 | 42 | 207 |
+| [tests/test_tool_10_status_check_before.py](/tests/test_tool_10_status_check_before.py) | Python | 477 | 135 | 147 | 759 |
+| [tests/test_tool_11_status_check_after.py](/tests/test_tool_11_status_check_after.py) | Python | 346 | 90 | 102 | 538 |
+| [tests/test_tool_12_main.py](/tests/test_tool_12_main.py) | Python | 2,373 | 458 | 398 | 3,229 |
+| [tests/test_tool_13_out_list.py](/tests/test_tool_13_out_list.py) | Python | 62 | 17 | 24 | 103 |
+
+[Summary](results.md) / Details / [Diff Summary](diff.md) / [Diff Details](diff-details.md)

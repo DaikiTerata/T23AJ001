@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.eri_smfvo_xcap_process module &mdash; xCAP Tool 0.9 ドキュメント</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="prev" title="src.abc_eri_process module" href="src.abc_eri_process.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            xCAP Tool
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="src.xcap_tool.html">src.xcap_tool module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.eri_connection.html">src.eri_connection module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.abc_process.html">src.abc_process module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.abc_eri_process.html">src.abc_eri_process module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">src.eri_smfvo_xcap_process module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.add_ipaddr"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.add_ipaddr</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.change_status"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.change_status()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.changed_check"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.changed_check()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.edns_ipaddr"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.edns_ipaddr</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.get_command"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.get_command()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.get_commit_comment"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.get_commit_comment()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.get_status"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.get_status()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.get_status_word"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.get_status_word()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.ipaddr_list"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.ipaddr_list</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.necessity_check"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.necessity_check()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.parse_result"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.parse_result()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.post_check"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.post_check()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.pre_check"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.pre_check()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.priority"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.priority</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.remove_ipaddr"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.remove_ipaddr</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.run"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.to_down"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.to_down()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.to_up"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.to_up()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">xCAP Tool</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">src.eri_smfvo_xcap_process module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/src.eri_smfvo_xcap_process.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-src.eri_smfvo_xcap_process">
+<span id="src-eri-smfvo-xcap-process-module"></span><h1>src.eri_smfvo_xcap_process module<a class="headerlink" href="#module-src.eri_smfvo_xcap_process" title="この見出しへのパーマリンク"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.eri_smfvo_xcap_process.</span></span><span class="sig-name descname"><span class="pre">EriSmfvoXCAPProcess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edns_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nf_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.abc_process.html#src.abc_process.Mode" title="src.abc_process.Mode"><span class="pre">Mode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">edns_ipaddr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ipaddr_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stub</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/eri_smfvo_xcap_process.html#EriSmfvoXCAPProcess"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess" title="この定義へのパーマリンク"></a></dt>
+<dd><p>ベースクラス: <a class="reference internal" href="src.abc_eri_process.html#src.abc_eri_process.AbcEricssonProcess" title="src.abc_eri_process.AbcEricssonProcess"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbcEricssonProcess</span></code></a></p>
+<p>Ericsson SMF xCAPIP更新プロセスクラス</p>
+<p>対応するSMFは以下の通り</p>
+<p>smfvo(voice) / smfvoroout(sliceB)</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.add_ipaddr">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_ipaddr</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.add_ipaddr" title="この定義へのパーマリンク"></a></dt>
+<dd><p>追加IPアドレスプロパティ</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値<span class="colon">:</span></dt>
+<dd class="field-odd"><p>追加IPアドレス</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.change_status">
+<span class="sig-name descname"><span class="pre">change_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="src.abc_process.html#src.abc_process.ProcessStatus" title="src.abc_process.ProcessStatus"><span class="pre">ProcessStatus</span></a></span></span><a class="reference internal" href="_modules/src/eri_smfvo_xcap_process.html#EriSmfvoXCAPProcess.change_status"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.change_status" title="この定義へのパーマリンク"></a></dt>
+<dd><p>対象ステータスの状態変更を実施</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値<span class="colon">:</span></dt>
+<dd class="field-odd"><p>正常に状態変更が完了した場合はcommit_ok、保存失敗の場合はcommit_ng、変更失敗の場合はchange_ng</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="src.abc_process.html#src.abc_process.ProcessStatus" title="src.abc_process.ProcessStatus">ProcessStatus</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.changed_check">
+<span class="sig-name descname"><span class="pre">changed_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.abc_process.html#src.abc_process.TargetStatus" title="src.abc_process.TargetStatus"><span class="pre">TargetStatus</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="src.abc_process.html#src.abc_process.ProcessStatus" title="src.abc_process.ProcessStatus"><span class="pre">ProcessStatus</span></a></span></span><a class="reference internal" href="_modules/src/eri_smfvo_xcap_process.html#EriSmfvoXCAPProcess.changed_check"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.changed_check" title="この定義へのパーマリンク"></a></dt>
+<dd><p>変更実行後の変更反映確認を実施</p>
+<p>ステータス変更後の状態の確認を行う。</p>
+<p>DOWN実行後のステータスがDOWN(またはその真逆)の場合、変更成功となる。</p>
+<p>DOWN実行後のステータスがUP(またはその真逆)の場合、変更失敗となる。</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>status</strong> (<a class="reference internal" href="src.abc_process.html#src.abc_process.TargetStatus" title="src.abc_process.TargetStatus"><em>TargetStatus</em></a>) -- statusの事後状態</p>
+</dd>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
+<dd class="field-even"><p>変更成功の場合は change_ok、変更失敗の場合は change_ng、それ以外の場合は exception_ng</p>
+</dd>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="src.abc_process.html#src.abc_process.ProcessStatus" title="src.abc_process.ProcessStatus">ProcessStatus</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.edns_ipaddr">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">edns_ipaddr</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.edns_ipaddr" title="この定義へのパーマリンク"></a></dt>
+<dd><p>eDNS IPアドレスプロパティ</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値<span class="colon">:</span></dt>
+<dd class="field-odd"><p>eDNS IPアドレス</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.get_command">
+<span class="sig-name descname"><span class="pre">get_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.abc_process.html#src.abc_process.Mode" title="src.abc_process.Mode"><span class="pre">Mode</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/src/eri_smfvo_xcap_process.html#EriSmfvoXCAPProcess.get_command"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.get_command" title="この定義へのパーマリンク"></a></dt>
+<dd><p>xCAP IPアドレスを変更・確認するコマンドを実行モードを元に取得</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mode</strong> (<a class="reference internal" href="src.abc_process.html#src.abc_process.Mode" title="src.abc_process.Mode"><em>Mode</em></a>) -- 実行モード</p>
+</dd>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
+<dd class="field-even"><p>xCAP IPアドレスを変更・確認するコマンド</p>
+</dd>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.get_commit_comment">
+<span class="sig-name descname"><span class="pre">get_commit_comment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/src/eri_smfvo_xcap_process.html#EriSmfvoXCAPProcess.get_commit_comment"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.get_commit_comment" title="この定義へのパーマリンク"></a></dt>
+<dd><p>コミット時に適用するコミットコメントを取得する</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値<span class="colon">:</span></dt>
+<dd class="field-odd"><p>コミットコメント</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.get_status">
+<span class="sig-name descname"><span class="pre">get_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="src.abc_process.html#src.abc_process.TargetStatus" title="src.abc_process.TargetStatus"><span class="pre">TargetStatus</span></a></span></span><a class="reference internal" href="_modules/src/eri_smfvo_xcap_process.html#EriSmfvoXCAPProcess.get_status"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.get_status" title="この定義へのパーマリンク"></a></dt>
+<dd><p>現在のxCAPステータスを取得する</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値<span class="colon">:</span></dt>
+<dd class="field-odd"><p>削除IPアドレスがある場合up、ない場合down、例外発生ならNone</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="src.abc_process.html#src.abc_process.TargetStatus" title="src.abc_process.TargetStatus">TargetStatus</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.get_status_word">
+<span class="sig-name descname"><span class="pre">get_status_word</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.abc_process.html#src.abc_process.TargetStatus" title="src.abc_process.TargetStatus"><span class="pre">TargetStatus</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/src/eri_smfvo_xcap_process.html#EriSmfvoXCAPProcess.get_status_word"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.get_status_word" title="この定義へのパーマリンク"></a></dt>
+<dd><p>対象のステータスからステータスを示す文字列取得</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<a class="reference internal" href="src.abc_process.html#src.abc_process.TargetStatus" title="src.abc_process.TargetStatus"><em>TargetStatus</em></a>) -- ステータス</p>
+</dd>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
+<dd class="field-even"><p>upの場合はin use、downの場合はout of use、それ以外の場合はunknown</p>
+</dd>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.ipaddr_list">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ipaddr_list</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.ipaddr_list" title="この定義へのパーマリンク"></a></dt>
+<dd><p>設定可能IPアドレスリストプロパティ</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値<span class="colon">:</span></dt>
+<dd class="field-odd"><p>設定可能IPアドレスリスト</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.necessity_check">
+<span class="sig-name descname"><span class="pre">necessity_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.abc_process.html#src.abc_process.TargetStatus" title="src.abc_process.TargetStatus"><span class="pre">TargetStatus</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="src.abc_process.html#src.abc_process.ProcessStatus" title="src.abc_process.ProcessStatus"><span class="pre">ProcessStatus</span></a></span></span><a class="reference internal" href="_modules/src/eri_smfvo_xcap_process.html#EriSmfvoXCAPProcess.necessity_check"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.necessity_check" title="この定義へのパーマリンク"></a></dt>
+<dd><p>対象ステータスの変更要否確認を実施</p>
+<p>NFから取得したステータスの事前状態と、実行モードから、変更要否を取得する。</p>
+<p>対象NFがステータスDOWN中に再度DOWNが実行された(または真逆)の場合、
+冪等性の観点からコマンド投入不要と判断して、変更不要とする。</p>
+<p>事前状態が取得できない場合も変更不要とする。</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>status</strong> (<a class="reference internal" href="src.abc_process.html#src.abc_process.TargetStatus" title="src.abc_process.TargetStatus"><em>TargetStatus</em></a>) -- statusの事前状態</p>
+</dd>
+<dt class="field-even">戻り値<span class="colon">:</span></dt>
+<dd class="field-even"><p>要変更の場合は need_to_change、変更モード以外の場合は show_or_unknown、変更済みの場合は already_changed、それ以外の場合は exception_ng</p>
+</dd>
+<dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="src.abc_process.html#src.abc_process.ProcessStatus" title="src.abc_process.ProcessStatus">ProcessStatus</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.parse_result">
+<span class="sig-name descname"><span class="pre">parse_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/eri_smfvo_xcap_process.html#EriSmfvoXCAPProcess.parse_result"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.parse_result" title="この定義へのパーマリンク"></a></dt>
+<dd><p>NFから取得したxCAP設定を解析し、付け替えるIPアドレスおよび優先度を取得する</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>result</strong> (<em>str</em>) -- xCAP設定</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.post_check">
+<span class="sig-name descname"><span class="pre">post_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/eri_smfvo_xcap_process.html#EriSmfvoXCAPProcess.post_check"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.post_check" title="この定義へのパーマリンク"></a></dt>
+<dd><p>対象ステータスの事後確認を実施</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値<span class="colon">:</span></dt>
+<dd class="field-odd"><p>変更完了の場合はTrue、それ以外の場合はFalse</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.pre_check">
+<span class="sig-name descname"><span class="pre">pre_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/eri_smfvo_xcap_process.html#EriSmfvoXCAPProcess.pre_check"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.pre_check" title="この定義へのパーマリンク"></a></dt>
+<dd><p>対象ステータスの事前確認を実施</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値<span class="colon">:</span></dt>
+<dd class="field-odd"><p>変更要否確認が取得できた場合はTrue、それ以外の場合はFalse</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.priority">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">priority</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.priority" title="この定義へのパーマリンク"></a></dt>
+<dd><p>優先度プロパティ</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値<span class="colon">:</span></dt>
+<dd class="field-odd"><p>優先度</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.remove_ipaddr">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">remove_ipaddr</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.remove_ipaddr" title="この定義へのパーマリンク"></a></dt>
+<dd><p>削除対象 IPアドレスプロパティ</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値<span class="colon">:</span></dt>
+<dd class="field-odd"><p>削除対象IPアドレス</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="src.abc_process.html#src.abc_process.ProcessStatus" title="src.abc_process.ProcessStatus"><span class="pre">ProcessStatus</span></a></span></span><a class="reference internal" href="_modules/src/eri_smfvo_xcap_process.html#EriSmfvoXCAPProcess.run"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.run" title="この定義へのパーマリンク"></a></dt>
+<dd><p>NFに対してxCAP IPアドレスの現状確認・変更処理を実行する</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値<span class="colon">:</span></dt>
+<dd class="field-odd"><p>プロセスの完了ステータス</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="src.abc_process.html#src.abc_process.ProcessStatus" title="src.abc_process.ProcessStatus">ProcessStatus</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.to_down">
+<span class="sig-name descname"><span class="pre">to_down</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/eri_smfvo_xcap_process.html#EriSmfvoXCAPProcess.to_down"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.to_down" title="この定義へのパーマリンク"></a></dt>
+<dd><p>指定されたxCAP IPアドレスを無効(down)にするコマンドを投入。commit実行までは反映されない。</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xCAP IPアドレスの無効化コマンドが投入できた場合True、例外発生ならFalse</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.to_up">
+<span class="sig-name descname"><span class="pre">to_up</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/eri_smfvo_xcap_process.html#EriSmfvoXCAPProcess.to_up"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.to_up" title="この定義へのパーマリンク"></a></dt>
+<dd><p>指定されたxCAP IPアドレスを有効(up)にするコマンドを投入。commit実行までは反映されない。</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xCAP IPアドレスの有効化コマンドが投入できた場合True、例外発生ならFalse</p>
+</dd>
+<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="src.abc_eri_process.html" class="btn btn-neutral float-left" title="src.abc_eri_process module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, KDDI xGN Networks Co.,Ltd. 7Unit..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+Value Required ipaddr ([0-9a-fA-F:]+:[0-9a-fA-F:]+)
+Value priority (\d+)
+
+Start
+  ^\s+ipv6-name-server\s+${ipaddr}$$
+  ^\s+priority\s+${priority}$$
+  ^\s!$$ -> Record Start

@@ -1,0 +1,2 @@
+[run]
+omit = src/eri_connection_stub.py

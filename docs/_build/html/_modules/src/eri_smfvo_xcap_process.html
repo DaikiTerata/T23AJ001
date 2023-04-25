@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.eri_smfvo_xcap_process &mdash; xCAP Tool 0.9 ドキュメント</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/translations.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            xCAP Tool
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../src.xcap_tool.html">src.xcap_tool module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../src.eri_connection.html">src.eri_connection module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../src.abc_process.html">src.abc_process module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../src.abc_eri_process.html">src.abc_eri_process module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../src.eri_smfvo_xcap_process.html">src.eri_smfvo_xcap_process module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">xCAP Tool</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">モジュールコード</a></li>
+      <li class="breadcrumb-item active">src.eri_smfvo_xcap_process</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>src.eri_smfvo_xcap_process のソースコード</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Set</span>
+
+<span class="kn">from</span> <span class="nn">xgnlog.Log</span> <span class="kn">import</span> <span class="n">Level</span>
+<span class="kn">from</span> <span class="nn">textfsm</span> <span class="kn">import</span> <span class="n">TextFSM</span>
+
+<span class="kn">from</span> <span class="nn">src.abc_eri_process</span> <span class="kn">import</span> <span class="n">AbcEricssonProcess</span>
+<span class="kn">from</span> <span class="nn">src.abc_process</span> <span class="kn">import</span> <span class="n">Mode</span><span class="p">,</span> <span class="n">ProcessStatus</span><span class="p">,</span> <span class="n">SoutSeverity</span><span class="p">,</span> <span class="n">TargetStatus</span><span class="p">,</span> <span class="n">logtime</span>
+<span class="kn">from</span> <span class="nn">src.eri_connection</span> <span class="kn">import</span> <span class="n">SocketTimeoutException</span>
+
+<span class="c1"># ツールローカル設定ディレクトリ</span>
+<span class="n">LOCAL_CONFIG_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+<span class="c1"># xCAPテンプレート</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">LOCAL_CONFIG_DIR</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;xcap_template.textfsm&quot;</span><span class="p">),</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">XCAP_TEMPLATE</span><span class="p">:</span> <span class="n">TextFSM</span> <span class="o">=</span> <span class="n">TextFSM</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="EriSmfvoXCAPProcess"><a class="viewcode-back" href="../../src.eri_smfvo_xcap_process.html#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess">[ドキュメント]</a><span class="k">class</span> <span class="nc">EriSmfvoXCAPProcess</span><span class="p">(</span><span class="n">AbcEricssonProcess</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ericsson SMF xCAPIP更新プロセスクラス</span>
+
+<span class="sd">    対応するSMFは以下の通り</span>
+
+<span class="sd">    smfvo(voice) / smfvoroout(sliceB)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">edns_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                 <span class="n">nf_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                 <span class="n">mode</span><span class="p">:</span> <span class="n">Mode</span><span class="p">,</span>
+                 <span class="n">edns_ipaddr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                 <span class="n">ipaddr_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+                 <span class="n">stub</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">job_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;コンストラクタ</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            edns_name (str): eDNSホスト名</span>
+<span class="sd">            nf_name (str): SMFv NF名</span>
+<span class="sd">            mode (Mode): 実行モード</span>
+<span class="sd">            edns_ipaddr (str): eDNSホストのIPアドレス</span>
+<span class="sd">            ipaddr_list (List[str]): SMFvが設定可能なIPアドレスリスト</span>
+<span class="sd">            stub (bool): スタブモード</span>
+<span class="sd">            job_id (str, optional): JOB ID. Defaults to None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">edns_name</span><span class="p">,</span> <span class="n">nf_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">stub</span><span class="p">,</span> <span class="n">job_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__edns_ipaddr</span> <span class="o">=</span> <span class="n">edns_ipaddr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__remove_ipaddr</span> <span class="o">=</span> <span class="n">edns_ipaddr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__add_ipaddr</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__priority</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__ipaddr_list</span> <span class="o">=</span> <span class="n">ipaddr_list</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">edns_ipaddr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;eDNS IPアドレスプロパティ</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: eDNS IPアドレス</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__edns_ipaddr</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">remove_ipaddr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;削除対象 IPアドレスプロパティ</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: 削除対象IPアドレス</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__remove_ipaddr</span>
+
+    <span class="nd">@remove_ipaddr</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">remove_ipaddr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__remove_ipaddr</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">add_ipaddr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;追加IPアドレスプロパティ</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: 追加IPアドレス</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__add_ipaddr</span>
+
+    <span class="nd">@add_ipaddr</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">add_ipaddr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__add_ipaddr</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">priority</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;優先度プロパティ</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: 優先度</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__priority</span>
+
+    <span class="nd">@priority</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">priority</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__priority</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ipaddr_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;設定可能IPアドレスリストプロパティ</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[str]: 設定可能IPアドレスリスト</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ipaddr_list</span>
+
+<div class="viewcode-block" id="EriSmfvoXCAPProcess.get_command"><a class="viewcode-back" href="../../src.eri_smfvo_xcap_process.html#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.get_command">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">get_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="n">Mode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;xCAP IPアドレスを変更・確認するコマンドを実行モードを元に取得</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            mode (Mode): 実行モード</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: xCAP IPアドレスを変更・確認するコマンド</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="n">Mode</span><span class="o">.</span><span class="n">up</span><span class="p">:</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;epg pgw apn xcap ipv6-name-server </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">add_ipaddr</span><span class="si">}</span><span class="s2"> priority </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">priority</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="n">Mode</span><span class="o">.</span><span class="n">down</span><span class="p">:</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;no epg pgw apn xcap ipv6-name-server </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">edns_ipaddr</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="n">Mode</span><span class="o">.</span><span class="n">show</span><span class="p">:</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="s2">&quot;show running-config epg pgw apn xcap ipv6-name-server&quot;</span>
+        <span class="k">return</span> <span class="n">command</span></div>
+
+<div class="viewcode-block" id="EriSmfvoXCAPProcess.get_status_word"><a class="viewcode-back" href="../../src.eri_smfvo_xcap_process.html#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.get_status_word">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">get_status_word</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">TargetStatus</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;対象のステータスからステータスを示す文字列取得</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (TargetStatus): ステータス</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: upの場合はin use、downの場合はout of use、それ以外の場合はunknown</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">TargetStatus</span><span class="o">.</span><span class="n">up</span><span class="p">:</span>
+            <span class="n">word</span> <span class="o">=</span> <span class="s2">&quot;in use&quot;</span>
+        <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="n">TargetStatus</span><span class="o">.</span><span class="n">down</span><span class="p">:</span>
+            <span class="n">word</span> <span class="o">=</span> <span class="s2">&quot;out of use&quot;</span>
+        <span class="k">return</span> <span class="n">word</span></div>
+
+<div class="viewcode-block" id="EriSmfvoXCAPProcess.get_commit_comment"><a class="viewcode-back" href="../../src.eri_smfvo_xcap_process.html#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.get_commit_comment">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">get_commit_comment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;コミット時に適用するコミットコメントを取得する</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: コミットコメント</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">date</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">logtime</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">date</span><span class="si">}</span><span class="s2">_xcap_eDNS_Change&quot;</span></div>
+
+<div class="viewcode-block" id="EriSmfvoXCAPProcess.get_status"><a class="viewcode-back" href="../../src.eri_smfvo_xcap_process.html#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.get_status">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">get_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TargetStatus</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;現在のxCAPステータスを取得する</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            TargetStatus: 削除IPアドレスがある場合up、ない場合down、例外発生ならNone</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00321&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># 現状のステータス取得</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_command</span><span class="p">(</span><span class="n">Mode</span><span class="o">.</span><span class="n">show</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00309&quot;</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00310&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_status_result</span> <span class="o">=</span> <span class="n">result</span>
+
+            <span class="n">up_pattern</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edns_ipaddr</span>
+            <span class="c1"># up_patternを含む場合はTargetStatus.up、無ければTargetStatus.down</span>
+            <span class="n">status</span><span class="p">:</span> <span class="n">TargetStatus</span> <span class="o">=</span> <span class="n">TargetStatus</span><span class="o">.</span><span class="n">up</span> <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">up_pattern</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="k">else</span> <span class="n">TargetStatus</span><span class="o">.</span><span class="n">down</span>
+        <span class="k">except</span> <span class="n">SocketTimeoutException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="s2">&quot;ssh connection timeout was happened. [ UNKNOWN ]&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00304&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                       <span class="sa">f</span><span class="s2">&quot;xCAP状態取得失敗:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; NF名: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; コマンド: </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="s2">&quot;unexpected error occurred. [ UNKNOWN ]&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00304&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                       <span class="sa">f</span><span class="s2">&quot;xCAP状態取得失敗:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; NF名: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; コマンド: </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00322&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="n">status</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">status</span></div>
+
+<div class="viewcode-block" id="EriSmfvoXCAPProcess.change_status"><a class="viewcode-back" href="../../src.eri_smfvo_xcap_process.html#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.change_status">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">change_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProcessStatus</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;対象ステータスの状態変更を実施</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ProcessStatus: 正常に状態変更が完了した場合はcommit_ok、保存失敗の場合はcommit_ng、変更失敗の場合はchange_ng</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00323&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+
+        <span class="c1"># NF取得情報を解析</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parse_result</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_status_result</span><span class="p">)</span>
+
+        <span class="c1"># 現在の設定を削除 &amp; 予備IPアドレスへ付け替え</span>
+        <span class="n">res</span><span class="p">:</span> <span class="n">ProcessStatus</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_down</span><span class="p">()</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_up</span><span class="p">():</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">change_ng</span>
+            <span class="c1"># 何らかの異常が発生した場合、事前状態に戻す</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">do_abort</span><span class="p">()</span>
+            <span class="c1"># 設定を戻した旨、事前のステータスとともに表示</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span>
+                              <span class="sa">f</span><span class="s2">&quot;status change was failed. abort has done. current status is&quot;</span>
+                              <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_status_word</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">before_status</span><span class="p">)</span><span class="si">}</span><span class="s2">. [ </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">before_status</span><span class="si">}</span><span class="s2"> ]&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00321&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">commit</span><span class="p">():</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">commit_ng</span>
+            <span class="c1"># commitで異常が発生した場合、事前状態に戻す</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">do_abort</span><span class="p">()</span>
+            <span class="c1"># 設定を戻した旨を表示</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="s2">&quot;commit was failed. abort has done.&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00322&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">commit_ok</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00324&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span></div>
+
+<div class="viewcode-block" id="EriSmfvoXCAPProcess.to_down"><a class="viewcode-back" href="../../src.eri_smfvo_xcap_process.html#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.to_down">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">to_down</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;指定されたxCAP IPアドレスを無効(down)にするコマンドを投入。commit実行までは反映されない。</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: xCAP IPアドレスの無効化コマンドが投入できた場合True、例外発生ならFalse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00325&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="c1"># 設定変更モード開始</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00309&quot;</span><span class="p">,</span> <span class="s2">&quot;config&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">enter_config_mode</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00310&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+            <span class="n">command</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_command</span><span class="p">(</span><span class="n">Mode</span><span class="o">.</span><span class="n">down</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00309&quot;</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00310&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="n">SocketTimeoutException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="s2">&quot;ssh connection timeout was happened. [ UNKNOWN ]&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00303&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                       <span class="sa">f</span><span class="s2">&quot;xCAP IP 削除変更異常:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; NF名: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; コマンド: </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="s2">&quot;unexpected error occurred. [ UNKNOWN ]&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00303&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                       <span class="sa">f</span><span class="s2">&quot;xCAP IP 削除変更異常:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; NF名: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; コマンド: </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00326&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="EriSmfvoXCAPProcess.to_up"><a class="viewcode-back" href="../../src.eri_smfvo_xcap_process.html#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.to_up">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">to_up</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;指定されたxCAP IPアドレスを有効(up)にするコマンドを投入。commit実行までは反映されない。</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: xCAP IPアドレスの有効化コマンドが投入できた場合True、例外発生ならFalse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00327&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="c1"># 設定変更モード開始</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00309&quot;</span><span class="p">,</span> <span class="s2">&quot;config&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">enter_config_mode</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00310&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+            <span class="n">command</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_command</span><span class="p">(</span><span class="n">Mode</span><span class="o">.</span><span class="n">up</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00309&quot;</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00310&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="n">SocketTimeoutException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="s2">&quot;ssh connection timeout was happened. [ UNKNOWN ]&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00303&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                       <span class="sa">f</span><span class="s2">&quot;xCAP IP 追加変更異常:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; NF名: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; コマンド: </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="s2">&quot;unexpected error occurred. [ UNKNOWN ]&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00303&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                       <span class="sa">f</span><span class="s2">&quot;xCAP IP 追加変更異常:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; NF名: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; コマンド: </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00328&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="EriSmfvoXCAPProcess.pre_check"><a class="viewcode-back" href="../../src.eri_smfvo_xcap_process.html#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.pre_check">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">pre_check</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;対象ステータスの事前確認を実施</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: 変更要否確認が取得できた場合はTrue、それ以外の場合はFalse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00329&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">pre_check</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00330&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;pre_check: </span><span class="si">{</span><span class="n">res</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">res</span></div>
+
+<div class="viewcode-block" id="EriSmfvoXCAPProcess.post_check"><a class="viewcode-back" href="../../src.eri_smfvo_xcap_process.html#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.post_check">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">post_check</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;対象ステータスの事後確認を実施</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: 変更完了の場合はTrue、それ以外の場合はFalse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00331&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">post_check</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00332&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;post_check: </span><span class="si">{</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">res</span></div>
+
+<div class="viewcode-block" id="EriSmfvoXCAPProcess.necessity_check"><a class="viewcode-back" href="../../src.eri_smfvo_xcap_process.html#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.necessity_check">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">necessity_check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="n">TargetStatus</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProcessStatus</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;対象ステータスの変更要否確認を実施</span>
+
+<span class="sd">        NFから取得したステータスの事前状態と、実行モードから、変更要否を取得する。</span>
+
+<span class="sd">        対象NFがステータスDOWN中に再度DOWNが実行された(または真逆)の場合、</span>
+<span class="sd">        冪等性の観点からコマンド投入不要と判断して、変更不要とする。</span>
+
+<span class="sd">        事前状態が取得できない場合も変更不要とする。</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            status (TargetStatus): statusの事前状態</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ProcessStatus : 要変更の場合は need_to_change、変更モード以外の場合は show_or_unknown、変更済みの場合は already_changed、それ以外の場合は exception_ng</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00333&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+        <span class="n">necessity</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">necessity_check</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">necessity</span> <span class="o">==</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">show_or_unknown</span><span class="p">:</span>
+            <span class="c1"># ステータス表示</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">info</span><span class="p">,</span>
+                              <span class="sa">f</span><span class="s2">&quot;current status is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_status_word</span><span class="p">(</span><span class="n">status</span><span class="p">)</span><span class="si">}</span><span class="s2">. [ </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2"> ]&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00341&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">status</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">necessity</span> <span class="o">==</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">already_changed</span><span class="p">:</span>
+            <span class="c1"># ステータス変更済み表示</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">success</span><span class="p">,</span>
+                              <span class="sa">f</span><span class="s2">&quot;current status is already </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_status_word</span><span class="p">(</span><span class="n">status</span><span class="p">)</span><span class="si">}</span><span class="s2">. [ </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2"> ]&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00341&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">status</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">necessity</span> <span class="o">==</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">need_to_change</span><span class="p">:</span>
+            <span class="c1"># ステータス表示</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">info</span><span class="p">,</span>
+                              <span class="sa">f</span><span class="s2">&quot;current status is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_status_word</span><span class="p">(</span><span class="n">status</span><span class="p">)</span><span class="si">}</span><span class="s2">. [ </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2"> ]&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00342&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">status</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># ステータス取得失敗</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span>
+                              <span class="s2">&quot;currentry status couldn&#39;t get or mismatch. [ UNKNOWN ]&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00323&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">status</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                       <span class="sa">f</span><span class="s2">&quot;事前status取得失敗:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; NF名: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; MODE: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; STATUS: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00334&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;necessity: </span><span class="si">{</span><span class="n">necessity</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">necessity</span></div>
+
+<div class="viewcode-block" id="EriSmfvoXCAPProcess.changed_check"><a class="viewcode-back" href="../../src.eri_smfvo_xcap_process.html#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.changed_check">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">changed_check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="n">TargetStatus</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProcessStatus</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;変更実行後の変更反映確認を実施</span>
+
+<span class="sd">        ステータス変更後の状態の確認を行う。</span>
+
+<span class="sd">        DOWN実行後のステータスがDOWN(またはその真逆)の場合、変更成功となる。</span>
+
+<span class="sd">        DOWN実行後のステータスがUP(またはその真逆)の場合、変更失敗となる。</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            status (TargetStatus): statusの事後状態</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ProcessStatus: 変更成功の場合は change_ok、変更失敗の場合は change_ng、それ以外の場合は exception_ng</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00335&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+
+        <span class="c1"># 削除IPアドレスチェック</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">changed_check</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+
+        <span class="c1"># 追加IPアドレスチェック</span>
+        <span class="n">is_added</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_status_result</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">add_ipaddr</span><span class="p">))</span>
+
+        <span class="n">changed</span><span class="p">:</span> <span class="n">ProcessStatus</span> <span class="o">=</span> <span class="n">res</span>
+        <span class="k">if</span> <span class="n">res</span> <span class="o">==</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">change_ok</span> <span class="ow">and</span> <span class="n">is_added</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_added</span><span class="p">:</span>
+                <span class="c1"># ステータス表示</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">success</span><span class="p">,</span>
+                                  <span class="sa">f</span><span class="s2">&quot;current status is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_status_word</span><span class="p">(</span><span class="n">status</span><span class="p">)</span><span class="si">}</span><span class="s2">. [ </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2"> ]&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00343&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">status</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">changed</span> <span class="o">=</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">change_ng</span>
+                <span class="c1"># ステータス変更失敗表示(追加失敗)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span>
+                                  <span class="sa">f</span><span class="s2">&quot;current status is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_status_word</span><span class="p">(</span><span class="n">status</span><span class="p">)</span><span class="si">}</span><span class="s2">. but couldn&#39;t add... [ </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2"> ]&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00324&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">status</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                           <span class="sa">f</span><span class="s2">&quot;事後status変更失敗:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                           <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                           <span class="sa">f</span><span class="s2">&quot; NF名: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                           <span class="sa">f</span><span class="s2">&quot; MODE: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                           <span class="sa">f</span><span class="s2">&quot; STATUS: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">res</span> <span class="o">==</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">change_ng</span><span class="p">:</span>
+            <span class="c1"># ステータス変更失敗表示(削除失敗)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span>
+                              <span class="sa">f</span><span class="s2">&quot;status couldn&#39;t change... still </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_status_word</span><span class="p">(</span><span class="n">status</span><span class="p">)</span><span class="si">}</span><span class="s2">. [ </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2"> ]&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00324&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">status</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                       <span class="sa">f</span><span class="s2">&quot;事後status変更失敗:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; NF名: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; MODE: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; STATUS: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># ステータス取得失敗</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span>
+                              <span class="s2">&quot;currentry status couldn&#39;t get or mismatch. [ UNKNOWN ]&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00323&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">status</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                       <span class="sa">f</span><span class="s2">&quot;事後status取得失敗:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; NF名: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; MODE: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; STATUS: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00336&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;changed: </span><span class="si">{</span><span class="n">changed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">changed</span></div>
+
+<div class="viewcode-block" id="EriSmfvoXCAPProcess.parse_result"><a class="viewcode-back" href="../../src.eri_smfvo_xcap_process.html#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.parse_result">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">parse_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;NFから取得したxCAP設定を解析し、付け替えるIPアドレスおよび優先度を取得する</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            result (str): xCAP設定</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00337&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+        <span class="c1"># NFから取得した結果を辞書型で保存</span>
+        <span class="n">XCAP_TEMPLATE</span><span class="o">.</span><span class="n">Reset</span><span class="p">()</span>
+        <span class="n">parsed_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">XCAP_TEMPLATE</span><span class="o">.</span><span class="n">header</span><span class="p">,</span> <span class="n">pr</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">pr</span> <span class="ow">in</span> <span class="n">XCAP_TEMPLATE</span><span class="o">.</span><span class="n">ParseText</span><span class="p">(</span><span class="n">result</span><span class="p">)]</span>
+        <span class="c1"># NFに設定されているxCAP ipaddrのリストを生成</span>
+        <span class="n">included_ipaddr_set</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;ipaddr&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">parsed_list</span><span class="p">}</span>
+        <span class="c1"># ツール設定で保持しているxCAP ipaddrリストに含まれていないipaddrを付け替えipaddrとして選定</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_ipaddr</span> <span class="o">=</span> <span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipaddr_list</span><span class="p">)</span> <span class="o">^</span> <span class="n">included_ipaddr_set</span><span class="p">)</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="c1"># NFから取得した結果から、削除ipaddrに紐づくpriorityを取得</span>
+        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">parsed_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">element</span><span class="p">[</span><span class="s2">&quot;ipaddr&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">edns_ipaddr</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">priority</span> <span class="o">=</span> <span class="n">element</span><span class="p">[</span><span class="s2">&quot;priority&quot;</span><span class="p">]</span>
+                <span class="k">break</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00338&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="n">parsed_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_ipaddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">priority</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="EriSmfvoXCAPProcess.run"><a class="viewcode-back" href="../../src.eri_smfvo_xcap_process.html#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.run">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProcessStatus</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;NFに対してxCAP IPアドレスの現状確認・変更処理を実行する</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ProcessStatus: プロセスの完了ステータス</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00339&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
+
+        <span class="c1"># プロセス状態初期化</span>
+        <span class="n">status</span><span class="p">:</span> <span class="n">ProcessStatus</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_client</span><span class="p">():</span>
+            <span class="c1"># SSH接続に失敗した場合</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">ssh_ng</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00340&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;process status: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">status</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_check</span><span class="p">():</span>
+                <span class="c1"># P-CSCFの事前状態確認に失敗した場合</span>
+                <span class="n">status</span> <span class="o">|=</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">pre_check_ng</span>
+                <span class="k">return</span> <span class="n">status</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">necessity</span> <span class="ow">in</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">need_not_to_change</span><span class="p">:</span>
+                <span class="c1"># S-out/S-inの必要がない場合</span>
+                <span class="n">status</span> <span class="o">|=</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">need_not_to_change</span>
+                <span class="k">return</span> <span class="n">status</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_status</span><span class="p">():</span>
+                <span class="c1"># S-out/S-in処理に失敗した場合</span>
+                <span class="n">status</span> <span class="o">|=</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">change_ng</span>
+                <span class="k">return</span> <span class="n">status</span>
+
+            <span class="c1"># 設定変更後の処理待ち</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_check</span><span class="p">():</span>
+                <span class="c1"># 事後確認が正常に完了した場合</span>
+                <span class="n">status</span> <span class="o">=</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">post_check_ok</span>
+                <span class="k">return</span> <span class="n">status</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># 事後確認でS-out/S-inに失敗と判定した場合</span>
+                <span class="n">status</span> <span class="o">=</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">post_check_ng</span>
+                <span class="k">return</span> <span class="n">status</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">exception_ng</span>
+            <span class="c1"># 何らかのExceptionが発生した場合</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                       <span class="sa">f</span><span class="s2">&quot;xCAP変更プロセス異常:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; NF名: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; ステータス: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                       <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">status</span>
+
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00340&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;process status: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">])</span>
+            <span class="c1"># SSH接続を終了する</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">close_client</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, KDDI xGN Networks Co.,Ltd. 7Unit..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
