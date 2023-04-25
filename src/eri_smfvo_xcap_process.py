@@ -174,7 +174,7 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
             self.sout_message(SoutSeverity.error, "ssh connection timeout was happened. [ UNKNOWN ]")
             self.logger.output_1st_log("E00304", self.nf_name)
             self.logger.output_2nd_log(Level.CRITICAL,
-                                       f"xCAP状態取得失敗:\n"
+                                       f"xCAP ipaddr状態取得失敗:\n"
                                        "パラメータ:\n"
                                        f" NF名: {self.nf_name}\n"
                                        f" コマンド: {command}\n"
@@ -185,7 +185,7 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
             self.sout_message(SoutSeverity.error, "unexpected error occurred. [ UNKNOWN ]")
             self.logger.output_1st_log("E00304", self.nf_name)
             self.logger.output_2nd_log(Level.CRITICAL,
-                                       f"xCAP状態取得失敗:\n"
+                                       f"xCAP ipaddr状態取得失敗:\n"
                                        "パラメータ:\n"
                                        f" NF名: {self.nf_name}\n"
                                        f" コマンド: {command}\n"
@@ -223,7 +223,7 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
             self.do_abort()
             # 設定を戻した旨、事前のステータスとともに表示
             self.sout_message(SoutSeverity.error,
-                              f"status change was failed. abort has done. current status is"
+                              f"xcap ipaddr change was failed. abort has done. current status is"
                               f" {self.get_status_word(self.before_status)}. [ {self.before_status} ]")
             self.logger.output_1st_log("E00321", [self.nf_name, self.mode])
 
@@ -265,7 +265,7 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
             self.sout_message(SoutSeverity.error, "ssh connection timeout was happened. [ UNKNOWN ]")
             self.logger.output_1st_log("E00303", [self.nf_name, self.mode])
             self.logger.output_2nd_log(Level.CRITICAL,
-                                       f"xCAP IP 削除変更異常:\n"
+                                       f"xCAP ipaddr削除変更異常:\n"
                                        "パラメータ:\n"
                                        f" NF名: {self.nf_name}\n"
                                        f" コマンド: {command}\n"
@@ -276,7 +276,7 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
             self.sout_message(SoutSeverity.error, "unexpected error occurred. [ UNKNOWN ]")
             self.logger.output_1st_log("E00303", [self.nf_name, self.mode])
             self.logger.output_2nd_log(Level.CRITICAL,
-                                       f"xCAP IP 削除変更異常:\n"
+                                       f"xCAP ipaddr削除変更異常:\n"
                                        "パラメータ:\n"
                                        f" NF名: {self.nf_name}\n"
                                        f" コマンド: {command}\n"
@@ -310,7 +310,7 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
             self.sout_message(SoutSeverity.error, "ssh connection timeout was happened. [ UNKNOWN ]")
             self.logger.output_1st_log("E00303", [self.nf_name, self.mode])
             self.logger.output_2nd_log(Level.CRITICAL,
-                                       f"xCAP IP 追加変更異常:\n"
+                                       f"xCAP ipaddr追加変更異常:\n"
                                        "パラメータ:\n"
                                        f" NF名: {self.nf_name}\n"
                                        f" コマンド: {command}\n"
@@ -321,7 +321,7 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
             self.sout_message(SoutSeverity.error, "unexpected error occurred. [ UNKNOWN ]")
             self.logger.output_1st_log("E00303", [self.nf_name, self.mode])
             self.logger.output_2nd_log(Level.CRITICAL,
-                                       f"xCAP IP 追加変更異常:\n"
+                                       f"xCAP ipaddr追加変更異常:\n"
                                        "パラメータ:\n"
                                        f" NF名: {self.nf_name}\n"
                                        f" コマンド: {command}\n"
@@ -374,25 +374,25 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
         if necessity == ProcessStatus.show_or_unknown:
             # ステータス表示
             self.sout_message(SoutSeverity.info,
-                              f"current status is {self.get_status_word(status)}. [ {status} ]")
+                              f"current xCAP ipaddr is {self.get_status_word(status)}. [ {status} ]")
             self.logger.output_1st_log("I00341", [self.nf_name, self.mode, status])
         elif necessity == ProcessStatus.already_changed:
             # ステータス変更済み表示
             self.sout_message(SoutSeverity.success,
-                              f"current status is already {self.get_status_word(status)}. [ {status} ]")
+                              f"current xCAP ipaddr is already {self.get_status_word(status)}. [ {status} ]")
             self.logger.output_1st_log("I00341", [self.nf_name, self.mode, status])
         elif necessity == ProcessStatus.need_to_change:
             # ステータス表示
             self.sout_message(SoutSeverity.info,
-                              f"current status is {self.get_status_word(status)}. [ {status} ]")
+                              f"current xCAP ipaddr is {self.get_status_word(status)}. [ {status} ]")
             self.logger.output_1st_log("I00342", [self.nf_name, self.mode, status])
         else:
             # ステータス取得失敗
             self.sout_message(SoutSeverity.error,
-                              "currentry status couldn't get or mismatch. [ UNKNOWN ]")
+                              "currentry xCAP ipaddr couldn't get or mismatch. [ UNKNOWN ]")
             self.logger.output_1st_log("E00323", [self.nf_name, self.mode, status])
             self.logger.output_2nd_log(Level.CRITICAL,
-                                       f"事前status取得失敗:\n"
+                                       f"xCAP ipaddr事前状態取得失敗:\n"
                                        "パラメータ:\n"
                                        f" NF名: {self.nf_name}\n"
                                        f" MODE: {self.mode}\n"
@@ -429,16 +429,16 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
             if is_added:
                 # ステータス表示
                 self.sout_message(SoutSeverity.success,
-                                  f"current status is {self.get_status_word(status)}. [ {status} ]")
+                                  f"current xCAP ipaddr is {self.get_status_word(status)}. [ {status} ]")
                 self.logger.output_1st_log("I00343", [self.nf_name, self.mode, status])
             else:
                 changed = ProcessStatus.change_ng
                 # ステータス変更失敗表示(追加失敗)
                 self.sout_message(SoutSeverity.error,
-                                  f"current status is {self.get_status_word(status)}. but couldn't add... [ {status} ]")
+                                  f"current xCAP ipaddr is {self.get_status_word(status)}. but couldn't add... [ {status} ]")
                 self.logger.output_1st_log("E00324", [self.nf_name, self.mode, status])
                 self.logger.output_2nd_log(Level.CRITICAL,
-                                           f"事後status変更失敗:\n"
+                                           f"xCAP ipaddr事後確認変更失敗:\n"
                                            "パラメータ:\n"
                                            f" NF名: {self.nf_name}\n"
                                            f" MODE: {self.mode}\n"
@@ -446,10 +446,10 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
         elif res == ProcessStatus.change_ng:
             # ステータス変更失敗表示(削除失敗)
             self.sout_message(SoutSeverity.error,
-                              f"status couldn't change... still {self.get_status_word(status)}. [ {status} ]")
+                              f"xCAP ipaddr couldn't change... still {self.get_status_word(status)}. [ {status} ]")
             self.logger.output_1st_log("E00324", [self.nf_name, self.mode, status])
             self.logger.output_2nd_log(Level.CRITICAL,
-                                       f"事後status変更失敗:\n"
+                                       f"xCAP ipaddr事後確認変更失敗:\n"
                                        "パラメータ:\n"
                                        f" NF名: {self.nf_name}\n"
                                        f" MODE: {self.mode}\n"
@@ -457,10 +457,10 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
         else:
             # ステータス取得失敗
             self.sout_message(SoutSeverity.error,
-                              "currentry status couldn't get or mismatch. [ UNKNOWN ]")
+                              "currentry xCAP ipaddr couldn't get or mismatch. [ UNKNOWN ]")
             self.logger.output_1st_log("E00323", [self.nf_name, self.mode, status])
             self.logger.output_2nd_log(Level.CRITICAL,
-                                       f"事後status取得失敗:\n"
+                                       f"xCAP ipaddr事後確認取得失敗:\n"
                                        "パラメータ:\n"
                                        f" NF名: {self.nf_name}\n"
                                        f" MODE: {self.mode}\n"
@@ -540,10 +540,10 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
             status = ProcessStatus.exception_ng
             # 何らかのExceptionが発生した場合
             self.logger.output_2nd_log(Level.CRITICAL,
-                                       f"xCAP変更プロセス異常:\n"
+                                       f"xCAP ipaddr変更プロセス異常:\n"
                                        "パラメータ:\n"
                                        f" NF名: {self.nf_name}\n"
-                                       f" ステータス: {status}\n"
+                                       f" STATUS: {status}\n"
                                        f" Trace: {e.__class__.__name__} {e}")
             return status
 
