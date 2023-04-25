@@ -515,7 +515,7 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
                 status |= ProcessStatus.need_not_to_change
                 return status
 
-            if not self.change_status():
+            if not self.change_status() == ProcessStatus.commit_ok:
                 # S-out/S-in処理に失敗した場合
                 status |= ProcessStatus.change_ng
                 return status
