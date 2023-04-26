@@ -423,19 +423,20 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
 
         # 追加IPアドレスチェック
         is_added = bool(self.get_status_result.lower().count(self.add_ipaddr))
+        added_status = TargetStatus.up if self.get_status_result.lower().count(self.add_ipaddr) else TargetStatus.down
 
         changed: ProcessStatus = res
-        if res == ProcessStatus.change_ok and is_added:
+        if res == ProcessStatus.change_ok:
             if is_added:
                 # ステータス表示
                 self.sout_message(SoutSeverity.success,
-                                  f"current xCAP ipaddr is {self.get_status_word(status)}. [ {status} ]")
+                                  f"current xCAP ipaddr is {self.get_status_word(status)}. [ {status} ] reserved ipaddr added. [ {added_status} ]")
                 self.logger.output_1st_log("I00343", [self.nf_name, self.mode, status])
             else:
                 changed = ProcessStatus.change_ng
                 # ステータス変更失敗表示(追加失敗)
                 self.sout_message(SoutSeverity.error,
-                                  f"current xCAP ipaddr is {self.get_status_word(status)}. but couldn't add... [ {status} ]")
+                                  f"current xCAP ipaddr is {self.get_status_word(status)}. [ {status} ] but couldn't reserved ipaddr add... [ {added_status} ]")
                 self.logger.output_1st_log("E00324", [self.nf_name, self.mode, status])
                 self.logger.output_2nd_log(Level.CRITICAL,
                                            f"xCAP ipaddr事後確認変更失敗:\n"
@@ -446,7 +447,7 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
         elif res == ProcessStatus.change_ng:
             # ステータス変更失敗表示(削除失敗)
             self.sout_message(SoutSeverity.error,
-                              f"xCAP ipaddr couldn't change... still {self.get_status_word(status)}. [ {status} ]")
+                              f"xCAP ipaddr couldn't change... still {self.get_status_word(status)}. [ {status} ] reserved ipaddr [ {added_status} ]")
             self.logger.output_1st_log("E00324", [self.nf_name, self.mode, status])
             self.logger.output_2nd_log(Level.CRITICAL,
                                        f"xCAP ipaddr事後確認変更失敗:\n"

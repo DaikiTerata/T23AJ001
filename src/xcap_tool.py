@@ -118,7 +118,7 @@ class XcapTool(object):
             parser.add_argument("edns_name", help="target eDNS hostname", type=not_null_str)
             parser.add_argument("mode", help="exec MODE", choices=valid_mode_list, type=Mode)
             parser.add_argument("blocked_nflist", help="blocked nf name list", type=csv, nargs="?", default="")
-            parser.add_argument("-b", "--batch", help="enable bach mode", action="store_true")
+            parser.add_argument("-b", "--batch", help="enable batch mode", action="store_true")
             parser.add_argument("-s", "--stub", help="stab mode", action="store_true")
 
             # 引数を判定し、取得した引数を格納する
