@@ -398,7 +398,7 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
                                        f" MODE: {self.mode}\n"
                                        f" STATUS: {status}")
 
-        self.logger.output_1st_log("I00334", [self.nf_name, f"necessity: {necessity}"])
+        self.logger.output_1st_log("I00334", [self.nf_name, f"necessity: {necessity.name}"])
         return necessity
 
     def changed_check(self, status: TargetStatus) -> ProcessStatus:
@@ -466,7 +466,7 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
                                        f" MODE: {self.mode}\n"
                                        f" STATUS: {status}")
 
-        self.logger.output_1st_log("I00336", [self.nf_name, f"changed: {changed}"])
+        self.logger.output_1st_log("I00336", [self.nf_name, f"changed: {changed.name}"])
         return changed
 
     def parse_result(self, result: str) -> None:
@@ -502,26 +502,26 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
         self.logger.output_1st_log("I00339", self.nf_name)
 
         # プロセス状態初期化
-        status: ProcessStatus = 0
+        status: ProcessStatus
         if not self.open_client():
             # SSH接続に失敗した場合
             status = ProcessStatus.ssh_ng
-            self.logger.output_1st_log("I00340", [self.nf_name, f"process status: {status}"])
+            self.logger.output_1st_log("I00340", [self.nf_name, f"process status: {status.name}"])
             return status
         try:
             if not self.pre_check():
                 # P-CSCFの事前状態確認に失敗した場合
-                status |= ProcessStatus.pre_check_ng
+                status = ProcessStatus.pre_check_ng
                 return status
 
             if self.necessity in ProcessStatus.need_not_to_change:
                 # S-out/S-inの必要がない場合
-                status |= ProcessStatus.need_not_to_change
+                status = ProcessStatus.need_not_to_change
                 return status
 
             if not self.change_status() == ProcessStatus.commit_ok:
                 # S-out/S-in処理に失敗した場合
-                status |= ProcessStatus.change_ng
+                status = ProcessStatus.change_ng
                 return status
 
             # 設定変更後の処理待ち
@@ -543,11 +543,11 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
                                        f"xCAP ipaddr変更プロセス異常:\n"
                                        "パラメータ:\n"
                                        f" NF名: {self.nf_name}\n"
-                                       f" STATUS: {status}\n"
+                                       f" STATUS: {status.name}\n"
                                        f" Trace: {e.__class__.__name__} {e}")
             return status
 
         finally:
-            self.logger.output_1st_log("I00340", [self.nf_name, f"process status: {status}"])
+            self.logger.output_1st_log("I00340", [self.nf_name, f"process status: {status.name}"])
             # SSH接続を終了する
             self.close_client()
