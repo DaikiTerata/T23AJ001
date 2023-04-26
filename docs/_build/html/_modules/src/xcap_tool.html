@@ -79,7 +79,7 @@
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">from</span> <span class="nn">xgnlog.Log</span> <span class="kn">import</span> <span class="n">Level</span><span class="p">,</span> <span class="n">Log</span>
 
@@ -226,7 +226,7 @@
 
         <span class="c1"># ツール本体設定存在チェック&amp;解析チェック</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">TOOL_CONF</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">tool_conf</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tool_conf</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
         <span class="c1"># nf-module設定、nf-type設定</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">REQUIRED_KEYS</span><span class="p">:</span>
@@ -353,11 +353,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00111&quot;</span><span class="p">)</span>
 
-        <span class="n">filtered_list</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span>
+        <span class="n">filtered_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span>
+
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">filtered_list</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">edns_ip_address</span> <span class="ow">in</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;xCAP&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">tool_conf</span><span class="p">[</span><span class="n">NF_INFOS</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+            <span class="n">filtered_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">edns_ip_address</span> <span class="ow">in</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;xCAP&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">tool_conf</span><span class="p">[</span><span class="n">NF_INFOS</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
             <span class="c1"># 設定が空の場合</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">filtered_list</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">filtered_dict</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;filtered_list is empty.&quot;</span><span class="p">)</span>
 
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -371,8 +372,8 @@
                                   <span class="sa">f</span><span class="s2">&quot; Trace: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">e</span>
 
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00112&quot;</span><span class="p">,</span> <span class="n">filtered_list</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">filtered_list</span></div>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00112&quot;</span><span class="p">,</span> <span class="n">filtered_dict</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">filtered_dict</span></div>
 
 <div class="viewcode-block" id="XcapTool.main"><a class="viewcode-back" href="../../src.xcap_tool.html#src.xcap_tool.XcapTool.main">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;main メイン処理</span>
@@ -439,7 +440,16 @@
         <span class="n">failed_nf_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">blocked_nf_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
+        <span class="c1"># 障害NFリストに含まれるeDNSホスト名を取得</span>
+        <span class="n">failed_edns_set</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tool_conf</span><span class="p">[</span><span class="n">EDNS_INFOS</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">blocked_nflist</span><span class="p">)</span>
+
         <span class="k">for</span> <span class="n">nf_name</span><span class="p">,</span> <span class="n">config</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">smfvoice_configs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+            <span class="c1"># SMFv設定内に障害NFリストに含まれるeDNSホスト名のIPアドレスがある場合、対象を削除する</span>
+            <span class="k">for</span> <span class="n">failed_edns</span> <span class="ow">in</span> <span class="n">failed_edns_set</span><span class="p">:</span>
+                <span class="n">failed_edns_ipaddr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tool_conf</span><span class="p">[</span><span class="n">EDNS_INFOS</span><span class="p">][</span><span class="n">failed_edns</span><span class="p">][</span><span class="s2">&quot;ipaddr&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">failed_edns_ipaddr</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;xCAP&quot;</span><span class="p">]:</span>
+                    <span class="n">config</span><span class="p">[</span><span class="s2">&quot;xCAP&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">failed_edns_ipaddr</span><span class="p">)</span>
 
             <span class="n">process</span> <span class="o">=</span> <span class="n">EriSmfvoXCAPProcess</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">edns_name</span><span class="p">,</span>
                                           <span class="n">nf_name</span><span class="p">,</span>
