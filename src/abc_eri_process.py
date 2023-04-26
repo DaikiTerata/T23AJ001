@@ -44,7 +44,7 @@ class AbcEricssonProcess(AbcProcess):
         return self.__client
 
     @abstractmethod
-    def get_commit_comment(self, *args, **kwargs) -> str:
+    def get_commit_comment(self, *args, **kwargs) -> str:  # pragma no cover
         """コミット時に適用するコミットコメントを取得する
 
         Returns:

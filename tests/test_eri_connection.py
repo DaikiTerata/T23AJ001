@@ -2,13 +2,14 @@ import pathlib
 import socket
 from typing import Any, List
 import paramiko
+
 import pytest
 import pytest_mock
-
-import src.eri_connection as nfshell
 from xgnlog.Log import Level
 
-JOB_ID = "T22AJ002"
+import src.eri_connection as nfshell
+
+JOB_ID = "T23AJ002"
 
 
 def get_1st_log_path(tmpdir: str) -> pathlib.Path:
@@ -110,7 +111,7 @@ def test_get_sock02(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.M
 
     logger = MockLog(JOB_ID, Level.INFO, log_dir=tmpdir)
     mocker.patch("src.eri_connection.LOGGER", new=logger)
-    mocker.patch("src.eri_connection._CONN_CONF", new=bast_conf)
+    mocker.patch("src.eri_connection.CONN_CONF", new=bast_conf)
     mocker.patch("paramiko.ProxyCommand", new=Proxy)
 
     respose = nfshell.get_sock(bastion_name, hostname)
@@ -160,7 +161,7 @@ def test_get_sock03(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.M
 
     logger = MockLog(JOB_ID, Level.INFO, log_dir=tmpdir)
     mocker.patch("src.eri_connection.LOGGER", new=logger)
-    mocker.patch("src.eri_connection._CONN_CONF", new=bast_conf)
+    mocker.patch("src.eri_connection.CONN_CONF", new=bast_conf)
     mocker.patch("paramiko.ProxyCommand", new=Proxy)
 
     respose = nfshell.get_sock(bastion_name, hostname, port)
@@ -216,7 +217,7 @@ def test_get_sock04(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.M
 
     logger = MockLog(JOB_ID, Level.INFO, log_dir=tmpdir)
     mocker.patch("src.eri_connection.LOGGER", new=logger)
-    mocker.patch("src.eri_connection._CONN_CONF", new=bast_conf)
+    mocker.patch("src.eri_connection.CONN_CONF", new=bast_conf)
     mocker.patch("paramiko.ProxyCommand", side_effect=FileNotFoundError("File Not Found"))
 
     with pytest.raises(nfshell.ProxyCommandException) as exc_info:
@@ -492,7 +493,7 @@ def test_connect02(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.Mo
 
 
 def test_connect03(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.MockerFixture):
-    """test_connect03 connect試験03 _CONN_CONF取得失敗
+    """test_connect03 connect試験03 CONN_CONF取得失敗
 
     試験条件
     ・nf_name: HOGEHOGE
