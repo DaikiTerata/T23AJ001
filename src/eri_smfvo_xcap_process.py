@@ -423,7 +423,7 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
                 changed = ProcessStatus.change_ng
                 # ステータス変更失敗表示(追加失敗)
                 self.sout_message(SoutSeverity.error,
-                                  f"current xCAP ipaddr is {self.get_status_word(status)}. [ {status} ] but couldn't reserved ipaddr add... [ {added_status} ]")
+                                  f"current xCAP ipaddr is {self.get_status_word(status)}. [ {status} ] but reserved ipaddr couldn't add... [ {added_status} ]")
                 self.logger.output_1st_log("E00324", [self.nf_name, self.mode, status])
                 self.logger.output_2nd_log(Level.CRITICAL,
                                            f"xCAP ipaddr事後確認変更失敗:\n"
