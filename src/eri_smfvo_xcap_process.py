@@ -424,7 +424,7 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
 
         # 追加IPアドレスチェック
         is_added = bool(self.status_result.lower().count(self.add_ipaddr))
-        added_status = TargetStatus.up if self.get_status_result.lower().count(self.add_ipaddr) else TargetStatus.down
+        added_status = TargetStatus.up if is_added else TargetStatus.down
 
         changed: ProcessStatus = res
         if res == ProcessStatus.change_ok:
