@@ -45,7 +45,6 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
         """
         super().__init__(edns_name, nf_name, mode, stub, job_id)
         self.__edns_ipaddr = edns_ipaddr
-        self.__remove_ipaddr = edns_ipaddr
         self.__add_ipaddr: str = None
         self.__priority: str = None
         self.__ipaddr_list = ipaddr_list
@@ -59,19 +58,6 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
             str: eDNS IPアドレス
         """
         return self.__edns_ipaddr
-
-    @property
-    def remove_ipaddr(self) -> str:
-        """削除対象 IPアドレスプロパティ
-
-        Returns:
-            str: 削除対象IPアドレス
-        """
-        return self.__remove_ipaddr
-
-    @remove_ipaddr.setter
-    def remove_ipaddr(self, value: str):
-        self.__remove_ipaddr = value
 
     @property
     def add_ipaddr(self) -> str:
