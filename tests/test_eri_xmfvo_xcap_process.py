@@ -3691,7 +3691,90 @@ def test_parse_result01(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFix
 
 
 def test_parse_result02(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture):
-    """test_parse_result02 parse_result試験01 準正常系試験 (追加IPアドレスなし)
+    """test_parse_result02 parse_result試験02 正常系試験 (追加IPアドレスあり)
+
+    試験条件
+    ・edns_name = "tys1tb3edns02"
+    ・nf_name = "a2-er-s01-smfvo-001"
+    ・mode = Mode.down
+    ・edns_ipaddr = "2001:268:200d:500f::6"
+    ・ipaddr_list = [
+            "2001:268:200d:1010::6",
+            "2001:268:200d:5010::6",
+            "2001:268:200d:500f::6"
+        ]
+    ・status_result = "epg pgw apn xcap\r\n ipv6-name-server 2001:268:200d:5010::6\r\n  priority 200\r\n !\r\n ipv6-name-server 2001:268:200d:500f::6\r\n  priority 100\r\n !\r\n!"
+
+    試験結果
+    ・Exceptionが発生しないこと
+    ・関数結果がTrueとなること
+    ・標準出力が想定しているメッセージ内容であること
+    ・一次ログ出力が想定しているmsg_id、add_infoであること
+    ・障害切り分けログ出力が想定しているlevel、add_infoであること
+    """
+    edns_name = "tys1tb3edns02"
+    nf_name = "a2-er-s01-smfvo-001"
+    mode = Mode.down
+    edns_ipaddr = "2001:268:200d:500f::6"
+    ipaddr_list = [
+        "2001:268:200d:1010::6",
+        "2001:268:200d:5010::6",
+        "2001:268:200d:500f::6"
+    ]
+    status_result = "epg pgw apn xcap\r\n ipv6-name-server 2001:268:200d:5010::6\r\n  priority 200\r\n !\r\n ipv6-name-server 2001:268:200d:500f::6\r\n  priority 100\r\n !\r\n!"
+    parsed_list = [
+        {
+            "ipaddr": "2001:268:200d:5010::6",
+            "priority": "200"
+        },
+        {
+            "ipaddr": "2001:268:200d:500f::6",
+            "priority": "100"
+        }
+    ]
+    add_ipaddr = "2001:268:200d:1010::6"
+    priority = "100"
+
+    command_response_value = []
+
+    expected_value = None
+
+    expected_sout = []
+
+    expected_log_1st = [
+        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00337", nf_name),
+        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00338", [nf_name, parsed_list, add_ipaddr, priority])
+    ]
+
+    expected_log_2nd = []
+
+    logger = MockLog(JOB_ID, Level.INFO, log_dir=tmpdir)
+
+    process = EriSmfvoXCAPProcess(edns_name, nf_name, mode, edns_ipaddr, ipaddr_list, JOB_ID)
+    process._AbcProcess__logger = logger
+
+    response_value = process.parse_result(status_result)
+
+    # 結果確認
+    (sout, serr) = capsys.readouterr()
+    log_path_1st = get_1st_log_path(tmpdir)
+    log_path_2nd = get_2nd_log_path(tmpdir)
+
+    sout_desc: List = sout.splitlines(True)
+    with open(log_path_1st, "r", encoding="utf-8") as f:
+        response_value_log_1st: List = f.readlines()
+
+    assert response_value == expected_value
+    assert process.add_ipaddr == add_ipaddr
+    assert process.priority == priority
+    assert sout_desc == expected_sout
+    assert log_path_1st.exists()
+    assert response_value_log_1st == expected_log_1st
+    assert not log_path_2nd.exists()
+
+
+def test_parse_result03(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture):
+    """test_parse_result03 parse_result試験03 準正常系試験 (追加IPアドレスなし)
 
     試験条件
     ・edns_name = "tys1tb1edns02"
@@ -3732,6 +3815,80 @@ def test_parse_result02(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFix
     ]
     add_ipaddr = None
     priority = "100"
+
+    command_response_value = []
+
+    expected_value = None
+
+    expected_sout = []
+
+    expected_log_1st = [
+        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00337", nf_name),
+        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00338", [nf_name, parsed_list, add_ipaddr, priority])
+    ]
+
+    expected_log_2nd = []
+
+    logger = MockLog(JOB_ID, Level.INFO, log_dir=tmpdir)
+
+    process = EriSmfvoXCAPProcess(edns_name, nf_name, mode, edns_ipaddr, ipaddr_list, JOB_ID)
+    process._AbcProcess__logger = logger
+
+    response_value = process.parse_result(status_result)
+
+    # 結果確認
+    (sout, serr) = capsys.readouterr()
+    log_path_1st = get_1st_log_path(tmpdir)
+    log_path_2nd = get_2nd_log_path(tmpdir)
+
+    sout_desc: List = sout.splitlines(True)
+    with open(log_path_1st, "r", encoding="utf-8") as f:
+        response_value_log_1st: List = f.readlines()
+
+    assert response_value == expected_value
+    assert process.add_ipaddr == add_ipaddr
+    assert process.priority == priority
+    assert sout_desc == expected_sout
+    assert log_path_1st.exists()
+    assert response_value_log_1st == expected_log_1st
+    assert not log_path_2nd.exists()
+
+
+def test_parse_result04(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture):
+    """test_parse_result04 parse_result試験04 準正常系試験 (追加IPアドレスなし)
+
+    試験条件
+    ・edns_name = "tys1tb1edns02"
+    ・nf_name = "a2-er-s01-smfvo-001"
+    ・mode = Mode.down
+    ・edns_ipaddr = "2001:268:200d:1010::6"
+    ・ipaddr_list = [
+        "2001:268:200d:1010::6",
+        "2001:268:200d:5010::6",
+        "2001:268:200d:500f::6"
+    ]
+    ・status_result = "error"
+
+    試験結果
+    ・Exceptionが発生しないこと
+    ・関数結果がTrueとなること
+    ・標準出力が想定しているメッセージ内容であること
+    ・一次ログ出力が想定しているmsg_id、add_infoであること
+    ・障害切り分けログ出力が想定しているlevel、add_infoであること
+    """
+    edns_name = "tys1tb1edns02"
+    nf_name = "a2-er-s01-smfvo-001"
+    mode = Mode.down
+    edns_ipaddr = "2001:268:200d:1010::6"
+    ipaddr_list = [
+        "2001:268:200d:1010::6",
+        "2001:268:200d:5010::6",
+        "2001:268:200d:500f::6"
+    ]
+    status_result = "error"
+    parsed_list = []
+    add_ipaddr = None
+    priority = None
 
     command_response_value = []
 
