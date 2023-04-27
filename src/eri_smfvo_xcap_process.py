@@ -418,41 +418,41 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
                 # ステータス表示
                 self.sout_message(SoutSeverity.success,
                                   f"current xCAP ipaddr is {self.get_status_word(status)}. [ {status} ] reserved ipaddr added. [ {added_status} ]")
-                self.logger.output_1st_log("I00343", [self.nf_name, self.mode, status])
+                self.logger.output_1st_log("I00343", [self.nf_name, self.mode, status, added_status])
             else:
                 changed = ProcessStatus.change_ng
                 # ステータス変更失敗表示(追加失敗)
                 self.sout_message(SoutSeverity.error,
                                   f"current xCAP ipaddr is {self.get_status_word(status)}. [ {status} ] but reserved ipaddr couldn't add... [ {added_status} ]")
-                self.logger.output_1st_log("E00324", [self.nf_name, self.mode, status])
+                self.logger.output_1st_log("E00324", [self.nf_name, self.mode, status, added_status])
                 self.logger.output_2nd_log(Level.CRITICAL,
                                            f"xCAP ipaddr事後確認変更失敗:\n"
                                            "パラメータ:\n"
                                            f" NF名: {self.nf_name}\n"
                                            f" MODE: {self.mode}\n"
-                                           f" STATUS: {status}")
+                                           f" STATUS: {status, added_status}")
         elif res == ProcessStatus.change_ng:
             # ステータス変更失敗表示(削除失敗)
             self.sout_message(SoutSeverity.error,
                               f"xCAP ipaddr couldn't change... still {self.get_status_word(status)}. [ {status} ] reserved ipaddr [ {added_status} ]")
-            self.logger.output_1st_log("E00324", [self.nf_name, self.mode, status])
+            self.logger.output_1st_log("E00324", [self.nf_name, self.mode, status, added_status])
             self.logger.output_2nd_log(Level.CRITICAL,
                                        f"xCAP ipaddr事後確認変更失敗:\n"
                                        "パラメータ:\n"
                                        f" NF名: {self.nf_name}\n"
                                        f" MODE: {self.mode}\n"
-                                       f" STATUS: {status}")
+                                       f" STATUS: {status, added_status}")
         else:
             # ステータス取得失敗
             self.sout_message(SoutSeverity.error,
                               "currentry xCAP ipaddr couldn't get or mismatch. [ UNKNOWN ]")
-            self.logger.output_1st_log("E00323", [self.nf_name, self.mode, status])
+            self.logger.output_1st_log("E00323", [self.nf_name, self.mode, status, added_status])
             self.logger.output_2nd_log(Level.CRITICAL,
                                        f"xCAP ipaddr事後確認取得失敗:\n"
                                        "パラメータ:\n"
                                        f" NF名: {self.nf_name}\n"
                                        f" MODE: {self.mode}\n"
-                                       f" STATUS: {status}")
+                                       f" STATUS: {status, added_status}")
 
         self.logger.output_1st_log("I00336", [self.nf_name, f"changed: {changed.name}"])
         return changed
