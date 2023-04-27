@@ -49,6 +49,7 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
         self.__add_ipaddr: str = None
         self.__priority: str = None
         self.__ipaddr_list = ipaddr_list
+        self.get_status_result = None
 
     @property
     def edns_ipaddr(self) -> str:
