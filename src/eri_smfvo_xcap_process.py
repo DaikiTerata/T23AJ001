@@ -49,7 +49,7 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
         self.__add_ipaddr: str = None
         self.__priority: str = None
         self.__ipaddr_list = ipaddr_list
-        self.get_status_result = None
+        self.status_result = None
 
     @property
     def edns_ipaddr(self) -> str:
@@ -166,7 +166,7 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
             result = self.client.command(command).decode("utf-8")
             self.logger.output_1st_log("I00310", result)
 
-            self.get_status_result = result
+            self.status_result = result
 
             up_pattern = self.edns_ipaddr
             # up_patternを含む場合はTargetStatus.up、無ければTargetStatus.down
@@ -206,7 +206,7 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
         self.logger.output_1st_log("I00323", self.nf_name)
 
         # NF取得情報を解析
-        self.parse_result(self.get_status_result)
+        self.parse_result(self.status_result)
 
         # 追加(予備)IPアドレスが存在しない場合
         if not self.add_ipaddr:
@@ -423,7 +423,7 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
         res = super().changed_check(status)
 
         # 追加IPアドレスチェック
-        is_added = bool(self.get_status_result.lower().count(self.add_ipaddr))
+        is_added = bool(self.status_result.lower().count(self.add_ipaddr))
         added_status = TargetStatus.up if self.get_status_result.lower().count(self.add_ipaddr) else TargetStatus.down
 
         changed: ProcessStatus = res
