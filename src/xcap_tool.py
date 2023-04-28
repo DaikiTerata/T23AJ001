@@ -161,9 +161,6 @@ class XcapTool(object):
                 with open(file_path, "r", encoding="utf-8") as f:
                     self.tool_conf[key] = json.load(f)
             except Exception as e:
-                message = f"[ {ToolResult.ng} ]"
-                self.sout_message(SoutSeverity.result, message)
-
                 LOGGER.output_1st_log("E00103", file_path)
 
                 if isinstance(e, FileNotFoundError):
@@ -195,6 +192,7 @@ class XcapTool(object):
                                           f" ファイルパス: {file_path}\n"
                                           f" Trace: {e.__class__.__name__} {e}")
 
+                self.sout_message(SoutSeverity.result, f"[ {ToolResult.ng} ]")
                 return False
 
         LOGGER.output_1st_log("I00106")
