@@ -126,10 +126,8 @@ class XcapTool(object):
 
         except ArgumentParserError as e:
             argv = sys.argv[1:]
-            message = f"failed to analyse arguments {argv}."
-            self.sout_message(SoutSeverity.error, message, None, None)
-            message = f"[ {ToolResult.ng} ]"
-            self.sout_message(SoutSeverity.result, message, None, None)
+            self.sout_message(SoutSeverity.error, f"failed to analyse arguments {argv}.", None, None)
+            self.sout_message(SoutSeverity.result, f"[ {ToolResult.ng} ]", None, None)
             LOGGER.output_1st_log("E00102", argv)
             LOGGER.output_2nd_log(Level.CRITICAL,
                                   f"引数解析異常発生:\n"
@@ -404,8 +402,10 @@ class XcapTool(object):
         result = ToolResult.ng if len(failed_nf_list) else ToolResult.ok
 
         self.sout_message(SoutSeverity.result, f"[ {result} ]")
-        message = f"SUCCESS={len(success_nf_list)}, FAILED={len(failed_nf_list)}, BLOCKED={len(blocked_nf_list)}"
-        self.sout_message(SoutSeverity.detail, message)
+        self.sout_message(SoutSeverity.detail,
+                          f"SUCCESS={len(success_nf_list)},"
+                          f" FAILED={len(failed_nf_list)},"
+                          f" BLOCKED={len(blocked_nf_list)}")
         self.sout_message(SoutSeverity.detail, f"SUCCESSED NF {success_nf_list}")
         self.sout_message(SoutSeverity.detail, f"FAILED NF {failed_nf_list}")
         self.sout_message(SoutSeverity.detail, f"BLOCKED NF {blocked_nf_list}")
