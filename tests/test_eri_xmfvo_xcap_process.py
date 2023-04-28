@@ -744,10 +744,10 @@ def test_get_status01(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixtu
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00321", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", send_command[0]),
-        *"job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", command_response_value[0].decode("utf-8")).splitlines(True),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00322", [nf_name, status])
+        f"job_id:{JOB_ID}, message_id:I00321, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:{send_command[0]}\n",
+        *f"job_id:{JOB_ID}, message_id:I00310, add_info:{command_response_value[0].decode('utf-8')}\n".splitlines(True),
+        f"job_id:{JOB_ID}, message_id:I00322, add_info:{[nf_name, status]}\n"
     ]
 
     expected_log_2nd = []
@@ -843,10 +843,10 @@ def test_get_status02(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixtu
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00321", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", send_command[0]),
-        *"job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", command_response_value[0].decode("utf-8")).splitlines(True),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00322", [nf_name, status])
+        f"job_id:{JOB_ID}, message_id:I00321, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:{send_command[0]}\n",
+        *f"job_id:{JOB_ID}, message_id:I00310, add_info:{command_response_value[0].decode('utf-8')}\n".splitlines(True),
+        f"job_id:{JOB_ID}, message_id:I00322, add_info:{[nf_name, status]}\n"
     ]
 
     expected_log_2nd = []
@@ -945,9 +945,9 @@ def test_get_status03(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixtu
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00321", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", send_command[0]),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00304", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00321, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:{send_command[0]}\n",
+        f"job_id:{JOB_ID}, message_id:E00304, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = [
@@ -1055,9 +1055,9 @@ def test_get_status04(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixtu
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00321", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", send_command[0]),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00304", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00321, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:{send_command[0]}\n",
+        f"job_id:{JOB_ID}, message_id:E00304, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = [
@@ -1163,8 +1163,8 @@ def test_change_status01(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFi
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00323", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00324", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00323, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00324, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -1287,8 +1287,8 @@ def test_change_status02(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFi
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00323", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00321", [nf_name, mode])
+        f"job_id:{JOB_ID}, message_id:I00323, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:E00321, add_info:{[nf_name, mode]}\n"
     ]
 
     expected_log_2nd = []
@@ -1412,8 +1412,8 @@ def test_change_status03(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFi
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00323", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00321", [nf_name, mode])
+        f"job_id:{JOB_ID}, message_id:I00323, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:E00321, add_info:{[nf_name, mode]}\n"
     ]
 
     expected_log_2nd = []
@@ -1537,8 +1537,8 @@ def test_change_status04(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFi
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00323", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00321", [nf_name, mode])
+        f"job_id:{JOB_ID}, message_id:I00323, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:E00321, add_info:{[nf_name, mode]}\n"
     ]
 
     expected_log_2nd = []
@@ -1662,8 +1662,8 @@ def test_change_status05(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFi
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00323", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00322", [nf_name, mode])
+        f"job_id:{JOB_ID}, message_id:I00323, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:E00322, add_info:{[nf_name, mode]}\n"
     ]
 
     expected_log_2nd = []
@@ -1780,12 +1780,12 @@ def test_to_down01(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture)
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00325", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "config"),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", send_command[0]),
-        *"job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", command_response_value[0].decode("utf-8")).splitlines(True),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00326", [nf_name, mode, True])
+        f"job_id:{JOB_ID}, message_id:I00325, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:config\n",
+        f"job_id:{JOB_ID}, message_id:I00310, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:{send_command[0]}\n",
+        *f"job_id:{JOB_ID}, message_id:I00310, add_info:{command_response_value[0].decode('utf-8')}\n".splitlines(True),
+        f"job_id:{JOB_ID}, message_id:I00326, add_info:{[nf_name, mode, True]}\n"
     ]
 
     expected_log_2nd = []
@@ -1888,11 +1888,11 @@ def test_to_down02(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture)
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00325", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "config"),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", send_command[0]),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00303", [nf_name, mode])
+        f"job_id:{JOB_ID}, message_id:I00325, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:config\n",
+        f"job_id:{JOB_ID}, message_id:I00310, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:{send_command[0]}\n",
+        f"job_id:{JOB_ID}, message_id:E00303, add_info:{[nf_name, mode]}\n"
     ]
 
     expected_log_2nd = [
@@ -2004,11 +2004,11 @@ def test_to_down03(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture)
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00325", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "config"),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", send_command[0]),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00303", [nf_name, mode])
+        f"job_id:{JOB_ID}, message_id:I00325, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:config\n",
+        f"job_id:{JOB_ID}, message_id:I00310, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:{send_command[0]}\n",
+        f"job_id:{JOB_ID}, message_id:E00303, add_info:{[nf_name, mode]}\n"
     ]
 
     expected_log_2nd = [
@@ -2116,12 +2116,12 @@ def test_to_up01(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture):
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00327", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "config"),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", send_command[0]),
-        *"job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", command_response_value[0].decode("utf-8")).splitlines(True),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00328", [nf_name, mode, True])
+        f"job_id:{JOB_ID}, message_id:I00327, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:config\n",
+        f"job_id:{JOB_ID}, message_id:I00310, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:{send_command[0]}\n",
+        *f"job_id:{JOB_ID}, message_id:I00310, add_info:{command_response_value[0].decode('utf-8')}\n".splitlines(True),
+        f"job_id:{JOB_ID}, message_id:I00328, add_info:{[nf_name, mode, True]}\n"
     ]
 
     expected_log_2nd = []
@@ -2224,11 +2224,11 @@ def test_to_up02(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture):
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00327", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "config"),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", send_command[0]),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00303", [nf_name, mode])
+        f"job_id:{JOB_ID}, message_id:I00327, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:config\n",
+        f"job_id:{JOB_ID}, message_id:I00310, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:{send_command[0]}\n",
+        f"job_id:{JOB_ID}, message_id:E00303, add_info:{[nf_name, mode]}\n"
     ]
 
     expected_log_2nd = [
@@ -2340,11 +2340,11 @@ def test_to_up03(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture):
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00327", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "config"),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", send_command[0]),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00303", [nf_name, mode])
+        f"job_id:{JOB_ID}, message_id:I00327, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:config\n",
+        f"job_id:{JOB_ID}, message_id:I00310, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:{send_command[0]}\n",
+        f"job_id:{JOB_ID}, message_id:E00303, add_info:{[nf_name, mode]}\n"
     ]
 
     expected_log_2nd = [
@@ -2446,8 +2446,8 @@ def test_pre_check01(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixtur
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00329", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00330", [nf_name, f"pre_check: {expected_value}"])
+        f"job_id:{JOB_ID}, message_id:I00329, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00330, add_info:{[nf_name, 'pre_check: True']}\n"
     ]
 
     expected_log_2nd = []
@@ -2533,8 +2533,8 @@ def test_pre_check02(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixtur
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00329", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00330", [nf_name, f"pre_check: {expected_value}"])
+        f"job_id:{JOB_ID}, message_id:I00329, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00330, add_info:{[nf_name, 'pre_check: False']}\n"
     ]
 
     expected_log_2nd = []
@@ -2620,8 +2620,8 @@ def test_post_check01(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixtu
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00331", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00332", [nf_name, f"post_check: {expected_value}"])
+        f"job_id:{JOB_ID}, message_id:I00331, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00332, add_info:{[nf_name, 'post_check: True']}\n"
     ]
 
     expected_log_2nd = []
@@ -2707,8 +2707,8 @@ def test_post_check02(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixtu
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00331", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00332", [nf_name, f"post_check: {expected_value}"])
+        f"job_id:{JOB_ID}, message_id:I00331, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00332, add_info:{[nf_name, 'post_check: False']}\n"
     ]
 
     expected_log_2nd = []
@@ -2799,9 +2799,9 @@ def test_necessity_check01(tmpdir, capsys: pytest.CaptureFixture, mocker: Mocker
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00333", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00341", [nf_name, mode, status]),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00334", [nf_name, f"necessity: {expected_value.name}"])
+        f"job_id:{JOB_ID}, message_id:I00333, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00341, add_info:{[nf_name, mode, status]}\n",
+        f"job_id:{JOB_ID}, message_id:I00334, add_info:{[nf_name, 'necessity: show_or_unknown']}\n"
     ]
 
     expected_log_2nd = []
@@ -2897,9 +2897,9 @@ def test_necessity_check02(tmpdir, capsys: pytest.CaptureFixture, mocker: Mocker
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00333", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00341", [nf_name, mode, status]),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00334", [nf_name, f"necessity: {expected_value.name}"])
+        f"job_id:{JOB_ID}, message_id:I00333, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00341, add_info:{[nf_name, mode, status]}\n",
+        f"job_id:{JOB_ID}, message_id:I00334, add_info:{[nf_name, 'necessity: already_changed']}\n"
     ]
 
     expected_log_2nd = []
@@ -2995,9 +2995,9 @@ def test_necessity_check03(tmpdir, capsys: pytest.CaptureFixture, mocker: Mocker
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00333", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00342", [nf_name, mode, status]),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00334", [nf_name, f"necessity: {expected_value.name}"])
+        f"job_id:{JOB_ID}, message_id:I00333, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00342, add_info:{[nf_name, mode, status]}\n",
+        f"job_id:{JOB_ID}, message_id:I00334, add_info:{[nf_name, 'necessity: need_to_change']}\n"
     ]
 
     expected_log_2nd = []
@@ -3093,9 +3093,9 @@ def test_necessity_check04(tmpdir, capsys: pytest.CaptureFixture, mocker: Mocker
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00333", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00323", [nf_name, mode, status]),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00334", [nf_name, f"necessity: {expected_value.name}"])
+        f"job_id:{JOB_ID}, message_id:I00333, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:E00323, add_info:{[nf_name, mode, status]}\n",
+        f"job_id:{JOB_ID}, message_id:I00334, add_info:{[nf_name, 'necessity: exception_ng']}\n"
     ]
 
     expected_log_2nd = [
@@ -3208,9 +3208,9 @@ def test_changed_check01(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFi
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00335", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00343", [nf_name, mode, status, added_status]),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00336", [nf_name, f"changed: {expected_value.name}"])
+        f"job_id:{JOB_ID}, message_id:I00335, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00343, add_info:{[nf_name, mode, status, added_status]}\n",
+        f"job_id:{JOB_ID}, message_id:I00336, add_info:{[nf_name, 'changed: change_ok']}\n"
     ]
 
     expected_log_2nd = []
@@ -3316,9 +3316,9 @@ def test_changed_check02(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFi
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00335", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00324", [nf_name, mode, status, added_status]),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00336", [nf_name, f"changed: {expected_value.name}"])
+        f"job_id:{JOB_ID}, message_id:I00335, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:E00324, add_info:{[nf_name, mode, status, added_status]}\n",
+        f"job_id:{JOB_ID}, message_id:I00336, add_info:{[nf_name, 'changed: change_ng']}\n"
     ]
 
     expected_log_2nd = [
@@ -3433,9 +3433,9 @@ def test_changed_check03(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFi
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00335", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00324", [nf_name, mode, status, added_status]),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00336", [nf_name, f"changed: {expected_value.name}"])
+        f"job_id:{JOB_ID}, message_id:I00335, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:E00324, add_info:{[nf_name, mode, status, added_status]}\n",
+        f"job_id:{JOB_ID}, message_id:I00336, add_info:{[nf_name, 'changed: change_ng']}\n"
     ]
 
     expected_log_2nd = [
@@ -3549,9 +3549,9 @@ def test_changed_check04(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFi
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00335", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00323", [nf_name, mode, status, added_status]),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00336", [nf_name, f"changed: {expected_value.name}"])
+        f"job_id:{JOB_ID}, message_id:I00335, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:E00323, add_info:{[nf_name, mode, status, added_status]}\n",
+        f"job_id:{JOB_ID}, message_id:I00336, add_info:{[nf_name, 'changed: exception_ng']}\n"
     ]
 
     expected_log_2nd = [
@@ -3659,8 +3659,8 @@ def test_parse_result01(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFix
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00337", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00338", [nf_name, parsed_list, add_ipaddr, priority])
+        f"job_id:{JOB_ID}, message_id:I00337, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00338, add_info:{[nf_name, parsed_list, add_ipaddr, priority]}\n"
     ]
 
     expected_log_2nd = []
@@ -3742,8 +3742,8 @@ def test_parse_result02(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFix
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00337", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00338", [nf_name, parsed_list, add_ipaddr, priority])
+        f"job_id:{JOB_ID}, message_id:I00337, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00338, add_info:{[nf_name, parsed_list, add_ipaddr, priority]}\n"
     ]
 
     expected_log_2nd = []
@@ -3823,8 +3823,8 @@ def test_parse_result03(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFix
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00337", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00338", [nf_name, parsed_list, add_ipaddr, priority])
+        f"job_id:{JOB_ID}, message_id:I00337, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00338, add_info:{[nf_name, parsed_list, add_ipaddr, priority]}\n"
     ]
 
     expected_log_2nd = []
@@ -3897,8 +3897,8 @@ def test_parse_result04(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFix
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00337", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00338", [nf_name, parsed_list, add_ipaddr, priority])
+        f"job_id:{JOB_ID}, message_id:I00337, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00338, add_info:{[nf_name, parsed_list, add_ipaddr, priority]}\n"
     ]
 
     expected_log_2nd = []
@@ -3988,8 +3988,8 @@ def test_run01(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture):
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00339", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00340", [nf_name, f"process status: {ProcessStatus.post_check_ok.name}"])
+        f"job_id:{JOB_ID}, message_id:I00339, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00340, add_info:{[nf_name, 'process status: post_check_ok']}\n"
     ]
 
     expected_log_2nd = []
@@ -4109,8 +4109,8 @@ def test_run02(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture):
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00339", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00340", [nf_name, f"process status: {ProcessStatus.need_not_to_change.name}"])
+        f"job_id:{JOB_ID}, message_id:I00339, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00340, add_info:{[nf_name, 'process status: need_not_to_change']}\n"
     ]
 
     expected_log_2nd = []
@@ -4230,8 +4230,8 @@ def test_run03(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture):
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00339", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00340", [nf_name, f"process status: {ProcessStatus.ssh_ng.name}"])
+        f"job_id:{JOB_ID}, message_id:I00339, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00340, add_info:{[nf_name, 'process status: ssh_ng']}\n"
     ]
 
     expected_log_2nd = []
@@ -4351,8 +4351,8 @@ def test_run04(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture):
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00339", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00340", [nf_name, f"process status: {ProcessStatus.pre_check_ng.name}"])
+        f"job_id:{JOB_ID}, message_id:I00339, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00340, add_info:{[nf_name, 'process status: pre_check_ng']}\n"
     ]
 
     expected_log_2nd = []
@@ -4473,8 +4473,8 @@ def test_run05(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture):
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00339", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00340", [nf_name, f"process status: {ProcessStatus.change_ng.name}"])
+        f"job_id:{JOB_ID}, message_id:I00339, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00340, add_info:{[nf_name, 'process status: change_ng']}\n"
     ]
 
     expected_log_2nd = []
@@ -4594,8 +4594,8 @@ def test_run06(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture):
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00339", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00340", [nf_name, f"process status: {ProcessStatus.change_ng.name}"])
+        f"job_id:{JOB_ID}, message_id:I00339, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00340, add_info:{[nf_name, 'process status: change_ng']}\n"
     ]
 
     expected_log_2nd = []
@@ -4715,8 +4715,8 @@ def test_run07(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture):
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00339", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00340", [nf_name, f"process status: {ProcessStatus.post_check_ng.name}"])
+        f"job_id:{JOB_ID}, message_id:I00339, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00340, add_info:{[nf_name, 'process status: post_check_ng']}\n"
     ]
 
     expected_log_2nd = []
@@ -4836,8 +4836,8 @@ def test_run08(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture):
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00339", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00340", [nf_name, f"process status: {ProcessStatus.exception_ng.name}"])
+        f"job_id:{JOB_ID}, message_id:I00339, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00340, add_info:{[nf_name, 'process status: exception_ng']}\n"
     ]
 
     expected_log_2nd = [

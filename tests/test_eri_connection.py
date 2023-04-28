@@ -61,8 +61,8 @@ def test_get_sock01(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.M
     proxycommand = "".replace("%h", hostname).replace("%p", str(port))
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00203", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00204", None)
+        f"job_id:{JOB_ID}, message_id:I00203, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00204, add_info:{None}\n"
     ]
 
     logger = MockLog(JOB_ID, Level.INFO, log_dir=tmpdir)
@@ -105,8 +105,8 @@ def test_get_sock02(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.M
     bast_conf = {"bastions": {"director-1-a1-er-s01-vm-002": {"proxycommand": "ssh -i /home/ansible/xgn/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.101.51"}}}
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00203", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00205", None)
+        f"job_id:{JOB_ID}, message_id:I00203, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00205, add_info:{None}\n"
     ]
 
     logger = MockLog(JOB_ID, Level.INFO, log_dir=tmpdir)
@@ -153,8 +153,8 @@ def test_get_sock03(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.M
     bast_conf = {"bastions": {"director-1-a1-er-s01-vm-002": {"proxycommand": "ssh -i /home/ansible/xgn/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.101.51"}}}
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00203", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00205", None)
+        f"job_id:{JOB_ID}, message_id:I00203, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00205, add_info:{None}\n"
     ]
 
     expected_log_2nd = []
@@ -202,8 +202,8 @@ def test_get_sock04(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.M
     bast_conf = {"bastions": {"director-1-a1-er-s01-vm-002": {"proxycommand": "ssh -i /home/ansible/xgn/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.101.51"}}}
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00203", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00202", None)
+        f"job_id:{JOB_ID}, message_id:I00203, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:E00202, add_info:{None}\n"
     ]
 
     expected_log_2nd = [
@@ -255,8 +255,8 @@ def test_init01(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.Mocke
     nf_name = "a1-er-s01-smfvo-001"
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -295,8 +295,8 @@ def test_init02(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.Mocke
     nf_name = None
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00201", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:E00201, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = [
@@ -350,10 +350,10 @@ def test_connect01(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.Mo
     nf_name = "a1-er-s01-smfvo-001"
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00206", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00207", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00206, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00207, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -425,10 +425,10 @@ def test_connect02(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.Mo
         "timeout": 10
     }
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00206", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00203", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00206, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:E00203, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = [
@@ -519,9 +519,9 @@ def test_connect03(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.Mo
     }
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00206", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00206, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -592,10 +592,10 @@ def test_close01(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.Mock
     nf_name = "a1-er-s01-smfvo-001"
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00211", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00212", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00211, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00212, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -655,10 +655,10 @@ def test_close02(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.Mock
     nf_name = "a1-er-s01-smfvo-001"
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00211", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00212", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00211, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00212, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -724,11 +724,11 @@ def test_command01(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.Mo
     timeout = 15.0
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00208", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00209", command),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00210", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00208, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00209, add_info:{command}\n",
+        f"job_id:{JOB_ID}, message_id:I00210, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -799,11 +799,11 @@ def test_command02(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.Mo
     timeout = 10.0
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00208", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00209", command),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00210", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00208, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00209, add_info:{command}\n",
+        f"job_id:{JOB_ID}, message_id:I00210, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -874,10 +874,10 @@ def test_command03(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.Mo
     wait = None
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00208", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00216", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00208, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00216, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -949,11 +949,11 @@ def test_command04(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.Mo
     timeout = 100.0
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00208", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00209", command),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00204", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00208, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00209, add_info:{command}\n",
+        f"job_id:{JOB_ID}, message_id:E00204, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = [
@@ -1033,10 +1033,10 @@ def test_read01(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.Mocke
     recv_data = b"\r\n".join([command, expected_value, cmd_prompt])
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00213", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00215", None)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00213, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00215, add_info:{None}\n"
     ]
 
     expected_log_2nd = [
@@ -1109,10 +1109,10 @@ def test_read02(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.Mocke
     recv_data = b"\r\n".join([command, expected_value, cmd_prompt])
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00213", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00215", None)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00213, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00215, add_info:{None}\n"
     ]
 
     expected_log_2nd = [
@@ -1183,10 +1183,10 @@ def test_read03(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.Mocke
     recv_data = b"\r\n".join([command, expected_value, cmd_prompt])
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00213", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00215", None)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00213, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00215, add_info:{None}\n"
     ]
 
     expected_log_2nd = []
@@ -1247,8 +1247,8 @@ def test_is_shell_enable01(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest
     expected_value = True
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -1298,8 +1298,8 @@ def test_is_shell_enable02(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest
     expected_value = False
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -1349,8 +1349,8 @@ def test_is_shell_enable03(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest
     expected_value = False
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -1400,8 +1400,8 @@ def test_is_shell_enable04(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest
     expected_value = False
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -1450,9 +1450,9 @@ def test_enter_config_mode01(tmpdir, capsys: pytest.CaptureFixture, mocker: pyte
     expected_value = None
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00216", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00216, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -1505,9 +1505,9 @@ def test_enter_config_mode02(tmpdir, capsys: pytest.CaptureFixture, mocker: pyte
     expected_value = None
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00226", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00226, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -1560,10 +1560,10 @@ def test_enter_config_mode03(tmpdir, capsys: pytest.CaptureFixture, mocker: pyte
     expected_value = None
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00217", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00218", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00217, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00218, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -1623,9 +1623,9 @@ def test_exit_config_mode01(tmpdir, capsys: pytest.CaptureFixture, mocker: pytes
     expected_value = None
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00216", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00216, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -1678,9 +1678,9 @@ def test_exit_config_mode02(tmpdir, capsys: pytest.CaptureFixture, mocker: pytes
     expected_value = None
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00227", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00227, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -1733,10 +1733,10 @@ def test_exit_config_mode03(tmpdir, capsys: pytest.CaptureFixture, mocker: pytes
     expected_value = None
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00219", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00220", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00219, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00220, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -1798,8 +1798,8 @@ def test_exit_config_mode04(tmpdir, capsys: pytest.CaptureFixture, mocker: pytes
     expected_value = None
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -1860,9 +1860,9 @@ def test_abort01(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.Mock
     expected_value = None
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00216", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00216, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -1915,9 +1915,9 @@ def test_abort02(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.Mock
     expected_value = None
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00227", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00227, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -1970,10 +1970,10 @@ def test_abort03(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock.Mock
     expected_value = None
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00221", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00222", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00221, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00222, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -2037,11 +2037,11 @@ def test_read_first01(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock
     recv_data = b"\r\n".join([b"", cmd_prompt])
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00223", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00224", cmd_prompt.decode("utf-8")),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00225", recv_data)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00223, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00224, add_info:{cmd_prompt.decode('utf-8')}\n",
+        f"job_id:{JOB_ID}, message_id:I00225, add_info:{recv_data}\n"
     ]
 
     expected_log_2nd = []
@@ -2106,10 +2106,10 @@ def test_read_first02(tmpdir, capsys: pytest.CaptureFixture, mocker: pytest_mock
     recv_data = b"\r\n".join([b"", cmd_prompt])
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00201", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00202", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00223", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00216", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00201, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00202, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00223, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00216, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []

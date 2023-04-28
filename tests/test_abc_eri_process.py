@@ -201,10 +201,10 @@ def test_open_client01(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixt
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00301", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "screen-length 0"),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", ""),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00302", nf_name),
+        f"job_id:{JOB_ID}, message_id:I00301, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:screen-length 0\n",
+        f"job_id:{JOB_ID}, message_id:I00310, add_info:\n",
+        f"job_id:{JOB_ID}, message_id:I00302, add_info:{nf_name}\n",
     ]
 
     expected_log_2nd = []
@@ -278,9 +278,9 @@ def test_open_client02(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixt
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00301", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00301", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00302", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00301, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:E00301, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:E00302, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = [
@@ -367,9 +367,9 @@ def test_open_client03(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixt
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00301", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00303", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00302", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00301, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:E00303, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:E00302, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = [
@@ -455,8 +455,8 @@ def test_open_client04(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixt
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00301", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00304", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00301, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:E00304, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = [
@@ -542,8 +542,8 @@ def test_open_client05(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixt
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00301", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00304", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00301, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:E00304, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = [
@@ -625,8 +625,8 @@ def test_close_client01(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFix
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00303", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00304", nf_name),
+        f"job_id:{JOB_ID}, message_id:I00303, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00304, add_info:{nf_name}\n",
     ]
 
     expected_log_2nd = []
@@ -703,18 +703,18 @@ def test_commit01(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture):
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00305", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "config"),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "show configuration diff"),
-        *"job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", command_response_value[0].decode("utf-8")).splitlines(True),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "validate"),
-        *"job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", command_response_value[1].decode("utf-8")).splitlines(True),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", f"commit comment {commit_comment}"),
-        *"job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", command_response_value[2].decode("utf-8")).splitlines(True),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "end"),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00306", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00305, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:config\n",
+        f"job_id:{JOB_ID}, message_id:I00310, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:show configuration diff\n",
+        *f"job_id:{JOB_ID}, message_id:I00310, add_info:{command_response_value[0].decode('utf-8')}\n".splitlines(True),
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:validate\n",
+        *f"job_id:{JOB_ID}, message_id:I00310, add_info:{command_response_value[1].decode('utf-8')}\n".splitlines(True),
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:commit comment {commit_comment}\n",
+        *f"job_id:{JOB_ID}, message_id:I00310, add_info:{command_response_value[2].decode('utf-8')}\n".splitlines(True),
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:end\n",
+        f"job_id:{JOB_ID}, message_id:I00310, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00306, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -806,18 +806,18 @@ def test_commit02(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture):
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00305", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "config"),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "show configuration diff"),
-        *"job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", command_response_value[0].decode("utf-8")).splitlines(True),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "validate"),
-        *"job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", command_response_value[1].decode("utf-8")).splitlines(True),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", f"commit comment {commit_comment}"),
-        *"job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", command_response_value[2].decode("utf-8")).splitlines(True),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "end"),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00306", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00305, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:config\n",
+        f"job_id:{JOB_ID}, message_id:I00310, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:show configuration diff\n",
+        *f"job_id:{JOB_ID}, message_id:I00310, add_info:{command_response_value[0].decode('utf-8')}\n".splitlines(True),
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:validate\n",
+        *f"job_id:{JOB_ID}, message_id:I00310, add_info:{command_response_value[1].decode('utf-8')}\n".splitlines(True),
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:commit comment {commit_comment}\n",
+        *f"job_id:{JOB_ID}, message_id:I00310, add_info:{command_response_value[2].decode('utf-8')}\n".splitlines(True),
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:end\n",
+        f"job_id:{JOB_ID}, message_id:I00310, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00306, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -912,11 +912,11 @@ def test_commit03(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture):
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00305", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "config"),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "show configuration diff"),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00303", [nf_name, mode])
+        f"job_id:{JOB_ID}, message_id:I00305, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:config\n",
+        f"job_id:{JOB_ID}, message_id:I00310, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:show configuration diff\n",
+        f"job_id:{JOB_ID}, message_id:E00303, add_info:{[nf_name, mode]}\n"
     ]
 
     expected_log_2nd = [
@@ -1019,14 +1019,14 @@ def test_commit04(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture):
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00305", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "config"),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "show configuration diff"),
-        *"job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", command_response_value[0].decode("utf-8")).splitlines(True),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "validate"),
-        *"job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", command_response_value[1].decode("utf-8")).splitlines(True),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00303", [nf_name, mode])
+        f"job_id:{JOB_ID}, message_id:I00305, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:config\n",
+        f"job_id:{JOB_ID}, message_id:I00310, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:show configuration diff\n",
+        *f"job_id:{JOB_ID}, message_id:I00310, add_info:{command_response_value[0].decode('utf-8')}\n".splitlines(True),
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:validate\n",
+        *f"job_id:{JOB_ID}, message_id:I00310, add_info:{command_response_value[1].decode('utf-8')}\n".splitlines(True),
+        f"job_id:{JOB_ID}, message_id:E00303, add_info:{[nf_name, mode]}\n"
     ]
 
     expected_log_2nd = [
@@ -1129,16 +1129,16 @@ def test_commit05(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture):
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00305", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "config"),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "show configuration diff"),
-        *"job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", command_response_value[0].decode("utf-8")).splitlines(True),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "validate"),
-        *"job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", command_response_value[1].decode("utf-8")).splitlines(True),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", f"commit comment {commit_comment}"),
-        *"job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", command_response_value[2].decode("utf-8")).splitlines(True),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00303", [nf_name, mode])
+        f"job_id:{JOB_ID}, message_id:I00305, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:config\n",
+        f"job_id:{JOB_ID}, message_id:I00310, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:show configuration diff\n",
+        *f"job_id:{JOB_ID}, message_id:I00310, add_info:{command_response_value[0].decode('utf-8')}\n".splitlines(True),
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:validate\n",
+        *f"job_id:{JOB_ID}, message_id:I00310, add_info:{command_response_value[1].decode('utf-8')}\n".splitlines(True),
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:commit comment {commit_comment}\n",
+        *f"job_id:{JOB_ID}, message_id:I00310, add_info:{command_response_value[2].decode('utf-8')}\n".splitlines(True),
+        f"job_id:{JOB_ID}, message_id:E00303, add_info:{[nf_name, mode]}\n"
     ]
 
     expected_log_2nd = [
@@ -1232,10 +1232,10 @@ def test_do_abort01(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture
     expected_sout = []
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00307", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "abort"),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00310", None),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00308", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00307, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:abort\n",
+        f"job_id:{JOB_ID}, message_id:I00310, add_info:{None}\n",
+        f"job_id:{JOB_ID}, message_id:I00308, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = []
@@ -1312,9 +1312,9 @@ def test_do_abort02(tmpdir, capsys: pytest.CaptureFixture, mocker: MockerFixture
     ]
 
     expected_log_1st = [
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00307", nf_name),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "I00309", "abort"),
-        "job_id:{0}, message_id:{1}, add_info:{2}\n".format(JOB_ID, "E00305", nf_name)
+        f"job_id:{JOB_ID}, message_id:I00307, add_info:{nf_name}\n",
+        f"job_id:{JOB_ID}, message_id:I00309, add_info:abort\n",
+        f"job_id:{JOB_ID}, message_id:E00305, add_info:{nf_name}\n"
     ]
 
     expected_log_2nd = [
