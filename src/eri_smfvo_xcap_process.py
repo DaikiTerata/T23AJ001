@@ -500,7 +500,7 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
             return status
         try:
             if not self.pre_check():
-                # P-CSCFの事前状態確認に失敗した場合
+                # xCAPの事前状態確認に失敗した場合
                 status = ProcessStatus.pre_check_ng
                 return status
 

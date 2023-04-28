@@ -248,7 +248,7 @@ class XcapTool(object):
         LOGGER.output_1st_log("I00109")
         ipaddr: str = None
         try:
-            # P-CSCF情報取得
+            # eDNS情報取得
             ipaddr = self.tool_conf[EDNS_INFOS][self.args.edns_name]["ipaddr"]
             ipaddress.ip_address(ipaddr)
 
