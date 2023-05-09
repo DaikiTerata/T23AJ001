@@ -367,11 +367,11 @@ class XcapTool(object):
 
         for nf_name, config in self.smfvoice_configs.items():
 
-            # SMFv設定内に障害NFリストに含まれるeDNSホスト名のIPアドレスがある場合、対象を削除する
-            for failed_edns in failed_edns_set:
-                failed_edns_ipaddr = self.tool_conf[EDNS_INFOS][failed_edns]["ipaddr"]
-                if failed_edns_ipaddr in config["xCAP"]:
-                    config["xCAP"].remove(failed_edns_ipaddr)
+            # # SMFv設定内に障害NFリストに含まれるeDNSホスト名のIPアドレスがある場合、対象を削除する
+            # for failed_edns in failed_edns_set:
+            #     failed_edns_ipaddr = self.tool_conf[EDNS_INFOS][failed_edns]["ipaddr"]
+            #     if failed_edns_ipaddr in config["xCAP"]:
+            #         config["xCAP"].remove(failed_edns_ipaddr)
 
             process = EriSmfvoXCAPProcess(self.args.edns_name,
                                           nf_name,
