@@ -156,6 +156,7 @@ class XcapTool(object):
         for key in REQUIRED_KEYS:
             try:
                 # 設定存在チェック&解析チェック
+                file_path: Path = None
                 file_path = LOCAL_CONFIG_DIR.joinpath(self.tool_conf[key])
                 # JSON読込
                 with open(file_path, "r", encoding="utf-8") as f:
