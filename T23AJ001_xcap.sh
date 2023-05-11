@@ -6,7 +6,7 @@ export PYTHONPATH=${PYTHONPATH}:/home/xgntools/T23AJ001/
 HEISOKUDB_TOOL=/home/xgntools/T8AJ001/T8AJ001_heisoku-db.sh
 HEISOKU_LIST=$(${HEISOKUDB_TOOL} LISTW)
 i=0
-while [ "$1" != "" ] && [[ $1 != *"--"* ]]
+while [ "$1" != "" ] && [[ $1 != "--"* ]]
 do
     ARGV[i]=$1
     shift
