@@ -66,6 +66,10 @@ class ProcessStatus(IntFlag):
     """プロセスの実行成功と判定"""
     ng = ssh_ng | pre_check_ng | change_ng | commit_ng | post_check_ng | exception_ng
     """プロセスの実行失敗と判定"""
+    hazardous = auto()
+    """ハザーダス状態"""
+    non_hazardous = auto()
+    """ハザーダスでない状態"""
     stop_ng_abort = auto()
     """全断防止判定され処理中断"""
     stop_ng_ongoing = auto()
