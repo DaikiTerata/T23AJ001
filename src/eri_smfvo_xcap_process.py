@@ -119,7 +119,10 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
             value (TargetStatus): ステータス
 
         Returns:
-            str: upの場合はin use、downの場合はout of use、それ以外の場合はunknown
+            str:
+                upの場合 in use、
+                downの場合 out of use、
+                それ以外の場合 unknown
         """
         word = "unknown"
         if value == TargetStatus.up:
@@ -141,7 +144,10 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
         """現在のxCAPステータスを取得する
 
         Returns:
-            TargetStatus: 削除IPアドレスがある場合up、ない場合down、例外発生ならNone
+            TargetStatus:
+                削除IPアドレスがある場合 up、
+                削除IPアドレスがない場合 down、
+                例外発生の場合 None
         """
         self.logger.output_1st_log("I00321", self.nf_name)
 
@@ -187,7 +193,10 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
         """対象ステータスの状態変更を実施
 
         Returns:
-            ProcessStatus: 正常に状態変更が完了した場合はcommit_ok、保存失敗の場合はcommit_ng、変更失敗の場合はchange_ng
+            ProcessStatus:
+                正常に状態変更が完了した場合 commit_ok、
+                保存失敗の場合 commit_ng、
+                変更失敗の場合 change_ng
         """
         self.logger.output_1st_log("I00323", self.nf_name)
 
@@ -232,7 +241,9 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
         """指定されたxCAP IPアドレスを無効(down)にするコマンドを投入。commit実行までは反映されない。
 
         Returns:
-            bool: xCAP IPアドレスの無効化コマンドが投入できた場合True、例外発生ならFalse
+            bool:
+                xCAP IPアドレスの無効化コマンドが投入できた場合 True、
+                例外発生の場合 False
         """
         self.logger.output_1st_log("I00325", self.nf_name)
 
@@ -277,7 +288,9 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
         """指定されたxCAP IPアドレスを有効(up)にするコマンドを投入。commit実行までは反映されない。
 
         Returns:
-            bool: xCAP IPアドレスの有効化コマンドが投入できた場合True、例外発生ならFalse
+            bool:
+                xCAP IPアドレスの有効化コマンドが投入できた場合 True、
+                例外発生の場合 False
         """
         self.logger.output_1st_log("I00327", self.nf_name)
 
@@ -322,7 +335,9 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
         """対象ステータスの事前確認を実施
 
         Returns:
-            bool: 変更要否確認が取得できた場合はTrue、それ以外の場合はFalse
+            bool:
+                変更要否確認が取得できた場合 True、
+                それ以外の場合 False
         """
         self.logger.output_1st_log("I00329", self.nf_name)
         res = super().pre_check()
@@ -333,7 +348,9 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
         """対象ステータスの事後確認を実施
 
         Returns:
-            bool: 変更完了の場合はTrue、それ以外の場合はFalse
+            bool:
+                変更完了の場合 True、
+                それ以外の場合 False
         """
         self.logger.output_1st_log("I00331", self.nf_name)
         res = super().post_check()
@@ -354,7 +371,11 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
             status (TargetStatus): statusの事前状態
 
         Returns:
-            ProcessStatus : 要変更の場合は need_to_change、変更モード以外の場合は show_or_unknown、変更済みの場合は already_changed、それ以外の場合は exception_ng
+            ProcessStatus:
+                要変更の場合 need_to_change、
+                変更モード以外の場合 show_or_unknown、
+                変更済みの場合 already_changed、
+                それ以外の場合 exception_ng
         """
         self.logger.output_1st_log("I00333", self.nf_name)
         necessity = super().necessity_check(status)
@@ -401,7 +422,10 @@ class EriSmfvoXCAPProcess(AbcEricssonProcess):
             status (TargetStatus): statusの事後状態
 
         Returns:
-            ProcessStatus: 変更成功の場合は change_ok、変更失敗の場合は change_ng、それ以外の場合は exception_ng
+            ProcessStatus:
+                変更成功の場合 change_ok、
+                変更失敗の場合 change_ng、
+                それ以外の場合 exception_ng
         """
         self.logger.output_1st_log("I00335", self.nf_name)
 

@@ -39,7 +39,7 @@ DispMode = {
 
 
 class ToolResult(Enum):
-    """NF Registrationツール実行時の結果種別
+    """ツール実行時の結果種別
 
     """
     init = ""
@@ -84,7 +84,9 @@ class XcapTool(object):
             ArgumentParserError: 引数異常があった場合
 
         Returns:
-            bool: 正常終了の場合True、異常終了の場合False
+            bool:
+                正常終了の場合 True、
+                異常終了の場合 False
         """
         class ArgumentParserError(Exception):
             pass
@@ -144,7 +146,9 @@ class XcapTool(object):
         """JSON設定ファイルを読み込む
 
         Returns:
-            bool: 正常終了の場合True、異常終了の場合False
+            bool:
+                正常終了の場合 True、
+                異常終了の場合 False
         """
         LOGGER.output_1st_log("I00105")
 
@@ -152,7 +156,7 @@ class XcapTool(object):
         with open(TOOL_CONF, "r", encoding="utf-8") as f:
             self.tool_conf: Dict[str, Dict[str, Any]] = json.load(f)
 
-        # nf-module設定、nf-type設定
+        # nf情報設定、edns情報設定
         for key in REQUIRED_KEYS:
             try:
                 # 設定存在チェック&解析チェック
@@ -201,9 +205,7 @@ class XcapTool(object):
         return True
 
     def info(self) -> None:
-        """info INFO出力
-
-        引数情報、対象ノード情報、対向ノード情報を出力する
+        """引数情報、対象ノード情報、対向ノード情報を出力する
 
         """
         LOGGER.output_1st_log("I00107")
@@ -299,12 +301,12 @@ class XcapTool(object):
         return filtered_dict
 
     def main(self) -> bool:
-        """main メイン処理
-
-        xCAPツールメイン処理
+        """xCAPツールメイン処理
 
         Returns:
-            bool: 成功の場合True、異常発生の場合Falseとなる
+            bool:
+                成功の場合 True、
+                異常発生の場合 False
         """
         LOGGER.output_1st_log("I00113")
         # Stubモード表示
@@ -430,7 +432,9 @@ def interactive_check(message: str, continue_list: List[str], abort_list: List[s
         case_sensitive (bool, optional): 大文字と小文字を区別する場合はTrue、区別しない場合はFalse. Defaults to False.
 
     Returns:
-        Tuple[bool, str]: 入力文字列および、継続を示す場合はTrue、中止を示す場合はFalse
+        Tuple[bool, str]:
+            入力文字列および、継続を示す場合 True、
+            中止を示す場合 False
     """
     # 大文字と小文字を区別しない場合はそれぞれを小文字に変換する
     continue_list = [x.lower() for x in continue_list] if not case_sensitive else continue_list

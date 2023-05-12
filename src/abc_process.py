@@ -259,7 +259,11 @@ class AbcProcess(ABC):
         """現在の対象ステータス取得
 
         Returns:
-            TargetStatus: 稼働中ならup、非稼働ならdown、ステータス取得失敗ならunknown、例外発生ならNone
+            TargetStatus:
+                稼働中の場合 up、
+                非稼働の場合 down、
+                ステータス取得失敗の場合 unknown、
+                例外発生の場合 None
         """
         pass
 
@@ -268,7 +272,9 @@ class AbcProcess(ABC):
         """対象のステータスを無効(down)にするコマンドを投入。commit実行までは反映されない。
 
         Returns:
-            bool: 対象ステータスの無効化コマンドが投入できた場合True、例外発生ならFalse
+            bool:
+                対象ステータスの無効化コマンドが投入できた場合 True、
+                例外発生の場合 False
         """
         pass
 
@@ -277,7 +283,9 @@ class AbcProcess(ABC):
         """対象のステータスを有効(up)にするコマンドを投入。commit実行までは反映されない。
 
         Returns:
-            bool: 対象ステータスの有効化設定が投入できた場合True、例外発生ならFalse
+            bool:
+                対象ステータスの有効化設定が投入できた場合 True、
+                例外発生の場合 False
         """
         pass
 
@@ -286,7 +294,9 @@ class AbcProcess(ABC):
         """対象NFに対して変更内容を保存する
 
         Returns:
-            bool: 正常終了完了ならTrue、例外発生ならFalse
+            bool:
+                正常終了完了の場合 True、
+                例外発生の場合 False
         """
         pass
 
@@ -295,7 +305,9 @@ class AbcProcess(ABC):
         """コマンドエラー発生時に設定を元に戻す
 
         Returns:
-            bool: 元に戻すが正常に完了したらTrue、何らかの異常が発生したらFalse
+            bool:
+                正常完了の場合 True、
+                異常発生の場合 False
         """
         pass
 
@@ -322,7 +334,9 @@ class AbcProcess(ABC):
         """対象ステータスの事前確認を実施
 
         Returns:
-            bool: 変更要否確認が取得できた場合はTrue、それ以外の場合はFalse
+            bool:
+                変更要否確認が取得できた場合 True、
+                それ以外の場合 False
         """
         self.before_status = self.get_status()
         self.necessity = self.necessity_check(self.before_status)
@@ -332,7 +346,9 @@ class AbcProcess(ABC):
         """対象ステータスの事後確認を実施
 
         Returns:
-            bool: 変更完了の場合はTrue、それ以外の場合はFalse
+            bool:
+                変更完了の場合 True、
+                それ以外の場合 False
         """
         self.after_status = self.get_status()
         self.changed = self.changed_check(self.after_status)
@@ -342,7 +358,10 @@ class AbcProcess(ABC):
         """対象ステータスの状態変更を実施
 
         Returns:
-            ProcessStatus: 正常に状態変更が完了した場合は commit_ok、保存失敗の場合は commit_ng、変更失敗の場合は change_ng
+            ProcessStatus:
+                正常に状態変更が完了した場合 commit_ok、
+                保存失敗の場合 commit_ng、
+                変更失敗の場合 change_ng
         """
         # ステータス変更コマンド取得
         if self.mode == Mode.down:
@@ -375,7 +394,11 @@ class AbcProcess(ABC):
             status (TargetStatus): statusの事前状態
 
         Returns:
-            ProcessStatus : 要変更の場合は need_to_change、変更モード以外の場合は show_or_unknown、変更済みの場合は already_changed、それ以外の場合は exception_ng
+            ProcessStatus:
+                要変更の場合 need_to_change、
+                変更モード以外の場合 show_or_unknown、
+                変更済みの場合 already_changed、
+                それ以外の場合 exception_ng
         """
         # 変更可否確認
         if (self.mode, status) in [(Mode.show, TargetStatus.down), (Mode.show, TargetStatus.up)]:
@@ -408,7 +431,10 @@ class AbcProcess(ABC):
             status (TargetStatus): statusの事後状態
 
         Returns:
-            ProcessStatus: 変更成功の場合は change_ok、変更失敗の場合は change_ng、それ以外の場合は exception_ng
+            ProcessStatus:
+                変更成功の場合 change_ok、
+                変更失敗の場合 change_ng、
+                それ以外の場合 exception_ng
         """
         if (self.mode, status) in [(Mode.up, TargetStatus.up), (Mode.down, TargetStatus.down)]:
             # UPモードかつ事後ステータスUPまたは、DOWNモードかつ事後ステータスDOWNの場合

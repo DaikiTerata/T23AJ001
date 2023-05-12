@@ -74,7 +74,7 @@ class NFShellClient(paramiko.SSHClient):
     """
 
     def __init__(self, nf_name: str) -> None:
-        """__init__ インスタンス生成
+        """インスタンス生成
 
         Args:
             nf_name (str, optional): NFノード名
@@ -96,9 +96,7 @@ class NFShellClient(paramiko.SSHClient):
         LOGGER.output_1st_log("I00202", nf_name)
 
     def connect(self) -> None:
-        """connect SSH接続開始
-
-        SSH接続を開始します
+        """SSH接続開始
 
         Raises:
             KeyError: _CONN_CONFから値の取得に失敗した場合
@@ -142,7 +140,7 @@ class NFShellClient(paramiko.SSHClient):
         LOGGER.output_1st_log("I00207", self.nf_name)
 
     def close(self) -> None:
-        """close SSH切断処理
+        """SSH切断処理
         """
         LOGGER.output_1st_log("I00211", self.nf_name)
         if self._is_shell_enable():
@@ -154,11 +152,9 @@ class NFShellClient(paramiko.SSHClient):
         LOGGER.output_1st_log("I00212", self.nf_name)
 
     def enter_config_mode(self) -> None:
-        """config_mode 設定モード移行
+        """設定モード移行
 
-        設定モードに移行する
         設定モードではプロンプトが変わるため、プロンプト情報を更新する
-
         """
         # シェル利用不可の為
         if not self._is_shell_enable():
@@ -176,7 +172,7 @@ class NFShellClient(paramiko.SSHClient):
         LOGGER.output_1st_log("I00218", self.nf_name)
 
     def exit_config_mode(self, forced=False) -> None:
-        """config_mode 設定モード解除
+        """設定モード解除
 
         設定モードを解除する
         解除後はプロンプトが変わるため、プロンプト情報を更新する
@@ -203,11 +199,10 @@ class NFShellClient(paramiko.SSHClient):
             LOGGER.output_1st_log("I00220", self.nf_name)
 
     def abort(self) -> None:
-        """config_mode 設定モード強制終了(元に戻す)
+        """設定モード強制終了(元に戻す)
 
         設定モードを強制終了する
         強制終了すると、設定中の情報を反映せずに元に戻すことができる
-
         """
         # シェル利用不可の為
         if not self._is_shell_enable():
@@ -225,7 +220,7 @@ class NFShellClient(paramiko.SSHClient):
         LOGGER.output_1st_log("I00222", self.nf_name)
 
     def command(self, command: str, timeout: float = 15.0) -> bytes:
-        """command コマンド投入
+        """コマンド投入
 
         E///装置に対してコマンドを投入します
         configコマンドでconfigモードに入る必要などありますが、exec_commandでは実現できないため、
@@ -262,7 +257,7 @@ class NFShellClient(paramiko.SSHClient):
         return result
 
     def _read(self) -> bytes:
-        """_read データ受信
+        """データ受信
 
         invoke_shellで投入したコマンド結果を受信します
         recv_ready()を確認し、recv_ready()がFalseになるまでREAD_SIZEずつ読み込みます
@@ -294,7 +289,7 @@ class NFShellClient(paramiko.SSHClient):
         return buffer
 
     def _read_first(self) -> None:
-        """_read_first 初回読み込み
+        """初回読み込み
 
         ログイン時にプロンプトを取得する必要があるため、個別の読込関数を準備する
         設定モードの移行・解除においてもプロンプトが変化するため本関数を利用する
@@ -322,7 +317,7 @@ class NFShellClient(paramiko.SSHClient):
         LOGGER.output_1st_log("I00225", buffer)
 
     def _get_prompt(self, buffer: bytes) -> str:
-        """_get_prompt プロンプトを取得する
+        """プロンプトを取得する
 
         Args:
             buffer (bytes): 受信メッセージ
@@ -333,9 +328,7 @@ class NFShellClient(paramiko.SSHClient):
         return re.compile(r'(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]').sub("", buffer.decode('utf-8').splitlines()[-1])
 
     def _is_shell_enable(self) -> bool:
-        """_is_shell_enable シェル状態確認
-
-         invoke shell有効・無効を確認する
+        """invoke shell有効・無効を確認する
 
         Returns:
             bool: invoke shellが有効ならTrue、無効ならFalse
