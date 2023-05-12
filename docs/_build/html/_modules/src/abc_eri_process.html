@@ -118,7 +118,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__client</span>
 
 <div class="viewcode-block" id="AbcEricssonProcess.get_commit_comment"><a class="viewcode-back" href="../../src.abc_eri_process.html#src.abc_eri_process.AbcEricssonProcess.get_commit_comment">[ドキュメント]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">get_commit_comment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">get_commit_comment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># pragma no cover</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;コミット時に適用するコミットコメントを取得する</span>
 
 <span class="sd">        Returns:</span>
@@ -130,7 +130,9 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;対向ノードとのSSHクライアント接続を開始</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: 接続成功ならTrue、失敗ならFalse</span>
+<span class="sd">            bool:</span>
+<span class="sd">                接続成功の場合 True、</span>
+<span class="sd">                失敗の場合 False</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00301&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
 
@@ -204,7 +206,9 @@
 <span class="sd">            ValueError: 設定コミットが正常に終了しなかった場合</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: 正常終了完了ならTrue、例外発生ならFalse</span>
+<span class="sd">            bool:</span>
+<span class="sd">                正常終了完了の場合 True、</span>
+<span class="sd">                例外発生の場合 False</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00305&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
 
@@ -272,7 +276,9 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;コマンドエラー発生時に設定を元に戻す</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: 元に戻すが正常に完了したらTrue、何らかの異常が発生したらFalse</span>
+<span class="sd">            bool:</span>
+<span class="sd">                正常完了の場合 True、</span>
+<span class="sd">                異常発生の場合 False</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00307&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
 

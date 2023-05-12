@@ -148,7 +148,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nf_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;__init__ インスタンス生成</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;インスタンス生成</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            nf_name (str, optional): NFノード名</span>
@@ -170,9 +170,7 @@
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00202&quot;</span><span class="p">,</span> <span class="n">nf_name</span><span class="p">)</span>
 
 <div class="viewcode-block" id="NFShellClient.connect"><a class="viewcode-back" href="../../src.eri_connection.html#src.eri_connection.NFShellClient.connect">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;connect SSH接続開始</span>
-
-<span class="sd">        SSH接続を開始します</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;SSH接続開始</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            KeyError: _CONN_CONFから値の取得に失敗した場合</span>
@@ -216,7 +214,7 @@
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00207&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NFShellClient.close"><a class="viewcode-back" href="../../src.eri_connection.html#src.eri_connection.NFShellClient.close">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;close SSH切断処理</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;SSH切断処理</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00211&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_shell_enable</span><span class="p">():</span>
@@ -228,11 +226,9 @@
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00212&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NFShellClient.enter_config_mode"><a class="viewcode-back" href="../../src.eri_connection.html#src.eri_connection.NFShellClient.enter_config_mode">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">enter_config_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;config_mode 設定モード移行</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;設定モード移行</span>
 
-<span class="sd">        設定モードに移行する</span>
 <span class="sd">        設定モードではプロンプトが変わるため、プロンプト情報を更新する</span>
-
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># シェル利用不可の為</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_shell_enable</span><span class="p">():</span>
@@ -250,7 +246,7 @@
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00218&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NFShellClient.exit_config_mode"><a class="viewcode-back" href="../../src.eri_connection.html#src.eri_connection.NFShellClient.exit_config_mode">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">exit_config_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forced</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;config_mode 設定モード解除</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;設定モード解除</span>
 
 <span class="sd">        設定モードを解除する</span>
 <span class="sd">        解除後はプロンプトが変わるため、プロンプト情報を更新する</span>
@@ -277,11 +273,10 @@
             <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00220&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NFShellClient.abort"><a class="viewcode-back" href="../../src.eri_connection.html#src.eri_connection.NFShellClient.abort">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;config_mode 設定モード強制終了(元に戻す)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;設定モード強制終了(元に戻す)</span>
 
 <span class="sd">        設定モードを強制終了する</span>
 <span class="sd">        強制終了すると、設定中の情報を反映せずに元に戻すことができる</span>
-
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># シェル利用不可の為</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_shell_enable</span><span class="p">():</span>
@@ -299,7 +294,7 @@
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00222&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NFShellClient.command"><a class="viewcode-back" href="../../src.eri_connection.html#src.eri_connection.NFShellClient.command">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">15.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;command コマンド投入</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;コマンド投入</span>
 
 <span class="sd">        E///装置に対してコマンドを投入します</span>
 <span class="sd">        configコマンドでconfigモードに入る必要などありますが、exec_commandでは実現できないため、</span>
@@ -336,7 +331,7 @@
         <span class="k">return</span> <span class="n">result</span></div>
 
     <span class="k">def</span> <span class="nf">_read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_read データ受信</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;データ受信</span>
 
 <span class="sd">        invoke_shellで投入したコマンド結果を受信します</span>
 <span class="sd">        recv_ready()を確認し、recv_ready()がFalseになるまでREAD_SIZEずつ読み込みます</span>
@@ -368,7 +363,7 @@
         <span class="k">return</span> <span class="n">buffer</span>
 
     <span class="k">def</span> <span class="nf">_read_first</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_read_first 初回読み込み</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;初回読み込み</span>
 
 <span class="sd">        ログイン時にプロンプトを取得する必要があるため、個別の読込関数を準備する</span>
 <span class="sd">        設定モードの移行・解除においてもプロンプトが変化するため本関数を利用する</span>
@@ -396,7 +391,7 @@
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00225&quot;</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_get_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_get_prompt プロンプトを取得する</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;プロンプトを取得する</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            buffer (bytes): 受信メッセージ</span>
@@ -407,9 +402,7 @@
         <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">buffer</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="nf">_is_shell_enable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_is_shell_enable シェル状態確認</span>
-
-<span class="sd">         invoke shell有効・無効を確認する</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;invoke shell有効・無効を確認する</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: invoke shellが有効ならTrue、無効ならFalse</span>

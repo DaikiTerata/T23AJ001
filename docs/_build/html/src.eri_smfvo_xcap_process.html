@@ -62,7 +62,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.post_check"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.post_check()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.pre_check"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.pre_check()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.priority"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.priority</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.remove_ipaddr"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.remove_ipaddr</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.run"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.run()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.to_down"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.to_down()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.to_up"><code class="docutils literal notranslate"><span class="pre">EriSmfvoXCAPProcess.to_up()</span></code></a></li>
@@ -125,7 +124,9 @@
 <dd><p>対象ステータスの状態変更を実施</p>
 <dl class="field-list simple">
 <dt class="field-odd">戻り値<span class="colon">:</span></dt>
-<dd class="field-odd"><p>正常に状態変更が完了した場合はcommit_ok、保存失敗の場合はcommit_ng、変更失敗の場合はchange_ng</p>
+<dd class="field-odd"><p>正常に状態変更が完了した場合 commit_ok、
+保存失敗の場合 commit_ng、
+変更失敗の場合 change_ng</p>
 </dd>
 <dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="src.abc_process.html#src.abc_process.ProcessStatus" title="src.abc_process.ProcessStatus">ProcessStatus</a></p>
@@ -145,7 +146,9 @@
 <dd class="field-odd"><p><strong>status</strong> (<a class="reference internal" href="src.abc_process.html#src.abc_process.TargetStatus" title="src.abc_process.TargetStatus"><em>TargetStatus</em></a>) -- statusの事後状態</p>
 </dd>
 <dt class="field-even">戻り値<span class="colon">:</span></dt>
-<dd class="field-even"><p>変更成功の場合は change_ok、変更失敗の場合は change_ng、それ以外の場合は exception_ng</p>
+<dd class="field-even"><p>変更成功の場合 change_ok、
+変更失敗の場合 change_ng、
+それ以外の場合 exception_ng</p>
 </dd>
 <dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="src.abc_process.html#src.abc_process.ProcessStatus" title="src.abc_process.ProcessStatus">ProcessStatus</a></p>
@@ -204,7 +207,9 @@
 <dd><p>現在のxCAPステータスを取得する</p>
 <dl class="field-list simple">
 <dt class="field-odd">戻り値<span class="colon">:</span></dt>
-<dd class="field-odd"><p>削除IPアドレスがある場合up、ない場合down、例外発生ならNone</p>
+<dd class="field-odd"><p>削除IPアドレスがある場合 up、
+削除IPアドレスがない場合 down、
+例外発生の場合 None</p>
 </dd>
 <dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="src.abc_process.html#src.abc_process.TargetStatus" title="src.abc_process.TargetStatus">TargetStatus</a></p>
@@ -221,7 +226,9 @@
 <dd class="field-odd"><p><strong>value</strong> (<a class="reference internal" href="src.abc_process.html#src.abc_process.TargetStatus" title="src.abc_process.TargetStatus"><em>TargetStatus</em></a>) -- ステータス</p>
 </dd>
 <dt class="field-even">戻り値<span class="colon">:</span></dt>
-<dd class="field-even"><p>upの場合はin use、downの場合はout of use、それ以外の場合はunknown</p>
+<dd class="field-even"><p>upの場合 in use、
+downの場合 out of use、
+それ以外の場合 unknown</p>
 </dd>
 <dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
@@ -256,7 +263,10 @@
 <dd class="field-odd"><p><strong>status</strong> (<a class="reference internal" href="src.abc_process.html#src.abc_process.TargetStatus" title="src.abc_process.TargetStatus"><em>TargetStatus</em></a>) -- statusの事前状態</p>
 </dd>
 <dt class="field-even">戻り値<span class="colon">:</span></dt>
-<dd class="field-even"><p>要変更の場合は need_to_change、変更モード以外の場合は show_or_unknown、変更済みの場合は already_changed、それ以外の場合は exception_ng</p>
+<dd class="field-even"><p>要変更の場合 need_to_change、
+変更モード以外の場合 show_or_unknown、
+変更済みの場合 already_changed、
+それ以外の場合 exception_ng</p>
 </dd>
 <dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="src.abc_process.html#src.abc_process.ProcessStatus" title="src.abc_process.ProcessStatus">ProcessStatus</a></p>
@@ -281,7 +291,8 @@
 <dd><p>対象ステータスの事後確認を実施</p>
 <dl class="field-list simple">
 <dt class="field-odd">戻り値<span class="colon">:</span></dt>
-<dd class="field-odd"><p>変更完了の場合はTrue、それ以外の場合はFalse</p>
+<dd class="field-odd"><p>変更完了の場合 True、
+それ以外の場合 False</p>
 </dd>
 <dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>bool</p>
@@ -295,7 +306,8 @@
 <dd><p>対象ステータスの事前確認を実施</p>
 <dl class="field-list simple">
 <dt class="field-odd">戻り値<span class="colon">:</span></dt>
-<dd class="field-odd"><p>変更要否確認が取得できた場合はTrue、それ以外の場合はFalse</p>
+<dd class="field-odd"><p>変更要否確認が取得できた場合 True、
+それ以外の場合 False</p>
 </dd>
 <dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>bool</p>
@@ -310,20 +322,6 @@
 <dl class="field-list simple">
 <dt class="field-odd">戻り値<span class="colon">:</span></dt>
 <dd class="field-odd"><p>優先度</p>
-</dd>
-<dt class="field-even">戻り値の型<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.remove_ipaddr">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">remove_ipaddr</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#src.eri_smfvo_xcap_process.EriSmfvoXCAPProcess.remove_ipaddr" title="この定義へのパーマリンク"></a></dt>
-<dd><p>削除対象 IPアドレスプロパティ</p>
-<dl class="field-list simple">
-<dt class="field-odd">戻り値<span class="colon">:</span></dt>
-<dd class="field-odd"><p>削除対象IPアドレス</p>
 </dd>
 <dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
@@ -351,7 +349,8 @@
 <dd><p>指定されたxCAP IPアドレスを無効(down)にするコマンドを投入。commit実行までは反映されない。</p>
 <dl class="field-list simple">
 <dt class="field-odd">戻り値<span class="colon">:</span></dt>
-<dd class="field-odd"><p>xCAP IPアドレスの無効化コマンドが投入できた場合True、例外発生ならFalse</p>
+<dd class="field-odd"><p>xCAP IPアドレスの無効化コマンドが投入できた場合 True、
+例外発生の場合 False</p>
 </dd>
 <dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>bool</p>
@@ -365,7 +364,8 @@
 <dd><p>指定されたxCAP IPアドレスを有効(up)にするコマンドを投入。commit実行までは反映されない。</p>
 <dl class="field-list simple">
 <dt class="field-odd">戻り値<span class="colon">:</span></dt>
-<dd class="field-odd"><p>xCAP IPアドレスの有効化コマンドが投入できた場合True、例外発生ならFalse</p>
+<dd class="field-odd"><p>xCAP IPアドレスの有効化コマンドが投入できた場合 True、
+例外発生の場合 False</p>
 </dd>
 <dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>bool</p>

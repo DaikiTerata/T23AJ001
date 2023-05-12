@@ -140,6 +140,10 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;プロセスの実行成功と判定&quot;&quot;&quot;</span>
     <span class="n">ng</span> <span class="o">=</span> <span class="n">ssh_ng</span> <span class="o">|</span> <span class="n">pre_check_ng</span> <span class="o">|</span> <span class="n">change_ng</span> <span class="o">|</span> <span class="n">commit_ng</span> <span class="o">|</span> <span class="n">post_check_ng</span> <span class="o">|</span> <span class="n">exception_ng</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;プロセスの実行失敗と判定&quot;&quot;&quot;</span>
+    <span class="n">hazardous</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;ハザーダス状態&quot;&quot;&quot;</span>
+    <span class="n">non_hazardous</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;ハザーダスでない状態&quot;&quot;&quot;</span>
     <span class="n">stop_ng_abort</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;全断防止判定され処理中断&quot;&quot;&quot;</span>
     <span class="n">stop_ng_ongoing</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
@@ -329,7 +333,11 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;現在の対象ステータス取得</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            TargetStatus: 稼働中ならup、非稼働ならdown、ステータス取得失敗ならunknown、例外発生ならNone</span>
+<span class="sd">            TargetStatus:</span>
+<span class="sd">                稼働中の場合 up、</span>
+<span class="sd">                非稼働の場合 down、</span>
+<span class="sd">                ステータス取得失敗の場合 unknown、</span>
+<span class="sd">                例外発生の場合 None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
@@ -338,7 +346,9 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;対象のステータスを無効(down)にするコマンドを投入。commit実行までは反映されない。</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: 対象ステータスの無効化コマンドが投入できた場合True、例外発生ならFalse</span>
+<span class="sd">            bool:</span>
+<span class="sd">                対象ステータスの無効化コマンドが投入できた場合 True、</span>
+<span class="sd">                例外発生の場合 False</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
@@ -347,7 +357,9 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;対象のステータスを有効(up)にするコマンドを投入。commit実行までは反映されない。</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: 対象ステータスの有効化設定が投入できた場合True、例外発生ならFalse</span>
+<span class="sd">            bool:</span>
+<span class="sd">                対象ステータスの有効化設定が投入できた場合 True、</span>
+<span class="sd">                例外発生の場合 False</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
@@ -356,7 +368,9 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;対象NFに対して変更内容を保存する</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: 正常終了完了ならTrue、例外発生ならFalse</span>
+<span class="sd">            bool:</span>
+<span class="sd">                正常終了完了の場合 True、</span>
+<span class="sd">                例外発生の場合 False</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
@@ -365,7 +379,9 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;コマンドエラー発生時に設定を元に戻す</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: 元に戻すが正常に完了したらTrue、何らかの異常が発生したらFalse</span>
+<span class="sd">            bool:</span>
+<span class="sd">                正常完了の場合 True、</span>
+<span class="sd">                異常発生の場合 False</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
@@ -392,7 +408,9 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;対象ステータスの事前確認を実施</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: 変更要否確認が取得できた場合はTrue、それ以外の場合はFalse</span>
+<span class="sd">            bool:</span>
+<span class="sd">                変更要否確認が取得できた場合 True、</span>
+<span class="sd">                それ以外の場合 False</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">before_status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_status</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">necessity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">necessity_check</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">before_status</span><span class="p">)</span>
@@ -402,7 +420,9 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;対象ステータスの事後確認を実施</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: 変更完了の場合はTrue、それ以外の場合はFalse</span>
+<span class="sd">            bool:</span>
+<span class="sd">                変更完了の場合 True、</span>
+<span class="sd">                それ以外の場合 False</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">after_status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_status</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">changed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">changed_check</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">after_status</span><span class="p">)</span>
@@ -412,7 +432,10 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;対象ステータスの状態変更を実施</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            ProcessStatus: 正常に状態変更が完了した場合は commit_ok、保存失敗の場合は commit_ng、変更失敗の場合は change_ng</span>
+<span class="sd">            ProcessStatus:</span>
+<span class="sd">                正常に状態変更が完了した場合 commit_ok、</span>
+<span class="sd">                保存失敗の場合 commit_ng、</span>
+<span class="sd">                変更失敗の場合 change_ng</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># ステータス変更コマンド取得</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="n">Mode</span><span class="o">.</span><span class="n">down</span><span class="p">:</span>
@@ -445,7 +468,11 @@
 <span class="sd">            status (TargetStatus): statusの事前状態</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            ProcessStatus : 要変更の場合は need_to_change、変更モード以外の場合は show_or_unknown、変更済みの場合は already_changed、それ以外の場合は exception_ng</span>
+<span class="sd">            ProcessStatus:</span>
+<span class="sd">                要変更の場合 need_to_change、</span>
+<span class="sd">                変更モード以外の場合 show_or_unknown、</span>
+<span class="sd">                変更済みの場合 already_changed、</span>
+<span class="sd">                それ以外の場合 exception_ng</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># 変更可否確認</span>
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">Mode</span><span class="o">.</span><span class="n">show</span><span class="p">,</span> <span class="n">TargetStatus</span><span class="o">.</span><span class="n">down</span><span class="p">),</span> <span class="p">(</span><span class="n">Mode</span><span class="o">.</span><span class="n">show</span><span class="p">,</span> <span class="n">TargetStatus</span><span class="o">.</span><span class="n">up</span><span class="p">)]:</span>
@@ -478,7 +505,10 @@
 <span class="sd">            status (TargetStatus): statusの事後状態</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            ProcessStatus: 変更成功の場合は change_ok、変更失敗の場合は change_ng、それ以外の場合は exception_ng</span>
+<span class="sd">            ProcessStatus:</span>
+<span class="sd">                変更成功の場合 change_ok、</span>
+<span class="sd">                変更失敗の場合 change_ng、</span>
+<span class="sd">                それ以外の場合 exception_ng</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">Mode</span><span class="o">.</span><span class="n">up</span><span class="p">,</span> <span class="n">TargetStatus</span><span class="o">.</span><span class="n">up</span><span class="p">),</span> <span class="p">(</span><span class="n">Mode</span><span class="o">.</span><span class="n">down</span><span class="p">,</span> <span class="n">TargetStatus</span><span class="o">.</span><span class="n">down</span><span class="p">)]:</span>
             <span class="c1"># UPモードかつ事後ステータスUPまたは、DOWNモードかつ事後ステータスDOWNの場合</span>

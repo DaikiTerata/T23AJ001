@@ -99,7 +99,7 @@
 <dt class="sig sig-object py" id="src.xcap_tool.ToolResult">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.xcap_tool.</span></span><span class="sig-name descname"><span class="pre">ToolResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/xcap_tool.html#ToolResult"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.xcap_tool.ToolResult" title="この定義へのパーマリンク"></a></dt>
 <dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
-<p>NF Registrationツール実行時の結果種別</p>
+<p>ツール実行時の結果種別</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.xcap_tool.ToolResult.init">
 <span class="sig-name descname"><span class="pre">init</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#src.xcap_tool.ToolResult.init" title="この定義へのパーマリンク"></a></dt>
@@ -134,7 +134,8 @@
 <dd class="field-odd"><p><strong>ArgumentParserError</strong> -- 引数異常があった場合</p>
 </dd>
 <dt class="field-even">戻り値<span class="colon">:</span></dt>
-<dd class="field-even"><p>正常終了の場合True、異常終了の場合False</p>
+<dd class="field-even"><p>正常終了の場合 True、
+異常終了の場合 False</p>
 </dd>
 <dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>bool</p>
@@ -182,8 +183,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="src.xcap_tool.XcapTool.info">
 <span class="sig-name descname"><span class="pre">info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/xcap_tool.html#XcapTool.info"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.xcap_tool.XcapTool.info" title="この定義へのパーマリンク"></a></dt>
-<dd><p>info INFO出力</p>
-<p>引数情報、対象ノード情報、対向ノード情報を出力する</p>
+<dd><p>引数情報、対象ノード情報、対向ノード情報を出力する</p>
 </dd></dl>
 
 <dl class="py method">
@@ -192,7 +192,8 @@
 <dd><p>JSON設定ファイルを読み込む</p>
 <dl class="field-list simple">
 <dt class="field-odd">戻り値<span class="colon">:</span></dt>
-<dd class="field-odd"><p>正常終了の場合True、異常終了の場合False</p>
+<dd class="field-odd"><p>正常終了の場合 True、
+異常終了の場合 False</p>
 </dd>
 <dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>bool</p>
@@ -203,11 +204,11 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="src.xcap_tool.XcapTool.main">
 <span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/xcap_tool.html#XcapTool.main"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.xcap_tool.XcapTool.main" title="この定義へのパーマリンク"></a></dt>
-<dd><p>main メイン処理</p>
-<p>xCAPツールメイン処理</p>
+<dd><p>xCAPツールメイン処理</p>
 <dl class="field-list simple">
 <dt class="field-odd">戻り値<span class="colon">:</span></dt>
-<dd class="field-odd"><p>成功の場合True、異常発生の場合Falseとなる</p>
+<dd class="field-odd"><p>成功の場合 True、
+異常発生の場合 False</p>
 </dd>
 <dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>bool</p>
@@ -248,7 +249,8 @@
 </ul>
 </dd>
 <dt class="field-even">戻り値<span class="colon">:</span></dt>
-<dd class="field-even"><p>入力文字列および、継続を示す場合はTrue、中止を示す場合はFalse</p>
+<dd class="field-even"><p>入力文字列および、継続を示す場合 True、
+中止を示す場合 False</p>
 </dd>
 <dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Tuple[bool, str]</p>

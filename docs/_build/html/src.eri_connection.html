@@ -99,7 +99,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="src.eri_connection.NFShellClient.abort">
 <span class="sig-name descname"><span class="pre">abort</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/eri_connection.html#NFShellClient.abort"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_connection.NFShellClient.abort" title="この定義へのパーマリンク"></a></dt>
-<dd><p>config_mode 設定モード強制終了(元に戻す)</p>
+<dd><p>設定モード強制終了(元に戻す)</p>
 <p>設定モードを強制終了する
 強制終了すると、設定中の情報を反映せずに元に戻すことができる</p>
 </dd></dl>
@@ -107,13 +107,13 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="src.eri_connection.NFShellClient.close">
 <span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/eri_connection.html#NFShellClient.close"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_connection.NFShellClient.close" title="この定義へのパーマリンク"></a></dt>
-<dd><p>close SSH切断処理</p>
+<dd><p>SSH切断処理</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.eri_connection.NFShellClient.command">
 <span class="sig-name descname"><span class="pre">command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="reference internal" href="_modules/src/eri_connection.html#NFShellClient.command"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_connection.NFShellClient.command" title="この定義へのパーマリンク"></a></dt>
-<dd><p>command コマンド投入</p>
+<dd><p>コマンド投入</p>
 <p>E///装置に対してコマンドを投入します
 configコマンドでconfigモードに入る必要などありますが、exec_commandでは実現できないため、
 invoke_shellを利用します。</p>
@@ -139,8 +139,7 @@ invoke_shellを利用します。</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.eri_connection.NFShellClient.connect">
 <span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/eri_connection.html#NFShellClient.connect"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_connection.NFShellClient.connect" title="この定義へのパーマリンク"></a></dt>
-<dd><p>connect SSH接続開始</p>
-<p>SSH接続を開始します</p>
+<dd><p>SSH接続開始</p>
 <dl class="field-list simple">
 <dt class="field-odd">例外<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -154,15 +153,14 @@ invoke_shellを利用します。</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.eri_connection.NFShellClient.enter_config_mode">
 <span class="sig-name descname"><span class="pre">enter_config_mode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/eri_connection.html#NFShellClient.enter_config_mode"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_connection.NFShellClient.enter_config_mode" title="この定義へのパーマリンク"></a></dt>
-<dd><p>config_mode 設定モード移行</p>
-<p>設定モードに移行する
-設定モードではプロンプトが変わるため、プロンプト情報を更新する</p>
+<dd><p>設定モード移行</p>
+<p>設定モードではプロンプトが変わるため、プロンプト情報を更新する</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.eri_connection.NFShellClient.exit_config_mode">
 <span class="sig-name descname"><span class="pre">exit_config_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forced</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/eri_connection.html#NFShellClient.exit_config_mode"><span class="viewcode-link"><span class="pre">[ソース]</span></span></a><a class="headerlink" href="#src.eri_connection.NFShellClient.exit_config_mode" title="この定義へのパーマリンク"></a></dt>
-<dd><p>config_mode 設定モード解除</p>
+<dd><p>設定モード解除</p>
 <p>設定モードを解除する
 解除後はプロンプトが変わるため、プロンプト情報を更新する</p>
 <dl class="field-list simple">

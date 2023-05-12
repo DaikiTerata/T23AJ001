@@ -90,9 +90,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#src.abc_process.ProcessStatus.commit_ng"><code class="docutils literal notranslate"><span class="pre">ProcessStatus.commit_ng</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#src.abc_process.ProcessStatus.commit_ok"><code class="docutils literal notranslate"><span class="pre">ProcessStatus.commit_ok</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#src.abc_process.ProcessStatus.exception_ng"><code class="docutils literal notranslate"><span class="pre">ProcessStatus.exception_ng</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.abc_process.ProcessStatus.hazardous"><code class="docutils literal notranslate"><span class="pre">ProcessStatus.hazardous</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#src.abc_process.ProcessStatus.need_not_to_change"><code class="docutils literal notranslate"><span class="pre">ProcessStatus.need_not_to_change</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#src.abc_process.ProcessStatus.need_to_change"><code class="docutils literal notranslate"><span class="pre">ProcessStatus.need_to_change</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#src.abc_process.ProcessStatus.ng"><code class="docutils literal notranslate"><span class="pre">ProcessStatus.ng</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.abc_process.ProcessStatus.non_hazardous"><code class="docutils literal notranslate"><span class="pre">ProcessStatus.non_hazardous</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#src.abc_process.ProcessStatus.ok"><code class="docutils literal notranslate"><span class="pre">ProcessStatus.ok</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#src.abc_process.ProcessStatus.post_check_ng"><code class="docutils literal notranslate"><span class="pre">ProcessStatus.post_check_ng</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#src.abc_process.ProcessStatus.post_check_ok"><code class="docutils literal notranslate"><span class="pre">ProcessStatus.post_check_ok</span></code></a></li>
@@ -224,7 +226,9 @@
 <dd><p>対象ステータスの状態変更を実施</p>
 <dl class="field-list simple">
 <dt class="field-odd">戻り値<span class="colon">:</span></dt>
-<dd class="field-odd"><p>正常に状態変更が完了した場合は commit_ok、保存失敗の場合は commit_ng、変更失敗の場合は change_ng</p>
+<dd class="field-odd"><p>正常に状態変更が完了した場合 commit_ok、
+保存失敗の場合 commit_ng、
+変更失敗の場合 change_ng</p>
 </dd>
 <dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#src.abc_process.ProcessStatus" title="src.abc_process.ProcessStatus">ProcessStatus</a></p>
@@ -258,7 +262,9 @@
 <dd class="field-odd"><p><strong>status</strong> (<a class="reference internal" href="#src.abc_process.TargetStatus" title="src.abc_process.TargetStatus"><em>TargetStatus</em></a>) -- statusの事後状態</p>
 </dd>
 <dt class="field-even">戻り値<span class="colon">:</span></dt>
-<dd class="field-even"><p>変更成功の場合は change_ok、変更失敗の場合は change_ng、それ以外の場合は exception_ng</p>
+<dd class="field-even"><p>変更成功の場合 change_ok、
+変更失敗の場合 change_ng、
+それ以外の場合 exception_ng</p>
 </dd>
 <dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#src.abc_process.ProcessStatus" title="src.abc_process.ProcessStatus">ProcessStatus</a></p>
@@ -272,7 +278,8 @@
 <dd><p>対象NFに対して変更内容を保存する</p>
 <dl class="field-list simple">
 <dt class="field-odd">戻り値<span class="colon">:</span></dt>
-<dd class="field-odd"><p>正常終了完了ならTrue、例外発生ならFalse</p>
+<dd class="field-odd"><p>正常終了完了の場合 True、
+例外発生の場合 False</p>
 </dd>
 <dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>bool</p>
@@ -286,7 +293,8 @@
 <dd><p>コマンドエラー発生時に設定を元に戻す</p>
 <dl class="field-list simple">
 <dt class="field-odd">戻り値<span class="colon">:</span></dt>
-<dd class="field-odd"><p>元に戻すが正常に完了したらTrue、何らかの異常が発生したらFalse</p>
+<dd class="field-odd"><p>正常完了の場合 True、
+異常発生の場合 False</p>
 </dd>
 <dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>bool</p>
@@ -300,7 +308,10 @@
 <dd><p>現在の対象ステータス取得</p>
 <dl class="field-list simple">
 <dt class="field-odd">戻り値<span class="colon">:</span></dt>
-<dd class="field-odd"><p>稼働中ならup、非稼働ならdown、ステータス取得失敗ならunknown、例外発生ならNone</p>
+<dd class="field-odd"><p>稼働中の場合 up、
+非稼働の場合 down、
+ステータス取得失敗の場合 unknown、
+例外発生の場合 None</p>
 </dd>
 <dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#src.abc_process.TargetStatus" title="src.abc_process.TargetStatus">TargetStatus</a></p>
@@ -380,7 +391,10 @@
 <dd class="field-odd"><p><strong>status</strong> (<a class="reference internal" href="#src.abc_process.TargetStatus" title="src.abc_process.TargetStatus"><em>TargetStatus</em></a>) -- statusの事前状態</p>
 </dd>
 <dt class="field-even">戻り値<span class="colon">:</span></dt>
-<dd class="field-even"><p>要変更の場合は need_to_change、変更モード以外の場合は show_or_unknown、変更済みの場合は already_changed、それ以外の場合は exception_ng</p>
+<dd class="field-even"><p>要変更の場合 need_to_change、
+変更モード以外の場合 show_or_unknown、
+変更済みの場合 already_changed、
+それ以外の場合 exception_ng</p>
 </dd>
 <dt class="field-odd">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#src.abc_process.ProcessStatus" title="src.abc_process.ProcessStatus">ProcessStatus</a></p>
@@ -408,7 +422,8 @@
 <dd><p>対象ステータスの事後確認を実施</p>
 <dl class="field-list simple">
 <dt class="field-odd">戻り値<span class="colon">:</span></dt>
-<dd class="field-odd"><p>変更完了の場合はTrue、それ以外の場合はFalse</p>
+<dd class="field-odd"><p>変更完了の場合 True、
+それ以外の場合 False</p>
 </dd>
 <dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>bool</p>
@@ -422,7 +437,8 @@
 <dd><p>対象ステータスの事前確認を実施</p>
 <dl class="field-list simple">
 <dt class="field-odd">戻り値<span class="colon">:</span></dt>
-<dd class="field-odd"><p>変更要否確認が取得できた場合はTrue、それ以外の場合はFalse</p>
+<dd class="field-odd"><p>変更要否確認が取得できた場合 True、
+それ以外の場合 False</p>
 </dd>
 <dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>bool</p>
@@ -464,7 +480,8 @@
 <dd><p>対象のステータスを無効(down)にするコマンドを投入。commit実行までは反映されない。</p>
 <dl class="field-list simple">
 <dt class="field-odd">戻り値<span class="colon">:</span></dt>
-<dd class="field-odd"><p>対象ステータスの無効化コマンドが投入できた場合True、例外発生ならFalse</p>
+<dd class="field-odd"><p>対象ステータスの無効化コマンドが投入できた場合 True、
+例外発生の場合 False</p>
 </dd>
 <dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>bool</p>
@@ -478,7 +495,8 @@
 <dd><p>対象のステータスを有効(up)にするコマンドを投入。commit実行までは反映されない。</p>
 <dl class="field-list simple">
 <dt class="field-odd">戻り値<span class="colon">:</span></dt>
-<dd class="field-odd"><p>対象ステータスの有効化設定が投入できた場合True、例外発生ならFalse</p>
+<dd class="field-odd"><p>対象ステータスの有効化設定が投入できた場合 True、
+例外発生の場合 False</p>
 </dd>
 <dt class="field-even">戻り値の型<span class="colon">:</span></dt>
 <dd class="field-even"><p>bool</p>
@@ -567,6 +585,12 @@
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="src.abc_process.ProcessStatus.hazardous">
+<span class="sig-name descname"><span class="pre">hazardous</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4096</span></em><a class="headerlink" href="#src.abc_process.ProcessStatus.hazardous" title="この定義へのパーマリンク"></a></dt>
+<dd><p>ハザーダス状態</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="src.abc_process.ProcessStatus.need_not_to_change">
 <span class="sig-name descname"><span class="pre">need_not_to_change</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">12</span></em><a class="headerlink" href="#src.abc_process.ProcessStatus.need_not_to_change" title="この定義へのパーマリンク"></a></dt>
 <dd><p>事前確認の結果、変更不要な状態</p>
@@ -582,6 +606,12 @@
 <dt class="sig sig-object py" id="src.abc_process.ProcessStatus.ng">
 <span class="sig-name descname"><span class="pre">ng</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3395</span></em><a class="headerlink" href="#src.abc_process.ProcessStatus.ng" title="この定義へのパーマリンク"></a></dt>
 <dd><p>プロセスの実行失敗と判定</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.abc_process.ProcessStatus.non_hazardous">
+<span class="sig-name descname"><span class="pre">non_hazardous</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8192</span></em><a class="headerlink" href="#src.abc_process.ProcessStatus.non_hazardous" title="この定義へのパーマリンク"></a></dt>
+<dd><p>ハザーダスでない状態</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -622,25 +652,25 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.abc_process.ProcessStatus.stop_ng">
-<span class="sig-name descname"><span class="pre">stop_ng</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">12288</span></em><a class="headerlink" href="#src.abc_process.ProcessStatus.stop_ng" title="この定義へのパーマリンク"></a></dt>
+<span class="sig-name descname"><span class="pre">stop_ng</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">49152</span></em><a class="headerlink" href="#src.abc_process.ProcessStatus.stop_ng" title="この定義へのパーマリンク"></a></dt>
 <dd><p>全断防止判定された</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.abc_process.ProcessStatus.stop_ng_abort">
-<span class="sig-name descname"><span class="pre">stop_ng_abort</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4096</span></em><a class="headerlink" href="#src.abc_process.ProcessStatus.stop_ng_abort" title="この定義へのパーマリンク"></a></dt>
+<span class="sig-name descname"><span class="pre">stop_ng_abort</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">16384</span></em><a class="headerlink" href="#src.abc_process.ProcessStatus.stop_ng_abort" title="この定義へのパーマリンク"></a></dt>
 <dd><p>全断防止判定され処理中断</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.abc_process.ProcessStatus.stop_ng_ongoing">
-<span class="sig-name descname"><span class="pre">stop_ng_ongoing</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8192</span></em><a class="headerlink" href="#src.abc_process.ProcessStatus.stop_ng_ongoing" title="この定義へのパーマリンク"></a></dt>
+<span class="sig-name descname"><span class="pre">stop_ng_ongoing</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">32768</span></em><a class="headerlink" href="#src.abc_process.ProcessStatus.stop_ng_ongoing" title="この定義へのパーマリンク"></a></dt>
 <dd><p>全断防止判定されたが処理続行</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.abc_process.ProcessStatus.warn">
-<span class="sig-name descname"><span class="pre">warn</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4096</span></em><a class="headerlink" href="#src.abc_process.ProcessStatus.warn" title="この定義へのパーマリンク"></a></dt>
+<span class="sig-name descname"><span class="pre">warn</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">16384</span></em><a class="headerlink" href="#src.abc_process.ProcessStatus.warn" title="この定義へのパーマリンク"></a></dt>
 <dd><p>プロセス実行一部注意と判定</p>
 </dd></dl>
 

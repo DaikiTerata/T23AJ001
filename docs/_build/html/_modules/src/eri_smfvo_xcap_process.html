@@ -119,10 +119,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">edns_name</span><span class="p">,</span> <span class="n">nf_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">stub</span><span class="p">,</span> <span class="n">job_id</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__edns_ipaddr</span> <span class="o">=</span> <span class="n">edns_ipaddr</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__remove_ipaddr</span> <span class="o">=</span> <span class="n">edns_ipaddr</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__add_ipaddr</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__priority</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__ipaddr_list</span> <span class="o">=</span> <span class="n">ipaddr_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_result</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">edns_ipaddr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -132,19 +132,6 @@
 <span class="sd">            str: eDNS IPアドレス</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__edns_ipaddr</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">remove_ipaddr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;削除対象 IPアドレスプロパティ</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            str: 削除対象IPアドレス</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__remove_ipaddr</span>
-
-    <span class="nd">@remove_ipaddr</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">remove_ipaddr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__remove_ipaddr</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">add_ipaddr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -206,7 +193,10 @@
 <span class="sd">            value (TargetStatus): ステータス</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            str: upの場合はin use、downの場合はout of use、それ以外の場合はunknown</span>
+<span class="sd">            str:</span>
+<span class="sd">                upの場合 in use、</span>
+<span class="sd">                downの場合 out of use、</span>
+<span class="sd">                それ以外の場合 unknown</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">word</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
         <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">TargetStatus</span><span class="o">.</span><span class="n">up</span><span class="p">:</span>
@@ -228,7 +218,10 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;現在のxCAPステータスを取得する</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            TargetStatus: 削除IPアドレスがある場合up、ない場合down、例外発生ならNone</span>
+<span class="sd">            TargetStatus:</span>
+<span class="sd">                削除IPアドレスがある場合 up、</span>
+<span class="sd">                削除IPアドレスがない場合 down、</span>
+<span class="sd">                例外発生の場合 None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00321&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
 
@@ -239,7 +232,7 @@
             <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00310&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">get_status_result</span> <span class="o">=</span> <span class="n">result</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">status_result</span> <span class="o">=</span> <span class="n">result</span>
 
             <span class="n">up_pattern</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edns_ipaddr</span>
             <span class="c1"># up_patternを含む場合はTargetStatus.up、無ければTargetStatus.down</span>
@@ -274,12 +267,15 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;対象ステータスの状態変更を実施</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            ProcessStatus: 正常に状態変更が完了した場合はcommit_ok、保存失敗の場合はcommit_ng、変更失敗の場合はchange_ng</span>
+<span class="sd">            ProcessStatus:</span>
+<span class="sd">                正常に状態変更が完了した場合 commit_ok、</span>
+<span class="sd">                保存失敗の場合 commit_ng、</span>
+<span class="sd">                変更失敗の場合 change_ng</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00323&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
 
         <span class="c1"># NF取得情報を解析</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">parse_result</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_status_result</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parse_result</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">status_result</span><span class="p">)</span>
 
         <span class="c1"># 追加(予備)IPアドレスが存在しない場合</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_ipaddr</span><span class="p">:</span>
@@ -319,7 +315,9 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;指定されたxCAP IPアドレスを無効(down)にするコマンドを投入。commit実行までは反映されない。</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: xCAP IPアドレスの無効化コマンドが投入できた場合True、例外発生ならFalse</span>
+<span class="sd">            bool:</span>
+<span class="sd">                xCAP IPアドレスの無効化コマンドが投入できた場合 True、</span>
+<span class="sd">                例外発生の場合 False</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00325&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
 
@@ -364,7 +362,9 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;指定されたxCAP IPアドレスを有効(up)にするコマンドを投入。commit実行までは反映されない。</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: xCAP IPアドレスの有効化コマンドが投入できた場合True、例外発生ならFalse</span>
+<span class="sd">            bool:</span>
+<span class="sd">                xCAP IPアドレスの有効化コマンドが投入できた場合 True、</span>
+<span class="sd">                例外発生の場合 False</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00327&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
 
@@ -409,7 +409,9 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;対象ステータスの事前確認を実施</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: 変更要否確認が取得できた場合はTrue、それ以外の場合はFalse</span>
+<span class="sd">            bool:</span>
+<span class="sd">                変更要否確認が取得できた場合 True、</span>
+<span class="sd">                それ以外の場合 False</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00329&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">pre_check</span><span class="p">()</span>
@@ -420,7 +422,9 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;対象ステータスの事後確認を実施</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: 変更完了の場合はTrue、それ以外の場合はFalse</span>
+<span class="sd">            bool:</span>
+<span class="sd">                変更完了の場合 True、</span>
+<span class="sd">                それ以外の場合 False</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00331&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">post_check</span><span class="p">()</span>
@@ -441,7 +445,11 @@
 <span class="sd">            status (TargetStatus): statusの事前状態</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            ProcessStatus : 要変更の場合は need_to_change、変更モード以外の場合は show_or_unknown、変更済みの場合は already_changed、それ以外の場合は exception_ng</span>
+<span class="sd">            ProcessStatus:</span>
+<span class="sd">                要変更の場合 need_to_change、</span>
+<span class="sd">                変更モード以外の場合 show_or_unknown、</span>
+<span class="sd">                変更済みの場合 already_changed、</span>
+<span class="sd">                それ以外の場合 exception_ng</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00333&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
         <span class="n">necessity</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">necessity_check</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
@@ -488,7 +496,10 @@
 <span class="sd">            status (TargetStatus): statusの事後状態</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            ProcessStatus: 変更成功の場合は change_ok、変更失敗の場合は change_ng、それ以外の場合は exception_ng</span>
+<span class="sd">            ProcessStatus:</span>
+<span class="sd">                変更成功の場合 change_ok、</span>
+<span class="sd">                変更失敗の場合 change_ng、</span>
+<span class="sd">                それ以外の場合 exception_ng</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00335&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">)</span>
 
@@ -496,49 +507,52 @@
         <span class="n">res</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">changed_check</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
 
         <span class="c1"># 追加IPアドレスチェック</span>
-        <span class="n">is_added</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_status_result</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">add_ipaddr</span><span class="p">))</span>
+        <span class="n">is_added</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">status_result</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">add_ipaddr</span><span class="p">))</span>
+        <span class="n">added_status</span> <span class="o">=</span> <span class="n">TargetStatus</span><span class="o">.</span><span class="n">up</span> <span class="k">if</span> <span class="n">is_added</span> <span class="k">else</span> <span class="n">TargetStatus</span><span class="o">.</span><span class="n">down</span>
 
         <span class="n">changed</span><span class="p">:</span> <span class="n">ProcessStatus</span> <span class="o">=</span> <span class="n">res</span>
-        <span class="k">if</span> <span class="n">res</span> <span class="o">==</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">change_ok</span> <span class="ow">and</span> <span class="n">is_added</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">res</span> <span class="o">==</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">change_ok</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">is_added</span><span class="p">:</span>
                 <span class="c1"># ステータス表示</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">success</span><span class="p">,</span>
-                                  <span class="sa">f</span><span class="s2">&quot;current xCAP ipaddr is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_status_word</span><span class="p">(</span><span class="n">status</span><span class="p">)</span><span class="si">}</span><span class="s2">. [ </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2"> ]&quot;</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00343&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">status</span><span class="p">])</span>
+                                  <span class="sa">f</span><span class="s2">&quot;current xCAP ipaddr is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_status_word</span><span class="p">(</span><span class="n">status</span><span class="p">)</span><span class="si">}</span><span class="s2">. [ </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2"> ]&quot;</span>
+                                  <span class="sa">f</span><span class="s2">&quot; reserved ipaddr added. [ </span><span class="si">{</span><span class="n">added_status</span><span class="si">}</span><span class="s2"> ]&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00343&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">added_status</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">changed</span> <span class="o">=</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">change_ng</span>
                 <span class="c1"># ステータス変更失敗表示(追加失敗)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span>
-                                  <span class="sa">f</span><span class="s2">&quot;current xCAP ipaddr is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_status_word</span><span class="p">(</span><span class="n">status</span><span class="p">)</span><span class="si">}</span><span class="s2">. but couldn&#39;t add... [ </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2"> ]&quot;</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00324&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">status</span><span class="p">])</span>
+                                  <span class="sa">f</span><span class="s2">&quot;current xCAP ipaddr is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_status_word</span><span class="p">(</span><span class="n">status</span><span class="p">)</span><span class="si">}</span><span class="s2">. [ </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2"> ]&quot;</span>
+                                  <span class="sa">f</span><span class="s2">&quot; but reserved ipaddr couldn&#39;t add... [ </span><span class="si">{</span><span class="n">added_status</span><span class="si">}</span><span class="s2"> ]&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00324&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">added_status</span><span class="p">])</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
                                            <span class="sa">f</span><span class="s2">&quot;xCAP ipaddr事後確認変更失敗:</span><span class="se">\n</span><span class="s2">&quot;</span>
                                            <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
                                            <span class="sa">f</span><span class="s2">&quot; NF名: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
                                            <span class="sa">f</span><span class="s2">&quot; MODE: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-                                           <span class="sa">f</span><span class="s2">&quot; STATUS: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                                           <span class="sa">f</span><span class="s2">&quot; STATUS: </span><span class="si">{</span><span class="n">status</span><span class="p">,</span><span class="w"> </span><span class="n">added_status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">res</span> <span class="o">==</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">change_ng</span><span class="p">:</span>
             <span class="c1"># ステータス変更失敗表示(削除失敗)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span>
-                              <span class="sa">f</span><span class="s2">&quot;xCAP ipaddr couldn&#39;t change... still </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_status_word</span><span class="p">(</span><span class="n">status</span><span class="p">)</span><span class="si">}</span><span class="s2">. [ </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2"> ]&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00324&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">status</span><span class="p">])</span>
+                              <span class="sa">f</span><span class="s2">&quot;xCAP ipaddr couldn&#39;t change... still </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_status_word</span><span class="p">(</span><span class="n">status</span><span class="p">)</span><span class="si">}</span><span class="s2">. [ </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2"> ] reserved ipaddr [ </span><span class="si">{</span><span class="n">added_status</span><span class="si">}</span><span class="s2"> ]&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00324&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">added_status</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
                                        <span class="sa">f</span><span class="s2">&quot;xCAP ipaddr事後確認変更失敗:</span><span class="se">\n</span><span class="s2">&quot;</span>
                                        <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
                                        <span class="sa">f</span><span class="s2">&quot; NF名: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
                                        <span class="sa">f</span><span class="s2">&quot; MODE: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-                                       <span class="sa">f</span><span class="s2">&quot; STATUS: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                                       <span class="sa">f</span><span class="s2">&quot; STATUS: </span><span class="si">{</span><span class="n">status</span><span class="p">,</span><span class="w"> </span><span class="n">added_status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># ステータス取得失敗</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sout_message</span><span class="p">(</span><span class="n">SoutSeverity</span><span class="o">.</span><span class="n">error</span><span class="p">,</span>
                               <span class="s2">&quot;currentry xCAP ipaddr couldn&#39;t get or mismatch. [ UNKNOWN ]&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00323&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">status</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;E00323&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">added_status</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_2nd_log</span><span class="p">(</span><span class="n">Level</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
                                        <span class="sa">f</span><span class="s2">&quot;xCAP ipaddr事後確認取得失敗:</span><span class="se">\n</span><span class="s2">&quot;</span>
                                        <span class="s2">&quot;パラメータ:</span><span class="se">\n</span><span class="s2">&quot;</span>
                                        <span class="sa">f</span><span class="s2">&quot; NF名: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
                                        <span class="sa">f</span><span class="s2">&quot; MODE: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-                                       <span class="sa">f</span><span class="s2">&quot; STATUS: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                                       <span class="sa">f</span><span class="s2">&quot; STATUS: </span><span class="si">{</span><span class="n">status</span><span class="p">,</span><span class="w"> </span><span class="n">added_status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">output_1st_log</span><span class="p">(</span><span class="s2">&quot;I00336&quot;</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nf_name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;changed: </span><span class="si">{</span><span class="n">changed</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">changed</span></div>
@@ -559,7 +573,7 @@
         <span class="n">included_ipaddr_set</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;ipaddr&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">parsed_list</span><span class="p">}</span>
         <span class="c1"># ツール設定で保持しているxCAP ipaddrリストに含まれていないipaddrを付け替えipaddrとして選定</span>
         <span class="n">exclude_ipaddr_set</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipaddr_list</span><span class="p">)</span> <span class="o">^</span> <span class="n">included_ipaddr_set</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_ipaddr</span> <span class="o">=</span> <span class="n">exclude_ipaddr_set</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span> <span class="k">if</span> <span class="n">exclude_ipaddr_set</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_ipaddr</span> <span class="o">=</span> <span class="n">exclude_ipaddr_set</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span> <span class="k">if</span> <span class="n">exclude_ipaddr_set</span> <span class="ow">and</span> <span class="n">included_ipaddr_set</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="c1"># NFから取得した結果から、削除ipaddrに紐づくpriorityを取得</span>
         <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">parsed_list</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">element</span><span class="p">[</span><span class="s2">&quot;ipaddr&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">edns_ipaddr</span><span class="p">:</span>
@@ -584,7 +598,7 @@
             <span class="k">return</span> <span class="n">status</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_check</span><span class="p">():</span>
-                <span class="c1"># P-CSCFの事前状態確認に失敗した場合</span>
+                <span class="c1"># xCAPの事前状態確認に失敗した場合</span>
                 <span class="n">status</span> <span class="o">=</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">pre_check_ng</span>
                 <span class="k">return</span> <span class="n">status</span>
 
