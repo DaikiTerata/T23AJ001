@@ -60,18 +60,6 @@
             "password": "Kd,di,ad,mi,n1",
             "bastion": "director-0-tam5-er-s02-vm-007"
         },
-        "tam5-er-s03-smfvoroout-001": {
-            "ipaddr": "",
-            "username": "kddiadmin",
-            "password": "Kd,di,ad,mi,n1",
-            "bastion": "director-0-tam5-er-s01-vm-007"
-        },
-        "tam5-er-s04-smfvoroout-001": {
-            "ipaddr": "",
-            "username": "kddiadmin",
-            "password": "Kd,di,ad,mi,n1",
-            "bastion": "director-0-tam5-er-s02-vm-007"
-        },
         "tam5-er-s01-smfent-001": {
             "ipaddr": "10.16.52.69",
             "username": "kddiadmin",
@@ -164,18 +152,6 @@
         },
         "osc2-er-s02-smfvoroout-001": {
             "ipaddr": "10.48.62.37",
-            "username": "kddiadmin",
-            "password": "Kd,di,ad,mi,n1",
-            "bastion": "director-0-osc2-er-s02-vm-007"
-        },
-        "osc2-er-s03-smfvoroout-001": {
-            "ipaddr": "",
-            "username": "kddiadmin",
-            "password": "Kd,di,ad,mi,n1",
-            "bastion": "director-0-osc2-er-s01-vm-007"
-        },
-        "osc2-er-s04-smfvoroout-001": {
-            "ipaddr": "",
             "username": "kddiadmin",
             "password": "Kd,di,ad,mi,n1",
             "bastion": "director-0-osc2-er-s02-vm-007"
