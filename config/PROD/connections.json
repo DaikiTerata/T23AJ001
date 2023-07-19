@@ -61,16 +61,16 @@
             "bastion": "director-0-tam5-er-s02-vm-007"
         },
         "tam5-er-s03-smfvoroout-001": {
-            "ipaddr": "",
+            "ipaddr": "10.16.62.69",
             "username": "kddiadmin",
             "password": "Kd,di,ad,mi,n1",
-            "bastion": "director-0-tam5-er-s01-vm-007"
+            "bastion": "director-0-tam5-er-s03-vm-001"
         },
         "tam5-er-s04-smfvoroout-001": {
-            "ipaddr": "",
+            "ipaddr": "10.16.62.101",
             "username": "kddiadmin",
             "password": "Kd,di,ad,mi,n1",
-            "bastion": "director-0-tam5-er-s02-vm-007"
+            "bastion": "director-0-tam5-er-s04-vm-001"
         },
         "tam5-er-s01-smfent-001": {
             "ipaddr": "10.16.52.69",
@@ -169,16 +169,16 @@
             "bastion": "director-0-osc2-er-s02-vm-007"
         },
         "osc2-er-s03-smfvoroout-001": {
-            "ipaddr": "",
+            "ipaddr": "10.48.62.69",
             "username": "kddiadmin",
             "password": "Kd,di,ad,mi,n1",
-            "bastion": "director-0-osc2-er-s01-vm-007"
+            "bastion": "director-0-osc2-er-s03-vm-001"
         },
         "osc2-er-s04-smfvoroout-001": {
-            "ipaddr": "",
+            "ipaddr": "10.48.62.101",
             "username": "kddiadmin",
             "password": "Kd,di,ad,mi,n1",
-            "bastion": "director-0-osc2-er-s02-vm-007"
+            "bastion": "director-0-osc2-er-s04-vm-001"
         },
         "osc2-er-s01-smfent-001": {
             "ipaddr": "10.48.52.69",
@@ -421,6 +421,22 @@
         "director-0-chy1-er-s02-vm-005": {
             "comment": "SliceA",
             "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.208.27.9"
+        },
+        "director-0-tam5-er-s03-vm-001": {
+            "comment": "SliceB tam5-er-s03-vm-001",
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.63.17"
+        },
+        "director-0-tam5-er-s04-vm-001": {
+            "comment": "SliceB tam5-er-s04-vm-001",
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.63.25"
+        },
+        "director-0-osc2-er-s03-vm-001": {
+            "comment": "SliceB",
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.63.17"
+        },
+        "director-0-osc2-er-s04-vm-001": {
+            "comment": "SliceB",
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.63.25"
         }
     }
 }
