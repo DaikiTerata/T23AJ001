@@ -60,6 +60,18 @@
             "password": "Kd,di,ad,mi,n1",
             "bastion": "director-0-tam5-er-s02-vm-007"
         },
+        "tam5-er-s03-smfvoroout-001": {
+            "ipaddr": "10.16.62.69",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-tam5-er-s03-vm-001"
+        },
+        "tam5-er-s04-smfvoroout-001": {
+            "ipaddr": "10.16.62.101",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-tam5-er-s04-vm-001"
+        },
         "tam5-er-s01-smfent-001": {
             "ipaddr": "10.16.52.69",
             "username": "kddiadmin",
@@ -156,6 +168,18 @@
             "password": "Kd,di,ad,mi,n1",
             "bastion": "director-0-osc2-er-s02-vm-007"
         },
+        "osc2-er-s03-smfvoroout-001": {
+            "ipaddr": "10.48.62.69",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-osc2-er-s03-vm-001"
+        },
+        "osc2-er-s04-smfvoroout-001": {
+            "ipaddr": "10.48.62.101",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-osc2-er-s04-vm-001"
+        },
         "osc2-er-s01-smfent-001": {
             "ipaddr": "10.48.52.69",
             "username": "kddiadmin",
@@ -208,195 +232,211 @@
     "bastions": {
         "director-0-tam5-er-s01-vm-001": {
             "comment": "PCC/PCG tam5-er-s01-vm-001",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.38.65"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.38.65"
         },
         "director-0-tam5-er-s01-vm-002": {
             "comment": "Voice tama5-er-s01-vm-002",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.53.1"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.53.1"
         },
         "director-0-tam5-er-s01-vm-003": {
             "comment": "NRF tam5-er-s01-vm-003",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.44.1"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.44.1"
         },
         "director-0-tam5-er-s01-vm-004": {
             "comment": "cNRF tam5-er-s01-vm-004",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.44.9"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.44.9"
         },
         "director-0-tam5-er-s01-vm-005": {
             "comment": "Slice-A tam5-er-s01-vm-005",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.59.1"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.59.1"
         },
         "director-0-tam5-er-s01-vm-006": {
             "comment": "Slice-C tam5-er-s01-vm-006",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.53.17"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.53.17"
         },
         "director-0-tam5-er-s01-vm-007": {
             "comment": "Slice-B tam5-er-s01-vm-007",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.63.1"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.63.1"
         },
         "director-0-tam5-er-s02-vm-001": {
             "comment": "PCC/PCG tam5-er-s02-vm-001",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.38.73"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.38.73"
         },
         "director-0-tam5-er-s02-vm-002": {
             "comment": "Voice tama5-er-s02-vm-002",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.53.9"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.53.9"
         },
         "director-0-tam5-er-s02-vm-003": {
             "comment": "Voice tama5-er-s02-vm-003",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.45.1"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.45.1"
         },
         "director-0-tam5-er-s02-vm-004": {
             "comment": "NSSF tam5-er-s02-vm-004",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.45.9"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.45.9"
         },
         "director-0-tam5-er-s02-vm-005": {
             "comment": "Slice-A tam5-er-s02-vm-005",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.59.9"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.59.9"
         },
         "director-0-tam5-er-s02-vm-006": {
             "comment": "Slice-C tam5-er-s02-vm-006",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.53.25"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.53.25"
         },
         "director-0-tam5-er-s02-vm-007": {
             "comment": "Slice-B tam5-er-s02-vm-007",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.63.9"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.63.9"
         },
         "director-0-oym3-er-s01-vm-001": {
             "comment": "PCC-PCG oym3-er-s01-vm-001",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.32.27.65"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.32.27.65"
         },
         "director-0-oym3-er-s01-vm-002": {
             "comment": "Voice oym3-er-s01-vm-001",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.32.35.1"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.32.35.1"
         },
         "director-0-oym3-er-s01-vm-003": {
             "comment": "NRF oym3-er-s01-vm-003",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.32.28.1"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.32.28.1"
         },
         "director-0-oym3-er-s01-vm-004": {
             "comment": "cNRF oym3-er-s01-vm-004",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.32.28.9"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.32.28.9"
         },
         "director-0-oym3-er-s01-vm-005": {
             "comment": "SliceA  oym3-er-s01-vm-005",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.32.39.1"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.32.39.1"
         },
         "director-0-oym3-er-s02-vm-001": {
             "comment": "PCC-PCG oym3-er-s02-vm-001",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.32.27.73"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.32.27.73"
         },
         "director-0-oym3-er-s02-vm-002": {
             "comment": "Voice oym3-er-s02-vm-002",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.32.35.9"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.32.35.9"
         },
         "director-0-oym3-er-s02-vm-003": {
             "comment": "NRF oym3-er-s02-vm-003",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.32.29.1"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.32.29.1"
         },
         "director-0-oym3-er-s02-vm-004": {
             "comment": "NSSF oym3-er-s02-vm-004",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.32.29.9"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.32.29.9"
         },
         "director-0-oym3-er-s02-vm-005": {
             "comment": "SliceA  oym3-er-s02-vm-005",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.32.39.9"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.32.39.9"
         },
         "director-0-osc2-er-s01-vm-001": {
             "comment": "for pcc/pcg",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.38.65"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.38.65"
         },
         "director-0-osc2-er-s01-vm-002": {
             "comment": "for voice",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.53.1"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.53.1"
         },
         "director-0-osc2-er-s01-vm-003": {
             "comment": "NRF",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.44.1"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.44.1"
         },
         "director-0-osc2-er-s01-vm-004": {
             "comment": "cNRF",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.44.9"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.44.9"
         },
         "director-0-osc2-er-s01-vm-005": {
             "comment": "sliceA",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.59.1"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.59.1"
         },
         "director-0-osc2-er-s01-vm-006": {
             "comment": "sliceC",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.53.17"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.53.17"
         },
         "director-0-osc2-er-s01-vm-007": {
             "comment": "sliceB",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.63.1"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.63.1"
         },
         "director-0-osc2-er-s02-vm-001": {
             "comment": "for pcc/pcg",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.38.73"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.38.73"
         },
         "director-0-osc2-er-s02-vm-002": {
             "comment": "for voice",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.53.9"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.53.9"
         },
         "director-0-osc2-er-s02-vm-003": {
             "comment": "NRF",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.45.1"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.45.1"
         },
         "director-0-osc2-er-s02-vm-004": {
             "comment": "NSSF",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.45.9"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.45.9"
         },
         "director-0-osc2-er-s02-vm-005": {
             "comment": "sliceA",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.59.9"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.59.9"
         },
         "director-0-osc2-er-s02-vm-006": {
             "comment": "sliceC",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.53.25"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.53.25"
         },
         "director-0-osc2-er-s02-vm-007": {
             "comment": "sliceB",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.63.9"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.63.9"
         },
         "director-0-chy1-er-s01-vm-001": {
             "comment": "PCC/PCG",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.208.3.65"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.208.3.65"
         },
         "director-0-chy1-er-s01-vm-002": {
             "comment": "VOICE",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.208.11.1"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.208.11.1"
         },
         "director-0-chy1-er-s01-vm-003": {
             "comment": "NRF",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.208.4.1"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.208.4.1"
         },
         "director-0-chy1-er-s01-vm-004": {
             "comment": "cNRF",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.208.4.9"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.208.4.9"
         },
         "director-0-chy1-er-s01-vm-005": {
             "comment": "SliceA",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.208.27.1"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.208.27.1"
         },
         "director-0-chy1-er-s02-vm-001": {
             "comment": "PCC/PCG",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.208.3.73"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.208.3.73"
         },
         "director-0-chy1-er-s02-vm-002": {
             "comment": "VOICE",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.208.11.9"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.208.11.9"
         },
         "director-0-chy1-er-s02-vm-003": {
             "comment": "NRF",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.208.5.1"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.208.5.1"
         },
         "director-0-chy1-er-s02-vm-004": {
             "comment": "NSSF",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.208.5.9"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.208.5.9"
         },
         "director-0-chy1-er-s02-vm-005": {
             "comment": "SliceA",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.208.27.9"
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.208.27.9"
+        },
+        "director-0-tam5-er-s03-vm-001": {
+            "comment": "SliceB tam5-er-s03-vm-001",
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.63.17"
+        },
+        "director-0-tam5-er-s04-vm-001": {
+            "comment": "SliceB tam5-er-s04-vm-001",
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.63.25"
+        },
+        "director-0-osc2-er-s03-vm-001": {
+            "comment": "SliceB",
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.63.17"
+        },
+        "director-0-osc2-er-s04-vm-001": {
+            "comment": "SliceB",
+            "proxycommand": "ssh -i /home/ansible/xgn/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.63.25"
         }
     }
 }
