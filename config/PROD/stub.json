@@ -1,0 +1,202 @@
+{
+    "screen_length": {
+        "command": "^screen-length 0$",
+        "reply": {
+            "DOWN": {
+                "before": "",
+                "after": ""
+            },
+            "UP": {
+                "before": "",
+                "after": ""
+            },
+            "SHOW": {
+                "before": "",
+                "after": ""
+            }
+        },
+        "wait": 0.25
+    },
+    "status_check": {
+        "command": "^show running-config epg pgw apn xcap ipv6-name-server$",
+        "reply": {
+            "DOWN": {
+                "before": "epg pgw apn xcap\r\n ipv6-name-server 2001:268:200d:1010::6\r\n  priority 100\r\n !\r\n ipv6-name-server 2001:268:200d:5010::6\r\n  priority 200\r\n !\r\n!",
+                "after": "epg pgw apn xcap\r\n ipv6-name-server 2001:268:200d:5010::6\r\n  priority 200\r\n !\r\n ipv6-name-server 2001:268:200d:501f::6\r\n  priority 100\r\n !\r\n!"
+            },
+            "UP": {
+                "before": "",
+                "after": ""
+            },
+            "SHOW": {
+                "before": "epg pgw apn xcap\r\n ipv6-name-server 2001:268:200d:1010::6\r\n  priority 100\r\n !\r\n ipv6-name-server 2001:268:200d:5010::6\r\n  priority 200\r\n !\r\n!",
+                "after": ""
+            }
+        },
+        "wait": 0.25
+    },
+    "config": {
+        "command": "^config$",
+        "reply": {
+            "DOWN": {
+                "before": "",
+                "after": ""
+            },
+            "UP": {
+                "before": "",
+                "after": ""
+            },
+            "SHOW": {
+                "before": "",
+                "after": ""
+            }
+        },
+        "wait": 0.25
+    },
+    "status_deregistered": {
+        "command": "^no epg pgw apn xcap ipv6-name-server .*$",
+        "reply": {
+            "DOWN": {
+                "before": "",
+                "after": ""
+            },
+            "UP": {
+                "before": "",
+                "after": ""
+            },
+            "SHOW": {
+                "before": "",
+                "after": ""
+            }
+        },
+        "wait": 0.25,
+        "flag": "status_check"
+    },
+    "status_registered": {
+        "command": "^epg pgw apn xcap ipv6-name-server .*$",
+        "reply": {
+            "DOWN": {
+                "before": "",
+                "after": ""
+            },
+            "UP": {
+                "before": "",
+                "after": ""
+            },
+            "SHOW": {
+                "before": "",
+                "after": ""
+            }
+        },
+        "wait": 0.25,
+        "flag": "status_check"
+    },
+    "show_diff": {
+        "command": "^show configuration diff$",
+        "reply": {
+            "DOWN": {
+                "before": "",
+                "after": ""
+            },
+            "UP": {
+                "before": "",
+                "after": ""
+            },
+            "SHOW": {
+                "before": "",
+                "after": ""
+            }
+        },
+        "wait": 5
+    },
+    "validate": {
+        "command": "^validate$",
+        "reply": {
+            "DOWN": {
+                "before": "Validation complete",
+                "after": ""
+            },
+            "UP": {
+                "before": "Validation complete",
+                "after": ""
+            },
+            "SHOW": {
+                "before": "",
+                "after": ""
+            }
+        },
+        "wait": 3
+    },
+    "commit": {
+        "command": "^commit comment .*$",
+        "reply": {
+            "DOWN": {
+                "before": "Commit complete",
+                "after": ""
+            },
+            "UP": {
+                "before": "Commit complete",
+                "after": ""
+            },
+            "SHOW": {
+                "before": "",
+                "after": ""
+            }
+        },
+        "wait": 3
+    },
+    "abort": {
+        "command": "^abort$",
+        "reply": {
+            "DOWN": {
+                "before": "",
+                "after": ""
+            },
+            "UP": {
+                "before": "",
+                "after": ""
+            },
+            "SHOW": {
+                "before": "",
+                "after": ""
+            }
+        },
+        "wait": 0.25
+    },
+    "end": {
+        "command": "^end$",
+        "reply": {
+            "DOWN": {
+                "before": "",
+                "after": ""
+            },
+            "UP": {
+                "before": "",
+                "after": ""
+            },
+            "SHOW": {
+                "before": "",
+                "after": ""
+            }
+        },
+        "wait": 0.25
+    },
+    "exit": {
+        "command": "^exit$",
+        "reply": {
+            "DOWN": {
+                "before": "",
+                "after": ""
+            },
+            "UP": {
+                "before": "",
+                "after": ""
+            },
+            "SHOW": {
+                "before": "",
+                "after": ""
+            }
+        },
+        "wait": 0.25
+    }
+}
