@@ -135,61 +135,61 @@
     },
     "bastions": {
         "director-0-a1-er-s01-vm-001": {
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.83.225"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.2.78.2"
         },
         "director-0-a1-er-s01-vm-002": {
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.101.51"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.2.78.2"
         },
         "director-0-a2-er-s01-vm-001": {
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.83.233"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.2.78.18"
         },
         "director-0-a2-er-s01-vm-002": {
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.101.1"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.2.78.18"
         },
         "director-0-a2-er-s01-vm-007": {
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.101.33"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.2.78.18"
         },
         "director-0-a2-er-s01-vm-008": {
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.101.17"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.2.78.18"
         },
         "director-0-a2-er-s01-vm-009": {
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.101.57"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.2.78.18"
         },
         "director-0-a2-er-s02-vm-001": {
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.83.241"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.2.78.18"
         },
         "director-0-a2-er-s02-vm-007": {
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.101.41"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.2.78.18"
         },
         "director-0-a2-er-s02-vm-008": {
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.101.25"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.2.78.18"
         },
         "director-0-b1-er-s01-vm-001": {
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.131.225"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.2.78.19"
         },
         "director-0-b1-er-s01-vm-002": {
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.143.1"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.2.78.19"
         },
         "director-0-b1-er-s01-vm-007": {
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.143.33"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.2.78.19"
         },
         "director-0-b1-er-s01-vm-008": {
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.143.17"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.2.78.19"
         },
         "director-0-b1-er-s01-vm-009": {
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.143.49"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.2.78.19"
         },
         "director-0-b1-er-s02-vm-001": {
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.131.233"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.2.78.19"
         },
         "director-0-b1-er-s02-vm-002": {
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.143.9"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.2.78.19"
         },
         "director-0-b1-er-s02-vm-007": {
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.143.41"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.2.78.19"
         },
         "director-0-b1-er-s02-vm-008": {
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.2.143.25"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_lab_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.2.78.19"
         }
     }
 }
