@@ -56,9 +56,7 @@ class AbcEricssonProcess(AbcProcess):
         """対向ノードとのSSHクライアント接続を開始
 
         Returns:
-            bool:
-                接続成功の場合 True、
-                失敗の場合 False
+            bool: 接続成功ならTrue、失敗ならFalse
         """
         self.logger.output_1st_log("I00301", self.nf_name)
 
@@ -132,9 +130,7 @@ class AbcEricssonProcess(AbcProcess):
             ValueError: 設定コミットが正常に終了しなかった場合
 
         Returns:
-            bool:
-                正常終了完了の場合 True、
-                例外発生の場合 False
+            bool: 正常終了完了ならTrue、例外発生ならFalse
         """
         self.logger.output_1st_log("I00305", self.nf_name)
 
@@ -202,9 +198,7 @@ class AbcEricssonProcess(AbcProcess):
         """コマンドエラー発生時に設定を元に戻す
 
         Returns:
-            bool:
-                正常完了の場合 True、
-                異常発生の場合 False
+            bool: 元に戻すが正常に完了したらTrue、何らかの異常が発生したらFalse
         """
         self.logger.output_1st_log("I00307", self.nf_name)
 

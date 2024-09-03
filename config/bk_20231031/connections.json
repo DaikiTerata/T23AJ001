@@ -3,6 +3,15 @@
         "port": 22
     },
     "connections": {
+        "TEMPLATE": {
+            "ipaddr": "NODE IPADDR",
+            "port": "ノードの接続ポート、なければnodes_commonから取得、nodes_commonになければ22",
+            "username": "個別IDがある場合は指定、なければnodes_commonから取得、nodes_commonになければnull",
+            "password": "個別PWがある場合は指定、なければnodes_commonから取得、nodes_commonになければnull",
+            "key_filename": "個別に共通鍵がある場合は指定、なければnodes_commonから取得、nodes_commonになければnull",
+            "passphrase": "共通鍵にパスフレーズがある場合は指定、なければnodes_commonから取得、nodes_commonになければnull",
+            "bastion": "踏み台サーバ(bastionsにあるキーを指定)"
+        },
         "tam5-er-s01-smf-001": {
             "ipaddr": "10.16.44.229",
             "username": "kddiadmin",
@@ -38,6 +47,18 @@
             "username": "kddiadmin",
             "password": "Kd,di,ad,mi,n1",
             "bastion": "director-0-tam5-er-s02-vm-005"
+        },
+        "tam5-er-s01-smfvoroout-001": {
+            "ipaddr": "10.16.62.6",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-tam5-er-s01-vm-007"
+        },
+        "tam5-er-s02-smfvoroout-001": {
+            "ipaddr": "10.16.62.37",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-tam5-er-s02-vm-007"
         },
         "tam5-er-s03-smfvoroout-001": {
             "ipaddr": "10.16.62.69",
@@ -135,6 +156,18 @@
             "password": "Kd,di,ad,mi,n1",
             "bastion": "director-0-osc2-er-s02-vm-005"
         },
+        "osc2-er-s01-smfvoroout-001": {
+            "ipaddr": "10.48.62.6",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-osc2-er-s01-vm-007"
+        },
+        "osc2-er-s02-smfvoroout-001": {
+            "ipaddr": "10.48.62.37",
+            "username": "kddiadmin",
+            "password": "Kd,di,ad,mi,n1",
+            "bastion": "director-0-osc2-er-s02-vm-007"
+        },
         "osc2-er-s03-smfvoroout-001": {
             "ipaddr": "10.48.62.69",
             "username": "kddiadmin",
@@ -221,6 +254,10 @@
             "comment": "Slice-C tam5-er-s01-vm-006",
             "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.53.17"
         },
+        "director-0-tam5-er-s01-vm-007": {
+            "comment": "Slice-B tam5-er-s01-vm-007",
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.63.1"
+        },
         "director-0-tam5-er-s02-vm-001": {
             "comment": "PCC/PCG tam5-er-s02-vm-001",
             "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.38.73"
@@ -244,6 +281,10 @@
         "director-0-tam5-er-s02-vm-006": {
             "comment": "Slice-C tam5-er-s02-vm-006",
             "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.53.25"
+        },
+        "director-0-tam5-er-s02-vm-007": {
+            "comment": "Slice-B tam5-er-s02-vm-007",
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.63.9"
         },
         "director-0-oym3-er-s01-vm-001": {
             "comment": "PCC-PCG oym3-er-s01-vm-001",
@@ -309,6 +350,10 @@
             "comment": "sliceC",
             "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.53.17"
         },
+        "director-0-osc2-er-s01-vm-007": {
+            "comment": "sliceB",
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.63.1"
+        },
         "director-0-osc2-er-s02-vm-001": {
             "comment": "for pcc/pcg",
             "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.38.73"
@@ -332,6 +377,10 @@
         "director-0-osc2-er-s02-vm-006": {
             "comment": "sliceC",
             "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.53.25"
+        },
+        "director-0-osc2-er-s02-vm-007": {
+            "comment": "sliceB",
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.48.63.9"
         },
         "director-0-chy1-er-s01-vm-001": {
             "comment": "PCC/PCG",
