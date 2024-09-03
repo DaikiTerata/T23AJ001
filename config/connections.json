@@ -203,7 +203,7 @@
         },
         "director-0-tam5-er-s01-vm-002": {
             "comment": "Voice tama5-er-s01-vm-002",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.53.1"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.16.38.2"
         },
         "director-0-tam5-er-s01-vm-003": {
             "comment": "NRF tam5-er-s01-vm-003",
@@ -227,7 +227,7 @@
         },
         "director-0-tam5-er-s02-vm-002": {
             "comment": "Voice tama5-er-s02-vm-002",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.53.9"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.16.38.2"
         },
         "director-0-tam5-er-s02-vm-003": {
             "comment": "Voice tama5-er-s02-vm-003",
@@ -375,11 +375,11 @@
         },
         "director-0-tam5-er-s03-vm-001": {
             "comment": "SliceB tam5-er-s03-vm-001",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.63.17"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.16.38.2"
         },
         "director-0-tam5-er-s04-vm-001": {
             "comment": "SliceB tam5-er-s04-vm-001",
-            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p eccd@10.16.63.25"
+            "proxycommand": "ssh -i /home/xgntools/common_config/5g_prd_key -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p ceeinfra@10.16.38.2"
         },
         "director-0-osc2-er-s03-vm-001": {
             "comment": "SliceB",
